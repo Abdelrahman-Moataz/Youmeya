@@ -1,0 +1,85 @@
+{
+  "categories": [
+    {
+      "name": "electricity",
+      "subcategory": [
+        "instalment",
+        "outlet",
+        "flte_electricity"
+      ]
+    },
+
+    {
+      "name": "plumbing",
+      "subcategory": [
+        "bathroom",
+        "Bathtubs",
+        "Showers"
+      ]
+    },
+
+    {
+      "name": "smith",
+      "subcategory": [
+        "doors",
+        "windows"
+      ]
+    },
+
+    {
+      "name": "carpenter",
+      "subcategory": [
+        "furniture",
+        "chair",
+        "carpenter"
+      ]
+    },
+
+    {
+      "name": "ceiling",
+      "subcategory": [
+        "gibson_board",
+        "spotlights",
+        "led_profile"
+      ]
+    },
+
+    {
+      "name": "barkeh",
+      "subcategory": [
+        "flooring",
+        "tiles"
+      ]
+    },
+
+    {
+      "name": "painting",
+      "subcategory": [
+        "walls",
+        "windows"
+      ]
+    },
+
+    {
+      "name": "ac_repair",
+      "subcategory": [
+        "ac_checkup",
+        "ac_fix",
+        "ac_remove",
+        "ac_instalment"
+      ]
+    },
+
+    {
+      "name": "cleaning",
+      "subcategory": [
+        "floor",
+        "furniture",
+        "walls"
+      ]
+    }
+
+  ]
+
+
+}
