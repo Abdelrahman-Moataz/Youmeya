@@ -1,6 +1,7 @@
 
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/basket_screen/widgets/basket_widget.dart';
+import '../checkout_screen/checkout_screen.dart';
 import '../history_screen/history_widget/notification.dart';
 import '../saved_addresses/widgets/card_widget.dart';
 
@@ -134,7 +135,9 @@ class _BasketScreenState extends State<BasketScreen>
                       ),
                     ),
 
-                    ElevatedButton(onPressed: (){},
+                    ElevatedButton(onPressed: (){
+                      Get.to(()=>CheckOut());
+                    },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

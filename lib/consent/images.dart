@@ -15,5 +15,6 @@ const onboarding2 = "assets/imges/Location tracking-bro 1.png";
 const onboarding3 = "assets/imges/Relaxing at home-rafiki(1) 1.png";
 
 const shirt = "assets/imges/shirt.png";
+const visa = "assets/imges/Visa.png";
 
 List images = [ironOnly, dryClean, lundrey, carpets];
