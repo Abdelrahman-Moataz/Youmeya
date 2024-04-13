@@ -96,23 +96,23 @@ class _CheckOutState extends State<CheckOut> {
                 child: ListView(
                   shrinkWrap: true,
                   children: [
-                    Text("Your Basket"),
+                    const Text("Your Basket"),
                     10.heightBox,
                     Row(
                       children: [
-                        Text("3X"),
+                        const Text("3X"),
                         5.widthBox,
                         Image.asset(shirt),
                         15.widthBox,
-                        Text("3X"),
+                        const Text("3X"),
                         5.widthBox,
                         Image.asset(shirt),
                         15.widthBox,
-                        Text("3X"),
+                        const Text("3X"),
                         5.widthBox,
                         Image.asset(shirt),
                         15.widthBox,
-                        Text("3X"),
+                        const Text("3X"),
                         5.widthBox,
                         Image.asset(shirt),
                         15.widthBox,
@@ -225,16 +225,40 @@ class _CheckOutState extends State<CheckOut> {
                         return null;
                       },
                     ),
+                    15.heightBox,
 
                     Column(
                       children: [
-                        ElevatedButton(
-                          onPressed: () {
 
-                          },
-                          child: const Text("Order Place"),
+                        const Row(
+                          children: [
+                            Text("Subtotal"),
+                            Spacer(),
+                            Text("100 EGP"),
+                          ],
                         ),
-                      ],
+                        const Row(
+                          children: [
+                            Text("Delivery"),
+                            Spacer(),
+                            Text("100 EGP"),
+                          ],
+                        ),
+
+                        const Divider(color: bottom,),
+
+                        const Row(
+                          children: [
+                            Text("Total"),
+                            Spacer(),
+                            Text("200 EGP"),
+                          ],
+                        ),
+                        15.heightBox,
+
+                        ourButton(
+                           onPress: () {  }, color: mainColor, textColor: whiteColor, title: 'PLACE ORDER',
+                        ),]
                     ),
 
                   ],
