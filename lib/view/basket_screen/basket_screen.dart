@@ -28,10 +28,21 @@ class _BasketScreenState extends State<BasketScreen>
     super.dispose();
   }
 
+  int count0 = 5;
+  int count1 = 0;
+  int count2= 0;
+  int count3 = 0;
+  int count4 = 0;
+  int count5 = 0;
+
+
+
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
+
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -89,16 +100,49 @@ class _BasketScreenState extends State<BasketScreen>
                           Column(
                             children: [
                               basketCard(
+                                onTap: (){
+                                  setState(() {
+                                    count0++;
+                                  });
+                                },
+                                counted: "$count0",
+                                onTap1:  (){
+                                  setState(() {
+                                    count0--;
+                                  });
+                                },
                                 context1: context,
                                 context2: context,
                               ),
                               5.heightBox,
                               basketCard(
+                                onTap: (){
+                                  setState(() {
+                                    count1++;
+                                  });
+                                },
+                                onTap1: (){
+                                  setState(() {
+                                    count1--;
+                                  });
+                                },
+                                counted: "$count1",
                                 context1: context,
                                 context2: context,
                               ),
                               5.heightBox,
                               basketCard(
+                                onTap1: (){
+                                  setState(() {
+                                    count2--;
+                                  });
+                                },
+                                onTap: (){
+                                  setState(() {
+                                    count2++;
+                                  });
+                                },
+                                counted: "$count2",
                                 context1: context,
                                 context2: context,
                               ),
@@ -115,16 +159,49 @@ class _BasketScreenState extends State<BasketScreen>
                           Column(
                             children: [
                               basketCard(
+                                onTap: (){
+                                  setState(() {
+                                    count3++;
+                                  });
+                                },
+                                onTap1: (){
+                                  setState(() {
+                                    count3--;
+                                  });
+                                },
+                                counted: "$count3",
                                 context1: context,
                                 context2: context,
                               ),
                               5.heightBox,
                               basketCard(
+                                onTap: (){
+                                  setState(() {
+                                    count4++;
+                                  });
+                                },
+                                onTap1: (){
+                                  setState(() {
+                                    count4--;
+                                  });
+                                },
+                                counted: "$count4",
                                 context1: context,
                                 context2: context,
                               ),
                               5.heightBox,
                               basketCard(
+                                onTap: (){
+                                  setState(() {
+                                    count5++;
+                                  });
+                                },
+                                onTap1: (){
+                                  setState(() {
+                                    count5--;
+                                  });
+                                },
+                                counted: "$count5",
                                 context1: context,
                                 context2: context,
                               ),

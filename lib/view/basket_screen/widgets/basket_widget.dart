@@ -1,8 +1,11 @@
 import 'package:youmeya/consent/consent.dart';
 
-Widget basketCard ({context1, context2}){
+Widget basketCard ({String? counted,context1, context2,void Function()? onTap,void Function()? onTap1 }){
   final w = MediaQuery.of(context1).size.width;
   final h = MediaQuery.of(context2).size.height;
+
+
+
   return  Column(
     children: [
       SizedBox(
@@ -23,8 +26,8 @@ Widget basketCard ({context1, context2}){
                   ],
                 ),
 
-                InkWell(
-                  onTap: (){},
+                GestureDetector(
+                  onTap: onTap,
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -34,10 +37,10 @@ Widget basketCard ({context1, context2}){
                   ),
                 ),
 
-                const Text("5"),
+                 Text(counted!),
 
                 InkWell(
-                  onTap: (){},
+                  onTap: onTap1,
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),

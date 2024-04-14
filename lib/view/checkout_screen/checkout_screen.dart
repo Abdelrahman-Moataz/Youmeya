@@ -73,6 +73,7 @@ class _CheckOutState extends State<CheckOut> {
 
     return SafeArea(
       child: Scaffold(
+          resizeToAvoidBottomInset: true,
         body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -91,177 +92,181 @@ class _CheckOutState extends State<CheckOut> {
                 ],
               ),
               10.heightBox,
-              SizedBox(
-                height: h * 0.84,
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    const Text("Your Basket"),
-                    10.heightBox,
-                    Row(
-                      children: [
-                        const Text("3X"),
-                        5.widthBox,
-                        Image.asset(shirt),
-                        15.widthBox,
-                        const Text("3X"),
-                        5.widthBox,
-                        Image.asset(shirt),
-                        15.widthBox,
-                        const Text("3X"),
-                        5.widthBox,
-                        Image.asset(shirt),
-                        15.widthBox,
-                        const Text("3X"),
-                        5.widthBox,
-                        Image.asset(shirt),
-                        15.widthBox,
-                      ],
-                    ),
-                    10.heightBox,
-                    const Text("Select Pickup Date"),
-                    10.heightBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dayContainer(
-                            context1: context,
-                            context2: context,
-                            day: getTodayDayName(),
-                            date: getTodayDate(),
-                            colorr: bottom),
-                        5.widthBox,
-                        dayContainer(
-                            context1: context,
-                            context2: context,
-                            day: getTomorrowsDayName(1),
-                            date: getTomorrowsDate(1),
-                            colorr: mainColor),
-                        5.widthBox,
-                        dayContainer(
-                            context1: context,
-                            context2: context,
-                            day: getTomorrowsDayName(2),
-                            date: getTomorrowsDate(2),
-                            colorr: mainColor),
-                        5.widthBox,
-                        dayContainer(
-                            context1: context,
-                            context2: context,
-                            day: getTomorrowsDayName(3),
-                            date: getTomorrowsDate(3),
-                            colorr: mainColor),
-                      ],
-                    ),
-                    10.heightBox,
-                    const Text("Select Pickup Time"),
-                    10.heightBox,
-                    InkWell(
-                      onTap: () {
-                        _showTimePicker(context);
-                      },
-                      child: Container(
-                        height: h * 0.06,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: mainColor,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Text(
-                                _selectedTime != null
-                                    ? DateFormat.jm().format(_selectedTime!)
-                                    : 'Select Time',
-                                style: const TextStyle(color: whiteColor),
+              SingleChildScrollView(
+                   reverse: true,
+                child: SizedBox(
+                  height: h * 0.84,
+                  child: ListView(
+
+                    shrinkWrap: true,
+                    children: [
+                      const Text("Your Basket"),
+                      10.heightBox,
+                      Row(
+                        children: [
+                          const Text("3X"),
+                          5.widthBox,
+                          Image.asset(shirt),
+                          15.widthBox,
+                          const Text("3X"),
+                          5.widthBox,
+                          Image.asset(shirt),
+                          15.widthBox,
+                          const Text("3X"),
+                          5.widthBox,
+                          Image.asset(shirt),
+                          15.widthBox,
+                          const Text("3X"),
+                          5.widthBox,
+                          Image.asset(shirt),
+                          15.widthBox,
+                        ],
+                      ),
+                      10.heightBox,
+                      const Text("Select Pickup Date"),
+                      10.heightBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          dayContainer(
+                              context1: context,
+                              context2: context,
+                              day: getTodayDayName(),
+                              date: getTodayDate(),
+                              colorr: bottom),
+                          5.widthBox,
+                          dayContainer(
+                              context1: context,
+                              context2: context,
+                              day: getTomorrowsDayName(1),
+                              date: getTomorrowsDate(1),
+                              colorr: mainColor),
+                          5.widthBox,
+                          dayContainer(
+                              context1: context,
+                              context2: context,
+                              day: getTomorrowsDayName(2),
+                              date: getTomorrowsDate(2),
+                              colorr: mainColor),
+                          5.widthBox,
+                          dayContainer(
+                              context1: context,
+                              context2: context,
+                              day: getTomorrowsDayName(3),
+                              date: getTomorrowsDate(3),
+                              colorr: mainColor),
+                        ],
+                      ),
+                      10.heightBox,
+                      const Text("Select Pickup Time"),
+                      10.heightBox,
+                      InkWell(
+                        onTap: () {
+                          _showTimePicker(context);
+                        },
+                        child: Container(
+                          height: h * 0.06,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: mainColor,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: Text(
+                                  _selectedTime != null
+                                      ? DateFormat.jm().format(_selectedTime!)
+                                      : 'Select Time',
+                                  style: const TextStyle(color: whiteColor),
+                                ),
                               ),
-                            ),
-                            const Icon(Icons.keyboard_arrow_down,
-                                color: whiteColor),
-                          ],
+                              const Icon(Icons.keyboard_arrow_down,
+                                  color: whiteColor),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    10.heightBox,
-                    const Text("Select Address"),
-                    10.heightBox,
-                    const Text("Payment Method"),
-                    10.heightBox,
+                      10.heightBox,
+                      const Text("Select Address"),
+                      10.heightBox,
+                      const Text("Payment Method"),
+                      10.heightBox,
 
 
-                    cashOrVisa(
-                      context1: context,
-                      context2: context,
-                      title: "Cash",
-                      colur: mainColor,
-                      img: cash
-                    ),
-                    5.heightBox,
-                    cashOrVisa(
-                      context1: context,
-                      img: visa,
-                      context2: context,
-                      title: "Visa",
-                      colur: whiteColor,
-                    ),
+                      cashOrVisa(
+                        context1: context,
+                        context2: context,
+                        title: "Cash",
+                        colur: mainColor,
+                        img: cash
+                      ),
+                      5.heightBox,
+                      cashOrVisa(
+                        context1: context,
+                        img: visa,
+                        context2: context,
+                        title: "Visa",
+                        colur: whiteColor,
+                      ),
 
-                    10.heightBox,
-                    const Text("Special Request"),
-                    10.heightBox,
-                    customTextField(
-                      mLine: 5,
-                      title: "",
-                      hint: "Enter your special request",
-                      controller: null,
-                      isPass: false,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your special request";
-                        }
-                        return null;
-                      },
-                    ),
-                    15.heightBox,
+                      10.heightBox,
+                      const Text("Special Request"),
+                      10.heightBox,
+                      customTextField(
+                        mLine: 5,
+                        title: "",
+                        hint: "Enter your special request",
+                        controller: null,
+                        isPass: false,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please enter your special request";
+                          }
+                          return null;
+                        },
+                      ),
+                      15.heightBox,
 
-                    Column(
-                      children: [
+                      Column(
+                        children: [
 
-                        const Row(
-                          children: [
-                            Text("Subtotal"),
-                            Spacer(),
-                            Text("100 EGP"),
-                          ],
-                        ),
-                        const Row(
-                          children: [
-                            Text("Delivery"),
-                            Spacer(),
-                            Text("100 EGP"),
-                          ],
-                        ),
+                          const Row(
+                            children: [
+                              Text("Subtotal"),
+                              Spacer(),
+                              Text("100 EGP"),
+                            ],
+                          ),
+                          const Row(
+                            children: [
+                              Text("Delivery"),
+                              Spacer(),
+                              Text("100 EGP"),
+                            ],
+                          ),
 
-                        const Divider(color: bottom,),
+                          const Divider(color: bottom,),
 
-                        const Row(
-                          children: [
-                            Text("Total"),
-                            Spacer(),
-                            Text("200 EGP"),
-                          ],
-                        ),
-                        15.heightBox,
+                          const Row(
+                            children: [
+                              Text("Total"),
+                              Spacer(),
+                              Text("200 EGP"),
+                            ],
+                          ),
+                          15.heightBox,
 
-                        ourButton(
-                           onPress: () {  }, color: mainColor, textColor: whiteColor, title: 'PLACE ORDER',
-                        ),]
-                    ),
+                          ourButton(
+                             onPress: () {  }, color: mainColor, textColor: whiteColor, title: 'PLACE ORDER',
+                          ),]
+                      ),
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
