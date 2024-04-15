@@ -24,9 +24,6 @@ class LogInScreen extends StatelessWidget {
                   height: h * 0.89,
                   child: ListView(
                     shrinkWrap: true,
-                    keyboardDismissBehavior:
-                        ScrollViewKeyboardDismissBehavior.onDrag,
-                    physics: const NeverScrollableScrollPhysics(),
                     children: [
                       5.heightBox,
                       Image.asset(

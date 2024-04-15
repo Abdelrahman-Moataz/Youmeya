@@ -1,5 +1,6 @@
 import 'package:youmeya/consent/consent.dart';
 
+import '../models/categories_model.dart';
 import 'home_controller.dart';
 
 class CartController extends GetxController {
@@ -21,11 +22,6 @@ class CartController extends GetxController {
 
   var placingOrder = false.obs;
 
-
-
-
-
-
   calculate(data) {
     totalP.value = 0;
     for (var i = 0; i < data.length; i++) {
@@ -33,7 +29,7 @@ class CartController extends GetxController {
     }
   }
 
-  calculateItem(data,index) {
+  calculateItem(data, index) {
     totalP.value = 0;
     for (var i = 0; i < data[index]['p_price']; i++) {
       totalP.value = totalP.value + int.parse(data[i]['p_price'].toString());
@@ -93,4 +89,42 @@ class CartController extends GetxController {
       fireStore.collection(cartCollection).doc(productSnapshot[i].id).delete();
     }
   }
+
+  ///Course
+
+  var productsMap = {}.obs;
+
+  void addProductsToCard(CategoryModel categoryModel) {
+    if (productsMap.containsKey(categoryModel.categories)) {
+      productsMap[categoryModel.categories] += 1;
+    } else {
+      productsMap[categoryModel.categories] = 1;
+    }
+  }
+
+  void removeProductsFromCard(CategoryModel categoryModel) {
+    if (productsMap.containsKey(categoryModel.categories) &&
+        productsMap[categoryModel.categories] == 1) {
+      productsMap.removeWhere((key, value) => key == categoryModel.categories);
+    } else {
+      productsMap[categoryModel.categories] -= 1;
+    }
+  }
+
+  void removeOneProductFromCard(CategoryModel categoryModel) {
+
+    productsMap.removeWhere((key, value) => key == categoryModel.categories);
+  }
+  void clearAllProducts() {
+    productsMap.clear();
+  }
+
+  get productSubTotal =>
+      productsMap.entries.map((e) => e.key.price * e.value).toList();
+
+  get Tottal => productsMap.entries
+      .map((e) => e.key.price * e.value)
+      .toList()
+      .reduce((value, element) => value + element)
+      .toStringAsFixed(2);
 }

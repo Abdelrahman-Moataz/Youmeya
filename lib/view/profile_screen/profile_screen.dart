@@ -8,6 +8,7 @@ import 'package:youmeya/view/sth_went_wrong/sth_went_wrong.dart';
 
 import '../../controllers/profile_controller.dart';
 import '../../services/firestore_services.dart';
+import '../auth_screens/complete_login.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -54,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
                           10.heightBox,
                           Container(
                             width: double.infinity,
-                            height: h * 0.14,
+                            height: h * 0.16,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -80,6 +81,17 @@ class ProfileScreen extends StatelessWidget {
                                           ),
                                           Text(
                                             "+2 ${data['phone_number']}",
+                                            style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 102, 102, 102),
+                                              fontSize: 10,
+                                              fontFamily: medium,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          5.heightBox,
+                                          Text(
+                                            "${data['id']}",
                                             style: const TextStyle(
                                               color: Color.fromARGB(
                                                   255, 102, 102, 102),
@@ -144,7 +156,9 @@ class ProfileScreen extends StatelessWidget {
                                     icon: Icons.question_mark_sharp),
                                 20.heightBox,
                                 profileBtn(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Get.to(()=>CompleteLogin());
+                                    },
                                     title: "About",
                                     icon: Icons.info),
                                 20.heightBox,

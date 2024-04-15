@@ -29,6 +29,7 @@ class _BasketScreenState extends State<BasketScreen>
     super.dispose();
   }
 
+
   int count0 = 1;
   int count1 = 1;
   int count2 = 1;
@@ -128,7 +129,8 @@ class _BasketScreenState extends State<BasketScreen>
                                                   total: "${int.parse(data[index]['p_price'].toString())} EGP",
                                                   onTap: () {
                                                     setState(() {
-                                                      count0++;});
+                                                      count0++;
+                                                    });
                                                   },
                                                   counted: "$count0",
                                                   onTap1: () {

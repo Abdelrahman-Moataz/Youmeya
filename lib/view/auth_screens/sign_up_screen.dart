@@ -1,4 +1,5 @@
 import 'package:youmeya/consent/consent.dart';
+import 'package:youmeya/view/auth_screens/complete_login.dart';
 import 'package:youmeya/view/nav_bar/nav_bar.dart';
 import '../../../controllers/auth_controller.dart';
 import 'login_screen.dart';
@@ -106,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 );
                               }).then((value) {
                                 VxToast.show(context, msg: loggedIn);
-                                Get.offAll(() => const NavBar());
+                                Get.offAll(() =>  CompleteLogin());
                               });
                             } catch (e) {
                               auth.signOut();
