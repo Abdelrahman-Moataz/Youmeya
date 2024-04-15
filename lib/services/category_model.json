@@ -1,81 +1,38 @@
 {
   "categories": [
     {
-      "name": "electricity",
+      "name": "Iron Only",
       "subcategory": [
-        "instalment",
-        "outlet",
-        "flte_electricity"
+        "Tops",
+        "Bottoms",
+        "Formal"
       ]
     },
 
     {
-      "name": "plumbing",
+      "name": "Dry Clean & Iron",
       "subcategory": [
-        "bathroom",
-        "Bathtubs",
-        "Showers"
+        "Tops",
+        "Bottoms",
+        "Formal"
       ]
     },
 
     {
-      "name": "smith",
+      "name": "Wash & Fold",
       "subcategory": [
-        "doors",
-        "windows"
+        "Tops",
+        "Bottoms",
+        "Formal"
       ]
     },
 
     {
-      "name": "carpenter",
+      "name": "Carpets & Curtains",
       "subcategory": [
-        "furniture",
-        "chair",
-        "carpenter"
-      ]
-    },
-
-    {
-      "name": "ceiling",
-      "subcategory": [
-        "gibson_board",
-        "spotlights",
-        "led_profile"
-      ]
-    },
-
-    {
-      "name": "barkeh",
-      "subcategory": [
-        "flooring",
-        "tiles"
-      ]
-    },
-
-    {
-      "name": "painting",
-      "subcategory": [
-        "walls",
-        "windows"
-      ]
-    },
-
-    {
-      "name": "ac_repair",
-      "subcategory": [
-        "ac_checkup",
-        "ac_fix",
-        "ac_remove",
-        "ac_instalment"
-      ]
-    },
-
-    {
-      "name": "cleaning",
-      "subcategory": [
-        "floor",
-        "furniture",
-        "walls"
+        "Tops",
+        "Bottoms",
+        "Formal"
       ]
     }
 

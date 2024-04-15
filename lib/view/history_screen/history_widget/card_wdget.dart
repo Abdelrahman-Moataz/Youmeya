@@ -1,6 +1,8 @@
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/history_screen/history_widget/rating_widget.dart';
-import 'package:youmeya/view/order_details_screen/order_details_screen.dart';
+
+import '../../order_status_screen/order_status_screen.dart';
+
 
 Widget CardWidget({context1, context2}) {
   final w = MediaQuery.of(context1).size.width;
@@ -72,7 +74,7 @@ Widget CardWidget({context1, context2}) {
                           height: h * 0.05,
                           child: InkWell(
                             onTap: () {
-                              Get.dialog(const DetailsScreen());
+                              Get.dialog(const OrderStatus());
                             },
                             child: Container(
                               decoration: BoxDecoration(

@@ -1,9 +1,9 @@
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/controllers/home_controller.dart';
 import 'package:youmeya/view/history_screen/history_widget/notification.dart';
-import 'package:youmeya/view/service_screen/service_screen.dart';
-
 import '../../services/firestore_services.dart';
+import '../order_confirmation_screen/order_confirmation_screen.dart';
+import '../service_screen/service_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -235,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context, index) {
                               return homeWidget(
                                 onTap: () {
-                                  Get.to(() => const OrderDetails());
+                                  Get.to(() =>  ServiceScreen(title: homeTitle[index],));
                                 },
                                 h: h * 0.2,
                                 w: w * 0.2,

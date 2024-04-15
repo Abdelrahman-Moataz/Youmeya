@@ -1,274 +1,201 @@
-import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:youmeya/consent/consent.dart';
-import 'package:youmeya/controllers/profile_controller.dart';
-import 'package:youmeya/view/checkout_screen/checkout_screen.dart';
+import 'package:youmeya/view/basket_screen/widgets/basket_widget.dart';
+import '../../controllers/card_controller.dart';
+import '../../services/firestore_services.dart';
+import '../checkout_screen/checkout_screen.dart';
+import '../history_screen/history_widget/notification.dart';
 
-class OrderDetails extends StatefulWidget {
-  const OrderDetails({super.key});
 
+class ServiceScreen extends StatefulWidget {
+
+  const ServiceScreen({super.key, required this.title});
+  final String title;
   @override
-  State<OrderDetails> createState() => _OrderDetailsState();
+
+  State<ServiceScreen> createState() => _ServiceScreenState();
 }
 
-class _OrderDetailsState extends State<OrderDetails> {
-  String? _selectedLocation; // Option 2
+class _ServiceScreenState extends State<ServiceScreen>
+    with SingleTickerProviderStateMixin {
+  TabController? _tabController;
+
+
 
   @override
   void initState() {
+    _tabController = TabController(length: 3, vsync: this);
     super.initState();
-    _selectedLocation = _locations[0]; // Choose the first item as default
   }
 
-  var controller = Get.put(ProfileController());
-
-  final List<String> _locations = ['1 Item', '2 Item', '3 Item'];
-
-  DateTime? _selectedTime;
-
-  void _showTimePicker(BuildContext context) {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          color: whiteColor,
-          height: 150,
-          child: CupertinoDatePicker(
-            mode: CupertinoDatePickerMode.time,
-            initialDateTime: DateTime.now(),
-            onDateTimeChanged: (DateTime newDateTime) {
-              setState(() {
-                _selectedTime = newDateTime;
-              });
-            },
-          ),
-        );
-      },
-    );
+  @override
+  void dispose() {
+    _tabController?.dispose();
+    super.dispose();
   }
 
-  DateTime? _selectedDate;
 
-  void _showDatePicker(BuildContext context) {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          color: whiteColor,
-          height: 150,
-          child: CupertinoDatePicker(
-            mode: CupertinoDatePickerMode.date,
-            minimumDate: DateTime.now(),
-            maximumDate: DateTime.now().add(const Duration(days: 365)),
-            initialDateTime: DateTime.now(),
-            onDateTimeChanged: (DateTime newDateTime) {
-              setState(() {
-                _selectedDate = newDateTime;
-              });
-            },
-          ),
-        );
-      },
-    );
-  }
+  int count0 = 1;
+  int count1 = 1;
+  int count2 = 1;
+  int count3 = 1;
+  int count4 = 1;
+  int count5 = 1;
 
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
-    // Option 2
+
+    var controller = Get.put(CartController());
 
     return SafeArea(
       child: Scaffold(
-        body: SizedBox(
-          width: double.infinity,
-          height: h * 0.9, // Make the entire body full width
-          child: Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: ListView(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              children: [
-                Column(
+        body: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(""),
+                   Text(
+                     widget.title,
+                    style: TextStyle(
+                      fontSize: 17,
+                    ),
+                  ),
+                  notificationWidget(h: h * 0.05),
+                ],
+              ),
+              20.heightBox,
+              SizedBox(
+                height: h * 0.75,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          icon: const Icon(Icons.arrow_back_ios),
-                        ),
-                        const Text("Order Details"),
-                        const Text("             "),
-                      ],
-                    ),
-                    (h * 0.05).heightBox,
-                    const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Number of Items")),
-                    5.heightBox,
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: h * 0.06,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: whiteColor,
-                            border: Border.all(color: Colors.black)),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            value: _selectedLocation,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedLocation = newValue;
-                              });
-                            },
-                            items: _locations.map((String location) {
-                              return DropdownMenuItem<String>(
-                                value: location,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15.0),
-                                  child: Text(location,
-                                      style:
-                                          const TextStyle(color: borderColor)),
-                                ),
-                              );
-                            }).toList(),
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontFamily: medium,
-                              color: whiteColor,
-                            ),
-                            icon: const Icon(Icons.keyboard_arrow_down,
-                                color: whiteColor),
-                            dropdownColor: whiteColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    (h * 0.05).heightBox,
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Select Time",
-                      ),
-                    ),
-                    5.heightBox,
-                    InkWell(
-                      onTap: () {
-                        _showTimePicker(context);
-                      },
-                      child: Container(
-                        height: h * 0.06,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: mainColor,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Text(
-                                _selectedTime != null
-                                    ? DateFormat.jm().format(_selectedTime!)
-                                    : 'Select Time',
-                                style: const TextStyle(color: whiteColor),
-                              ),
-                            ),
-                            const Icon(Icons.keyboard_arrow_down,
-                                color: whiteColor),
-                          ],
-                        ),
-                      ),
-                    ),
-                    (h * 0.05).heightBox,
-                    const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Select Date")),
-                    5.heightBox,
-                    InkWell(
-                      onTap: () {
-                        _showDatePicker(context);
-                      },
-                      child: Container(
-                        height: h * 0.06,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: mainColor,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Text(
-                                _selectedDate != null
-                                    ? DateFormat.yMMMd().format(_selectedDate!)
-                                    : 'Select Date',
-                                style: const TextStyle(color: whiteColor),
-                              ),
-                            ),
-                            const Icon(Icons.keyboard_arrow_down,
-                                color: whiteColor),
-                          ],
-                        ),
-                      ),
-                    ),
-                    (h * 0.05).heightBox,
-                    const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Payment method")),
-                    (10).heightBox,
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color.fromARGB(153, 236, 236, 236)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Image.asset(cash),
-                            20.widthBox,
-                            const Text("Cash On Delivery"),
-                            5.widthBox,
-                          ],
-                        ),
-                      ),
-                    ),
-                    (h * 0.05).heightBox,
-                    customTextField(
-                      controller: controller.nameController,
-                      title: "Special Requests",
-                      hint:
-                          "Type Your Special Request Here If The Items Are (Suit,Dress,etc...)",
-                      validator: (title) {
-                        return null;
-                      },
-                      isPass: false,
-                      mLine: 3,
-                    ),
-                    15.heightBox,
-                    ourButton(
-                        onPress: () {
-                          Get.to(() => const CheckOut());
-                        },
+                    TabBar(
+                      unselectedLabelColor: mainColor,
+                      labelColor: whiteColor,
+                      indicatorColor: mainColor,
+                      indicator: BoxDecoration(
                         color: mainColor,
-                        textColor: whiteColor,
-                        title: "Next")
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      tabs: const [
+                        Tab(
+                          text: 'Top',
+                        ),
+                        Tab(
+                          text: 'Bottoms',
+                        ),
+                        Tab(
+                          text: 'Formal',
+                        )
+                      ],
+                      controller: _tabController,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          StreamBuilder(
+                              stream: FireStoreServices.getProducts(widget.title),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor:
+                                      AlwaysStoppedAnimation(mainColor),
+                                    ),
+                                  );
+                                } else if (snapshot.data!.docs.isEmpty) {
+                                  return Center(
+                                    child: "Cart is Empty"
+                                        .text
+                                        .color(fontColor)
+                                        .make(),
+                                  );
+                                } else {
+
+                                  var data = snapshot.data!.docs;
+                                  controller.calculate(data);
+                                  controller.productSnapshot = data;
+
+                                  return Column(
+                                      children: List.generate(
+                                        data.length,
+                                            (index) =>
+                                            basketCard(
+                                              name: data[index]['name'],
+                                              price: "${data[index]['p_price']}  EGP",
+                                              total: "${int.parse(data[index]['p_price'].toString())} EGP",
+                                              onTap: () {
+                                                setState(() {
+                                                  count0++;
+                                                });
+                                              },
+                                              counted: "$count0",
+                                              onTap1: () {
+                                                setState(() {
+                                                  count0--;
+                                                });
+                                              },
+                                              context1: context,
+                                              context2: context,
+                                            ),
+
+                                      )
+                                  );
+                                }
+                              }),
+                          const Text(
+                            'Person',
+                            style: TextStyle(fontSize: 32),
+                          ),
+                          const Text(
+                            'Persongg',
+                            style: TextStyle(fontSize: 32),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Get.to(() => CheckOut());
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Go to Check out",
+                            style: TextStyle(color: whiteColor),
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "${controller.totalP.value}",
+                                style: TextStyle(color: whiteColor),
+                              ),
+
+                              Text(
+                                "Delevery Fees",
+                                style:
+                                TextStyle(fontSize: 9, color: whiteColor),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                      style:
+                      ElevatedButton.styleFrom(backgroundColor: mainColor),
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

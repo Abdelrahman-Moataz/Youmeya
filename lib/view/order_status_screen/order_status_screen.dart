@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:youmeya/consent/consent.dart';
-import 'package:youmeya/view/checkout_screen/checkout_screen.dart';
 
-class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key}) : super(key: key);
+
+class OrderStatus extends StatelessWidget {
+  const OrderStatus({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class DetailsScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: const Text(
-            "Order Details",
+            "Order Status",
             style: TextStyle(fontSize: 15),
           ),
           centerTitle: true,
