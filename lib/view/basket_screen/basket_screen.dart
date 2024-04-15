@@ -1,9 +1,10 @@
-
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/basket_screen/widgets/basket_widget.dart';
+import '../../controllers/card_controller.dart';
+import '../../services/firestore_services.dart';
 import '../checkout_screen/checkout_screen.dart';
 import '../history_screen/history_widget/notification.dart';
-import '../saved_addresses/widgets/card_widget.dart';
+
 
 class BasketScreen extends StatefulWidget {
   const BasketScreen({super.key});
@@ -28,20 +29,19 @@ class _BasketScreenState extends State<BasketScreen>
     super.dispose();
   }
 
-  int count0 = 5;
-  int count1 = 0;
-  int count2= 0;
-  int count3 = 0;
-  int count4 = 0;
-  int count5 = 0;
-
-
+  int count0 = 1;
+  int count1 = 1;
+  int count2 = 1;
+  int count3 = 1;
+  int count4 = 1;
+  int count5 = 1;
 
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
+    var controller = Get.put(CartController());
 
     return SafeArea(
       child: Scaffold(
@@ -70,14 +70,12 @@ class _BasketScreenState extends State<BasketScreen>
                   children: [
                     TabBar(
                       unselectedLabelColor: mainColor,
-
                       labelColor: whiteColor,
                       indicatorColor: mainColor,
                       indicator: BoxDecoration(
                         color: mainColor,
                         borderRadius: BorderRadius.circular(15),
                       ),
-
                       tabs: const [
                         Tab(
                           text: 'Top',
@@ -96,141 +94,98 @@ class _BasketScreenState extends State<BasketScreen>
                       child: TabBarView(
                         controller: _tabController,
                         children: [
+                          StreamBuilder(
+                              stream: FireStoreServices.getProducts("tops"),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor:
+                                          AlwaysStoppedAnimation(mainColor),
+                                    ),
+                                  );
+                                } else if (snapshot.data!.docs.isEmpty) {
+                                  return Center(
+                                    child: "Cart is Empty"
+                                        .text
+                                        .color(fontColor)
+                                        .make(),
+                                  );
+                                } else {
 
-                          Column(
-                            children: [
-                              basketCard(
-                                onTap: (){
-                                  setState(() {
-                                    count0++;
-                                  });
-                                },
-                                counted: "$count0",
-                                onTap1:  (){
-                                  setState(() {
-                                    count0--;
-                                  });
-                                },
-                                context1: context,
-                                context2: context,
-                              ),
-                              5.heightBox,
-                              basketCard(
-                                onTap: (){
-                                  setState(() {
-                                    count1++;
-                                  });
-                                },
-                                onTap1: (){
-                                  setState(() {
-                                    count1--;
-                                  });
-                                },
-                                counted: "$count1",
-                                context1: context,
-                                context2: context,
-                              ),
-                              5.heightBox,
-                              basketCard(
-                                onTap1: (){
-                                  setState(() {
-                                    count2--;
-                                  });
-                                },
-                                onTap: (){
-                                  setState(() {
-                                    count2++;
-                                  });
-                                },
-                                counted: "$count2",
-                                context1: context,
-                                context2: context,
-                              ),
-                              5.heightBox,
-                            ],
-                          ),
+                                  var data = snapshot.data!.docs;
+                                  controller.calculate(data);
+                                  controller.productSnapshot = data;
 
+                                  return Column(
+                                    children: List.generate(
+                                        data.length,
+                                            (index) =>
+                                                basketCard(
+                                                  name: data[index]['name'],
+                                                  price: "${data[index]['p_price']}  EGP",
+                                                  total: "${int.parse(data[index]['p_price'].toString())} EGP",
+                                                  onTap: () {
+                                                    setState(() {
+                                                      count0++;});
+                                                  },
+                                                  counted: "$count0",
+                                                  onTap1: () {
+                                                    setState(() {
+                                                      count0--;
+                                                    });
+                                                  },
+                                                  context1: context,
+                                                  context2: context,
+                                                ),
 
-
+                                    )
+                                  );
+                                }
+                              }),
                           const Text(
                             'Person',
                             style: TextStyle(fontSize: 32),
                           ),
-                          Column(
-                            children: [
-                              basketCard(
-                                onTap: (){
-                                  setState(() {
-                                    count3++;
-                                  });
-                                },
-                                onTap1: (){
-                                  setState(() {
-                                    count3--;
-                                  });
-                                },
-                                counted: "$count3",
-                                context1: context,
-                                context2: context,
-                              ),
-                              5.heightBox,
-                              basketCard(
-                                onTap: (){
-                                  setState(() {
-                                    count4++;
-                                  });
-                                },
-                                onTap1: (){
-                                  setState(() {
-                                    count4--;
-                                  });
-                                },
-                                counted: "$count4",
-                                context1: context,
-                                context2: context,
-                              ),
-                              5.heightBox,
-                              basketCard(
-                                onTap: (){
-                                  setState(() {
-                                    count5++;
-                                  });
-                                },
-                                onTap1: (){
-                                  setState(() {
-                                    count5--;
-                                  });
-                                },
-                                counted: "$count5",
-                                context1: context,
-                                context2: context,
-                              ),
-                              5.heightBox,
-                            ],
+                          const Text(
+                            'Persongg',
+                            style: TextStyle(fontSize: 32),
                           ),
+
                         ],
                       ),
                     ),
-
-                    ElevatedButton(onPressed: (){
-                      Get.to(()=>CheckOut());
-                    },
+                    ElevatedButton(
+                      onPressed: () {
+                        Get.to(() => CheckOut());
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Go to Check out",style: TextStyle(color: whiteColor),),
+                          Text(
+                            "Go to Check out",
+                            style: TextStyle(color: whiteColor),
+                          ),
                           Column(
                             children: [
-                              Text("300 EGP",style: TextStyle(color: whiteColor),),
-                              Text("Delevery Fees",style: TextStyle(fontSize: 9,color: whiteColor),),
+                               Text(
+                                  "${controller.totalP.value}",
+                                  style: TextStyle(color: whiteColor),
+                                ),
+
+                              Text(
+                                "Delevery Fees",
+                                style:
+                                    TextStyle(fontSize: 9, color: whiteColor),
+                              ),
                             ],
                           )
                         ],
                       ),
-                      style: ElevatedButton.styleFrom(
-                      backgroundColor: mainColor
-                    ),),
-
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: mainColor),
+                    ),
                   ],
                 ),
               ),

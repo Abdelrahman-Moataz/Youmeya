@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:youmeya/view/checkout_screen/widget/cashorvisa.dart';
 import 'package:youmeya/view/checkout_screen/widget/day-container.dart';
 
-
 class CheckOut extends StatefulWidget {
   const CheckOut({super.key});
 
@@ -73,7 +72,7 @@ class _CheckOutState extends State<CheckOut> {
 
     return SafeArea(
       child: Scaffold(
-          resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: true,
         body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -93,11 +92,10 @@ class _CheckOutState extends State<CheckOut> {
               ),
               10.heightBox,
               SingleChildScrollView(
-                   reverse: true,
+                reverse: true,
                 child: SizedBox(
                   height: h * 0.84,
                   child: ListView(
-
                     shrinkWrap: true,
                     children: [
                       const Text("Your Basket"),
@@ -175,8 +173,8 @@ class _CheckOutState extends State<CheckOut> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
                                 child: Text(
                                   _selectedTime != null
                                       ? DateFormat.jm().format(_selectedTime!)
@@ -195,15 +193,12 @@ class _CheckOutState extends State<CheckOut> {
                       10.heightBox,
                       const Text("Payment Method"),
                       10.heightBox,
-
-
                       cashOrVisa(
-                        context1: context,
-                        context2: context,
-                        title: "Cash",
-                        colur: mainColor,
-                        img: cash
-                      ),
+                          context1: context,
+                          context2: context,
+                          title: "Cash",
+                          colur: mainColor,
+                          img: cash),
                       5.heightBox,
                       cashOrVisa(
                         context1: context,
@@ -212,7 +207,6 @@ class _CheckOutState extends State<CheckOut> {
                         title: "Visa",
                         colur: whiteColor,
                       ),
-
                       10.heightBox,
                       const Text("Special Request"),
                       10.heightBox,
@@ -230,41 +224,39 @@ class _CheckOutState extends State<CheckOut> {
                         },
                       ),
                       15.heightBox,
-
-                      Column(
-                        children: [
-
-                          const Row(
-                            children: [
-                              Text("Subtotal"),
-                              Spacer(),
-                              Text("100 EGP"),
-                            ],
-                          ),
-                          const Row(
-                            children: [
-                              Text("Delivery"),
-                              Spacer(),
-                              Text("100 EGP"),
-                            ],
-                          ),
-
-                          const Divider(color: bottom,),
-
-                          const Row(
-                            children: [
-                              Text("Total"),
-                              Spacer(),
-                              Text("200 EGP"),
-                            ],
-                          ),
-                          15.heightBox,
-
-                          ourButton(
-                             onPress: () {  }, color: mainColor, textColor: whiteColor, title: 'PLACE ORDER',
-                          ),]
-                      ),
-
+                      Column(children: [
+                        const Row(
+                          children: [
+                            Text("Subtotal"),
+                            Spacer(),
+                            Text("100 EGP"),
+                          ],
+                        ),
+                        const Row(
+                          children: [
+                            Text("Delivery"),
+                            Spacer(),
+                            Text("100 EGP"),
+                          ],
+                        ),
+                        const Divider(
+                          color: bottom,
+                        ),
+                        const Row(
+                          children: [
+                            Text("Total"),
+                            Spacer(),
+                            Text("200 EGP"),
+                          ],
+                        ),
+                        15.heightBox,
+                        ourButton(
+                          onPress: () {},
+                          color: mainColor,
+                          textColor: whiteColor,
+                          title: 'PLACE ORDER',
+                        ),
+                      ]),
                     ],
                   ),
                 ),

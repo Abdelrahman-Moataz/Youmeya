@@ -14,7 +14,7 @@ class FireStoreServices {
   ///get products according to category
 
     static getProducts(category){
-    return fireStore.collection(productsCollection).where('services',isEqualTo: category).snapshots();
+    return fireStore.collection(productsCollection).where('category',isEqualTo: category).snapshots();
     }
 
     static getSubCategoryProducts(title){

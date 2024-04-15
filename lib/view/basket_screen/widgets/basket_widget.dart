@@ -1,12 +1,18 @@
 import 'package:youmeya/consent/consent.dart';
 
-Widget basketCard ({String? counted,context1, context2,void Function()? onTap,void Function()? onTap1 }){
+Widget basketCard(
+    {String? price,
+    String? name,
+    String? counted,
+      String? total,
+    context1,
+    context2,
+    void Function()? onTap,
+    void Function()? onTap1}) {
   final w = MediaQuery.of(context1).size.width;
   final h = MediaQuery.of(context2).size.height;
 
-
-
-  return  Column(
+  return Column(
     children: [
       SizedBox(
         height: h * 0.12,
@@ -18,14 +24,13 @@ Widget basketCard ({String? counted,context1, context2,void Function()? onTap,vo
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(shirt),
-                const  Column(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("T-shirt"),
-                    Text("0.25 EGP"),
+                    Text(name!),
+                    Text(price!),
                   ],
                 ),
-
                 GestureDetector(
                   onTap: onTap,
                   child: Container(
@@ -33,30 +38,30 @@ Widget basketCard ({String? counted,context1, context2,void Function()? onTap,vo
                       borderRadius: BorderRadius.circular(8),
                       color: bottom,
                     ),
-                    child:  const Icon(Icons.add,color: whiteColor,),
+                    child: const Icon(
+                      Icons.add,
+                      color: whiteColor,
+                    ),
                   ),
                 ),
-
-                 Text(counted!),
-
+                Text(counted!),
                 InkWell(
                   onTap: onTap1,
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: borderColor)
+                        border: Border.all(color: borderColor)),
+                    child: const Icon(
+                      Icons.minimize,
                     ),
-                    child:  const Icon(Icons.minimize,),
                   ),
                 ),
-
-                const Text("52 EGP"),
+                 Text(total!),
               ],
             ),
           ),
         ),
       ),
-
     ],
   );
 }
