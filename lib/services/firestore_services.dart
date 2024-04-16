@@ -18,7 +18,7 @@ class FireStoreServices {
     }
 
     static getSubCategoryProducts(title){
-      return fireStore.collection(productsCollection).where('sub_category',isEqualTo: title).snapshots();
+      return fireStore.collection(productsCollection).where('subCategory',isEqualTo: title).snapshots();
     }
 
   /// get cart

@@ -1,25 +1,21 @@
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/basket_screen/widgets/basket_widget.dart';
+import 'package:youmeya/view/service_screen/widgets/card_of_items.dart';
 import '../../controllers/card_controller.dart';
 import '../../services/firestore_services.dart';
 import '../checkout_screen/checkout_screen.dart';
 import '../history_screen/history_widget/notification.dart';
 
-
 class ServiceScreen extends StatefulWidget {
-
   const ServiceScreen({super.key, required this.title});
   final String title;
   @override
-
   State<ServiceScreen> createState() => _ServiceScreenState();
 }
 
 class _ServiceScreenState extends State<ServiceScreen>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
-
-
 
   @override
   void initState() {
@@ -32,7 +28,6 @@ class _ServiceScreenState extends State<ServiceScreen>
     _tabController?.dispose();
     super.dispose();
   }
-
 
   int count0 = 1;
   int count1 = 1;
@@ -58,8 +53,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(""),
-                   Text(
-                     widget.title,
+                  Text(
+                    widget.title,
                     style: TextStyle(
                       fontSize: 17,
                     ),
@@ -69,7 +64,7 @@ class _ServiceScreenState extends State<ServiceScreen>
               ),
               20.heightBox,
               SizedBox(
-                height: h * 0.75,
+                height: h * 0.85,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -100,98 +95,125 @@ class _ServiceScreenState extends State<ServiceScreen>
                         controller: _tabController,
                         children: [
                           StreamBuilder(
-                              stream: FireStoreServices.getProducts(widget.title),
+                              stream: FireStoreServices.getSubCategoryProducts(
+                                  "tops ${widget.title}"),
                               builder: (BuildContext context,
                                   AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if (!snapshot.hasData) {
                                   return const Center(
                                     child: CircularProgressIndicator(
                                       valueColor:
-                                      AlwaysStoppedAnimation(mainColor),
+                                          AlwaysStoppedAnimation(mainColor),
                                     ),
                                   );
                                 } else if (snapshot.data!.docs.isEmpty) {
                                   return Center(
-                                    child: "Cart is Empty"
+                                    child: "No Products available"
                                         .text
-                                        .color(fontColor)
+                                        .color(bottom)
                                         .make(),
                                   );
                                 } else {
-
                                   var data = snapshot.data!.docs;
                                   controller.calculate(data);
                                   controller.productSnapshot = data;
 
-                                  return Column(
-                                      children: List.generate(
-                                        data.length,
-                                            (index) =>
-                                            basketCard(
-                                              name: data[index]['name'],
-                                              price: "${data[index]['p_price']}  EGP",
-                                              total: "${int.parse(data[index]['p_price'].toString())} EGP",
-                                              onTap: () {
-                                                setState(() {
-                                                  count0++;
-                                                });
-                                              },
-                                              counted: "$count0",
-                                              onTap1: () {
-                                                setState(() {
-                                                  count0--;
-                                                });
-                                              },
-                                              context1: context,
-                                              context2: context,
-                                            ),
+                                  return ListView(
+                                    shrinkWrap: true,
+                                    children: List.generate(
+                                      snapshot.data!.docs.length,
+                                      (index) => cardOfItems(
+                                        name: snapshot.data!.docs[index]['name'],
+                                        price:
+                                            "${snapshot.data!.docs[index]['p_price']}  EGP",
+                                        onTap: () {
 
-                                      )
+                                        },
+                                        context1: context,
+                                        context2: context,
+                                      ),
+                                    ),
                                   );
                                 }
                               }),
-                          const Text(
-                            'Person',
-                            style: TextStyle(fontSize: 32),
-                          ),
-                          const Text(
-                            'Persongg',
-                            style: TextStyle(fontSize: 32),
-                          ),
+                          StreamBuilder(
+                              stream: FireStoreServices.getSubCategoryProducts(
+                                  "bottoms ${widget.title}"),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor:
+                                          AlwaysStoppedAnimation(mainColor),
+                                    ),
+                                  );
+                                } else if (snapshot.data!.docs.isEmpty) {
+                                  return Center(
+                                    child: "No Products available"
+                                        .text
+                                        .color(bottom)
+                                        .make(),
+                                  );
+                                } else {
+                                  return ListView(
+                                    shrinkWrap: true,
+                                      children: List.generate(
+                                    snapshot.data!.docs.length,
+                                    (index) => cardOfItems(
+                                      name: snapshot.data!.docs[index]['name'],
+                                      price:
+                                          "${snapshot.data!.docs[index]['p_price']}  EGP",
+                                      onTap: () {
 
+                                      },
+                                      context1: context,
+                                      context2: context,
+                                    ),
+                                  ));
+                                }
+                              }),
+                          StreamBuilder(
+                              stream: FireStoreServices.getSubCategoryProducts(
+                                  "formal ${widget.title}"),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor:
+                                          AlwaysStoppedAnimation(mainColor),
+                                    ),
+                                  );
+                                } else if (snapshot.data!.docs.isEmpty) {
+                                  return Center(
+                                    child: "No Products available"
+                                        .text
+                                        .color(bottom)
+                                        .make(),
+                                  );
+                                } else {
+                                  return ListView(
+                                    shrinkWrap: true,
+                                      children: List.generate(
+                                    snapshot.data!.docs.length,
+                                    (index) => cardOfItems(
+                                      name: snapshot.data!.docs[index]['name'],
+                                      price:
+                                          "${snapshot.data!.docs[index]['p_price']}  EGP",
+                                      onTap: () {
+
+                                      },
+                                      context1: context,
+                                      context2: context,
+                                    ),
+                                  ));
+                                }
+                              }),
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.to(() => CheckOut());
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Go to Check out",
-                            style: TextStyle(color: whiteColor),
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "${controller.totalP.value}",
-                                style: TextStyle(color: whiteColor),
-                              ),
 
-                              Text(
-                                "Delevery Fees",
-                                style:
-                                TextStyle(fontSize: 9, color: whiteColor),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      style:
-                      ElevatedButton.styleFrom(backgroundColor: mainColor),
-                    ),
                   ],
                 ),
               ),
