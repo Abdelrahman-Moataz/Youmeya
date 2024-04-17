@@ -96,7 +96,7 @@ class _BasketScreenState extends State<BasketScreen>
                         controller: _tabController,
                         children: [
                           StreamBuilder(
-                              stream: FireStoreServices.getProducts("tops"),
+                              stream: FireStoreServices.getCart(currentUser!.uid),
                               builder: (BuildContext context,
                                   AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if (!snapshot.hasData) {
@@ -110,7 +110,7 @@ class _BasketScreenState extends State<BasketScreen>
                                   return Center(
                                     child: "Cart is Empty"
                                         .text
-                                        .color(fontColor)
+                                        .color(bottom)
                                         .make(),
                                   );
                                 } else {
@@ -125,8 +125,8 @@ class _BasketScreenState extends State<BasketScreen>
                                             (index) =>
                                                 basketCard(
                                                   name: data[index]['name'],
-                                                  price: "${data[index]['p_price']}  EGP",
-                                                  total: "${int.parse(data[index]['p_price'].toString())} EGP",
+                                                  price: "${data[index]['price']}  EGP",
+                                                  total: "${int.parse(data[index]['price'].toString())} EGP",
                                                   onTap: () {
                                                     setState(() {
                                                       count0++;

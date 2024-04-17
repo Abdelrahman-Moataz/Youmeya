@@ -2,6 +2,7 @@ import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/basket_screen/widgets/basket_widget.dart';
 import 'package:youmeya/view/service_screen/widgets/card_of_items.dart';
 import '../../controllers/card_controller.dart';
+import '../../controllers/product_controller.dart';
 import '../../services/firestore_services.dart';
 import '../checkout_screen/checkout_screen.dart';
 import '../history_screen/history_widget/notification.dart';
@@ -41,7 +42,7 @@ class _ServiceScreenState extends State<ServiceScreen>
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
-    var controller = Get.put(CartController());
+    var controller = Get.put(ProductController());
 
     return SafeArea(
       child: Scaffold(
@@ -55,7 +56,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   const Text(""),
                   Text(
                     widget.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 17,
                     ),
                   ),
@@ -114,20 +115,31 @@ class _ServiceScreenState extends State<ServiceScreen>
                                         .make(),
                                   );
                                 } else {
-                                  var data = snapshot.data!.docs;
-                                  controller.calculate(data);
-                                  controller.productSnapshot = data;
+                                  //var data = snapshot.data!.docs;
+                                  //controller.calculate(data);
+                                  //controller.productSnapshot = data;
 
                                   return ListView(
                                     shrinkWrap: true,
                                     children: List.generate(
                                       snapshot.data!.docs.length,
                                       (index) => cardOfItems(
-                                        name: snapshot.data!.docs[index]['name'],
+                                        name: snapshot.data!.docs[index]
+                                            ['name'],
                                         price:
                                             "${snapshot.data!.docs[index]['p_price']}  EGP",
                                         onTap: () {
-
+                                          controller.addToCart(
+                                            subCategory: snapshot.data!
+                                                .docs[index]['subCategory'],
+                                            price: snapshot.data!.docs[index]
+                                                ['p_price'],
+                                            name: snapshot.data!.docs[index]
+                                                ['name'],
+                                            category: snapshot.data!.docs[index]
+                                                ['category'],
+                                            context: context,
+                                          );
                                         },
                                         context1: context,
                                         context2: context,
@@ -157,20 +169,19 @@ class _ServiceScreenState extends State<ServiceScreen>
                                   );
                                 } else {
                                   return ListView(
-                                    shrinkWrap: true,
+                                      shrinkWrap: true,
                                       children: List.generate(
-                                    snapshot.data!.docs.length,
-                                    (index) => cardOfItems(
-                                      name: snapshot.data!.docs[index]['name'],
-                                      price:
-                                          "${snapshot.data!.docs[index]['p_price']}  EGP",
-                                      onTap: () {
-
-                                      },
-                                      context1: context,
-                                      context2: context,
-                                    ),
-                                  ));
+                                        snapshot.data!.docs.length,
+                                        (index) => cardOfItems(
+                                          name: snapshot.data!.docs[index]
+                                              ['name'],
+                                          price:
+                                              "${snapshot.data!.docs[index]['p_price']}  EGP",
+                                          onTap: () {},
+                                          context1: context,
+                                          context2: context,
+                                        ),
+                                      ));
                                 }
                               }),
                           StreamBuilder(
@@ -194,26 +205,24 @@ class _ServiceScreenState extends State<ServiceScreen>
                                   );
                                 } else {
                                   return ListView(
-                                    shrinkWrap: true,
+                                      shrinkWrap: true,
                                       children: List.generate(
-                                    snapshot.data!.docs.length,
-                                    (index) => cardOfItems(
-                                      name: snapshot.data!.docs[index]['name'],
-                                      price:
-                                          "${snapshot.data!.docs[index]['p_price']}  EGP",
-                                      onTap: () {
-
-                                      },
-                                      context1: context,
-                                      context2: context,
-                                    ),
-                                  ));
+                                        snapshot.data!.docs.length,
+                                        (index) => cardOfItems(
+                                          name: snapshot.data!.docs[index]
+                                              ['name'],
+                                          price:
+                                              "${snapshot.data!.docs[index]['p_price']}  EGP",
+                                          onTap: () {},
+                                          context1: context,
+                                          context2: context,
+                                        ),
+                                      ));
                                 }
                               }),
                         ],
                       ),
                     ),
-
                   ],
                 ),
               ),

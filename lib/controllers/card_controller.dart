@@ -25,14 +25,14 @@ class CartController extends GetxController {
   calculate(data) {
     totalP.value = 0;
     for (var i = 0; i < data.length; i++) {
-      totalP.value = totalP.value + int.parse(data[i]['p_price'].toString());
+      totalP.value = totalP.value + int.parse(data[i]['price'].toString());
     }
   }
 
   calculateItem(data, index) {
     totalP.value = 0;
-    for (var i = 0; i < data[index]['p_price']; i++) {
-      totalP.value = totalP.value + int.parse(data[i]['p_price'].toString());
+    for (var i = 0; i < data[index]['price']; i++) {
+      totalP.value = totalP.value + int.parse(data[i]['price'].toString());
     }
   }
 

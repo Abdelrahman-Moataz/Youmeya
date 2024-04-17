@@ -45,12 +45,12 @@ class ProductController extends GetxController {
   }
 
   addToCart(
-      {subCategory, propertyNum, selectedIcon, description, context}) async {
-    await fireStore.collection(serviceDetails).doc().set({
+      {subCategory, price, name, context,category}) async {
+    await fireStore.collection(cartCollection).doc().set({
+      'category': category,
       'sub_category': subCategory,
-      'property_num': propertyNum,
-      'selectedIcon': selectedIcon,
-      'description': description,
+      'price': price,
+      'name': name,
       'added_by': currentUser!.uid,
     }).catchError((error) {
       VxToast.show(context, msg: error.toString());
