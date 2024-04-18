@@ -17,6 +17,10 @@ class FireStoreServices {
     return fireStore.collection(productsCollection).where('category',isEqualTo: category).snapshots();
     }
 
+  static getOneProduct(name){
+    return fireStore.collection(productsCollection).where('name',isEqualTo: name).snapshots();
+  }
+
     static getSubCategoryProducts(title){
       return fireStore.collection(productsCollection).where('subCategory',isEqualTo: title).snapshots();
     }

@@ -4,7 +4,7 @@ import '../models/categories_model.dart';
 import 'home_controller.dart';
 
 class CartController extends GetxController {
-  var totalP = 0.obs;
+
 
   // text controller for shipping details
 
@@ -21,6 +21,10 @@ class CartController extends GetxController {
   var vendors = [];
 
   var placingOrder = false.obs;
+
+  var totalP = 0.obs;
+
+
 
   calculate(data) {
     totalP.value = 0;

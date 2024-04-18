@@ -44,18 +44,69 @@ class ProductController extends GetxController {
     totalPrice.value = price * quantity.value;
   }
 
-  addToCart(
-      {subCategory, price, name, context,category}) async {
-    await fireStore.collection(cartCollection).doc().set({
+
+  Future<void> addToCart({
+    required String subCategory,
+    required String price,
+    required String name,
+    required BuildContext context,
+    required String category,
+  }) async {
+    final userCartRef = FirebaseFirestore.instance
+        .collection(cartCollection)
+        .where('added_by', isEqualTo: currentUser!.uid);
+
+    // Check for existing cart item for the same user and product
+    final matchingItems = await userCartRef.where('name', isEqualTo: name).get();
+
+    // Handle existing item: update quantity and total price
+    if (matchingItems.docs.isNotEmpty) {
+      final existingItem = matchingItems.docs.first;
+      final existingQuantity = existingItem.get('quantity')?.toInt() ?? 1;
+      final existingPrice = int.tryParse(existingItem.get('price')!.toString()) ?? 0.0; // Handle potential parsing errors
+
+      final int newTotalPrice = int.parse(price) ?? 0; // Handle potential parsing errors
+      final updatedTotalPrice = (existingQuantity + 1) * newTotalPrice;
+
+      await existingItem.reference.update({
+        'quantity': existingQuantity + 1,
+        'price': updatedTotalPrice.toString(), // Convert back to string for Firestore
+      }).catchError((error) {
+        VxToast.show(context, msg: 'Error updating cart item: $error');
+      });
+      return; // No need to add a new document if item exists
+    }
+
+    // Create a new cart item document if no existing item
+    await FirebaseFirestore.instance
+        .collection(cartCollection)
+        .doc()
+        .set({
       'category': category,
       'sub_category': subCategory,
-      'price': price,
+      'price': price, // Assuming price is already a valid string representation of a double
       'name': name,
+      'quantity': 1,
       'added_by': currentUser!.uid,
-    }).catchError((error) {
-      VxToast.show(context, msg: error.toString());
+    })
+        .catchError((error) {
+      VxToast.show(context, msg: 'Error adding item to cart: $error');
     });
   }
+
+
+  // addToCart(
+  //     {subCategory, price, name, context,category}) async {
+  //   await fireStore.collection(cartCollection).doc().set({
+  //     'category': category,
+  //     'sub_category': subCategory,
+  //     'price': price,
+  //     'name': name,
+  //     'added_by': currentUser!.uid,
+  //   }).catchError((error) {
+  //     VxToast.show(context, msg: error.toString());
+  //   });
+  // }
 
   resetValues() {
     totalPrice.value = 0;

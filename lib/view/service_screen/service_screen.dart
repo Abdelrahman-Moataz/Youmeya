@@ -130,6 +130,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                                             "${snapshot.data!.docs[index]['p_price']}  EGP",
                                         onTap: () {
                                           controller.addToCart(
+
                                             subCategory: snapshot.data!
                                                 .docs[index]['subCategory'],
                                             price: snapshot.data!.docs[index]
@@ -140,6 +141,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                                                 ['category'],
                                             context: context,
                                           );
+                                          VxToast.show(context, msg: 'Item added to the Basket');
                                         },
                                         context1: context,
                                         context2: context,

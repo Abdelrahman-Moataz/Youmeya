@@ -78,7 +78,7 @@ class AuthController extends GetxController {
       flatNumber,
       moreDetails}) async {
     DocumentReference store =
-        fireStore.collection(userCollection).doc(currentUser!.uid);
+        fireStore.collection(locationCollection).doc(currentUser!.uid);
     store.update({
       'name': name,
       'phone_number': phoneNumber,
@@ -88,6 +88,7 @@ class AuthController extends GetxController {
       'floorNumber': floorNumber,
       'flatNumber': flatNumber,
       'moreDetails': moreDetails,
+      'id': currentUser!.uid,
     });
   }
 

@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:get/get.dart';
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/basket_screen/widgets/basket_widget.dart';
 import '../../controllers/card_controller.dart';
@@ -125,14 +128,14 @@ class _BasketScreenState extends State<BasketScreen>
                                             (index) =>
                                                 basketCard(
                                                   name: data[index]['name'],
-                                                  price: "${data[index]['price']}  EGP",
-                                                  total: "${int.parse(data[index]['price'].toString())} EGP",
+                                                  price: "${int.parse(data[index]['price'])/ data[index]['quantity']}  EGP",
+                                                  total: "${data[index]['price']} EGP",
                                                   onTap: () {
                                                     setState(() {
                                                       count0++;
                                                     });
                                                   },
-                                                  counted: "$count0",
+                                                  counted: "${data[index]['quantity']}",
                                                   onTap1: () {
                                                     setState(() {
                                                       count0--;
@@ -162,21 +165,24 @@ class _BasketScreenState extends State<BasketScreen>
                       onPressed: () {
                         Get.to(() => CheckOut());
                       },
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: mainColor),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "Go to Check out",
                             style: TextStyle(color: whiteColor),
                           ),
                           Column(
                             children: [
                                Text(
-                                  "${controller.totalP.value}",
-                                  style: TextStyle(color: whiteColor),
-                                ),
+                                    "${controller.totalP.obs} EGP",
+                                    style: TextStyle(color: whiteColor),
+                                  ),
 
-                              Text(
+
+                              const Text(
                                 "Delevery Fees",
                                 style:
                                     TextStyle(fontSize: 9, color: whiteColor),
@@ -185,8 +191,6 @@ class _BasketScreenState extends State<BasketScreen>
                           )
                         ],
                       ),
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: mainColor),
                     ),
                   ],
                 ),
