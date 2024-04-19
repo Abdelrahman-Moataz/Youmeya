@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:get/get.dart';
 import 'package:youmeya/consent/consent.dart';
+import 'package:youmeya/controllers/product_controller.dart';
 import 'package:youmeya/view/basket_screen/widgets/basket_widget.dart';
 import '../../controllers/card_controller.dart';
 import '../../services/firestore_services.dart';
@@ -46,6 +47,7 @@ class _BasketScreenState extends State<BasketScreen>
     final h = MediaQuery.of(context).size.height;
 
     var controller = Get.put(CartController());
+    var controllerQ = Get.put(ProductController());
 
     return SafeArea(
       child: Scaffold(
@@ -118,37 +120,64 @@ class _BasketScreenState extends State<BasketScreen>
                                   );
                                 } else {
 
-                                  var data = snapshot.data!.docs;
-                                  controller.calculate(data);
-                                  controller.productSnapshot = data;
+                                 return StreamBuilder(
+                                   stream: FireStoreServices.getCartBySub('tops'),
+                                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                     if (!snapshot.hasData) {
+                                       return const Center(
+                                         child: CircularProgressIndicator(
+                                           valueColor:
+                                           AlwaysStoppedAnimation(mainColor),
+                                         ),
+                                       );
+                                     } else if (snapshot.data!.docs.isEmpty) {
+                                       return Center(
+                                         child: "Cart is Empty"
+                                             .text
+                                             .color(bottom)
+                                             .make(),
+                                       );
+                                     } else {
+                                       var data = snapshot.data!.docs;
+                                       controller.calculate(data);
+                                       controller.productSnapshot = data;
 
-                                  return Column(
-                                    children: List.generate(
-                                        data.length,
-                                            (index) =>
-                                                basketCard(
-                                                  name: data[index]['name'],
-                                                  price: "${int.parse(data[index]['price'])/ data[index]['quantity']}  EGP",
-                                                  total: "${data[index]['price']} EGP",
-                                                  onTap: () {
-                                                    setState(() {
-                                                      count0++;
-                                                    });
-                                                  },
-                                                  counted: "${data[index]['quantity']}",
-                                                  onTap1: () {
-                                                    setState(() {
-                                                      count0--;
-                                                    });
-                                                  },
-                                                  context1: context,
-                                                  context2: context,
-                                                ),
+                                       return ListView(
+                                           children: List.generate(
+                                             data.length,
+                                                 (index) =>
+                                                 basketCard(
+                                                   name: data[index]['name'],
+                                                   price: "${int.parse(data[index]['p_price'])}  EGP",
+                                                   total: "${data[index]['price']} EGP",
+                                                   onTap: () {
+                                                     controllerQ.increaseTheItem(
+                                                         name:data[index]['name'],
+                                                         price: data[index]['p_price'],
+                                                         context: context);
+                                                   },
+                                                   counted: "${data[index]['quantity']}",
+                                                   onTap1: () {
+                                                     setState(() {
+                                                       controllerQ.decreaseTheItem(
+                                                           name: data[index]['name'],
+                                                           price: data[index]['p_price'],
+                                                           context: context);
+                                                     });
+                                                   },
+                                                   context1: context,
+                                                   context2: context,
+                                                 ),
 
-                                    )
-                                  );
+                                           )
+                                       );
+                                     }
+
+                                   },
+                                 );
                                 }
-                              }),
+                              }
+                              ),
                           const Text(
                             'Person',
                             style: TextStyle(fontSize: 32),
@@ -161,37 +190,39 @@ class _BasketScreenState extends State<BasketScreen>
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.to(() => CheckOut());
-                      },
-                      style:
+
+                          ElevatedButton(
+                          onPressed: () {
+                            Get.to(() => CheckOut());
+                          },
+                          style:
                           ElevatedButton.styleFrom(backgroundColor: mainColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Go to Check out",
-                            style: TextStyle(color: whiteColor),
-                          ),
-                          Column(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                               Text(
-                                    "${controller.totalP.obs} EGP",
-                                    style: TextStyle(color: whiteColor),
+                              const Text(
+                                "Go to Check out",
+                                style: TextStyle(color: whiteColor),
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    "${controller.totalP} EGP",
+                                    style: const TextStyle(color: whiteColor),
                                   ),
 
 
-                              const Text(
-                                "Delevery Fees",
-                                style:
+                                  const Text(
+                                    "Delevery Fees",
+                                    style:
                                     TextStyle(fontSize: 9, color: whiteColor),
-                              ),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
-                    ),
+                          ),
+                        ),
+
                   ],
                 ),
               ),

@@ -30,6 +30,12 @@ class FireStoreServices {
     return fireStore.collection(cartCollection).where('added_by', isEqualTo: uid).snapshots();
   }
 
+  static getCartBySub(subSubCategory)  {
+   return fireStore.collection(cartCollection).where('subSubCategory', isEqualTo: subSubCategory).snapshots();
+
+  }
+
+
   ///delete document
 
   static deleteDocument (docId){
