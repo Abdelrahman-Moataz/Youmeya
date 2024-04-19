@@ -178,13 +178,162 @@ class _BasketScreenState extends State<BasketScreen>
                                 }
                               }
                               ),
-                          const Text(
-                            'Person',
-                            style: TextStyle(fontSize: 32),
+                StreamBuilder(
+                    stream: FireStoreServices.getCart(currentUser!.uid),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            valueColor:
+                            AlwaysStoppedAnimation(mainColor),
                           ),
-                          const Text(
-                            'Persongg',
-                            style: TextStyle(fontSize: 32),
+                        );
+                      } else if (snapshot.data!.docs.isEmpty) {
+                        return Center(
+                          child: "Basket is Empty"
+                              .text
+                              .color(bottom)
+                              .make(),
+                        );
+                      } else {
+
+                        return StreamBuilder(
+                          stream: FireStoreServices.getCartBySub('bottoms'),
+                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  valueColor:
+                                  AlwaysStoppedAnimation(mainColor),
+                                ),
+                              );
+                            } else if (snapshot.data!.docs.isEmpty) {
+                              return Center(
+                                child: "Cart is Empty"
+                                    .text
+                                    .color(bottom)
+                                    .make(),
+                              );
+                            } else {
+                              var data = snapshot.data!.docs;
+                              controller.calculate(data);
+                              controller.productSnapshot = data;
+
+                              return ListView(
+                                  children: List.generate(
+                                    data.length,
+                                        (index) =>
+                                        basketCard(
+                                          name: data[index]['name'],
+                                          price: "${int.parse(data[index]['p_price'])}  EGP",
+                                          total: "${data[index]['price']} EGP",
+                                          onTap: () {
+                                            controllerQ.increaseTheItem(
+                                                name:data[index]['name'],
+                                                price: data[index]['p_price'],
+                                                context: context);
+                                          },
+                                          counted: "${data[index]['quantity']}",
+                                          onTap1: () {
+                                            setState(() {
+                                              controllerQ.decreaseTheItem(
+                                                  name: data[index]['name'],
+                                                  price: data[index]['p_price'],
+                                                  context: context);
+                                            });
+                                          },
+                                          context1: context,
+                                          context2: context,
+                                        ),
+
+                                  )
+                              );
+                            }
+
+                          },
+                        );
+                      }
+                    }
+                ),
+
+                          StreamBuilder(
+                              stream: FireStoreServices.getCart(currentUser!.uid),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor:
+                                      AlwaysStoppedAnimation(mainColor),
+                                    ),
+                                  );
+                                } else if (snapshot.data!.docs.isEmpty) {
+                                  return Center(
+                                    child: "Basket is Empty"
+                                        .text
+                                        .color(bottom)
+                                        .make(),
+                                  );
+                                } else {
+
+                                  return StreamBuilder(
+                                    stream: FireStoreServices.getCartBySub('formal'),
+                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                            AlwaysStoppedAnimation(mainColor),
+                                          ),
+                                        );
+                                      } else if (snapshot.data!.docs.isEmpty) {
+                                        return Center(
+                                          child: "Formal Basket is Empty"
+                                              .text
+                                              .color(bottom)
+                                              .make(),
+                                        );
+                                      } else {
+                                        var data = snapshot.data!.docs;
+                                        controller.calculate(data);
+                                        controller.productSnapshot = data;
+
+                                        return ListView(
+                                            children: List.generate(
+                                              data.length,
+                                                  (index) =>
+                                                  basketCard(
+                                                    name: data[index]['name'],
+                                                    price: "${int.parse(data[index]['p_price'])}  EGP",
+                                                    total: "${data[index]['price']} EGP",
+                                                    onTap: () {
+                                                      controllerQ.increaseTheItem(
+                                                          name:data[index]['name'],
+                                                          price: data[index]['p_price'],
+                                                          context: context);
+                                                    },
+                                                    counted: "${data[index]['quantity']}",
+                                                    onTap1: () {
+                                                      setState(() {
+                                                        controllerQ.decreaseTheItem(
+                                                            name: data[index]['name'],
+                                                            price: data[index]['p_price'],
+                                                            context: context);
+                                                      });
+                                                    },
+                                                    context1: context,
+                                                    context2: context,
+                                                  ),
+
+                                            )
+                                        );
+                                      }
+
+                                    },
+                                  );
+                                }
+                              }
                           ),
 
                         ],
