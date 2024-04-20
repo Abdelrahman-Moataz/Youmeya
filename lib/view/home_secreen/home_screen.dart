@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
-          height: h * 0.9,
+          height: h * 0.99,
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(30.0),

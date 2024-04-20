@@ -9,6 +9,7 @@ const Color borderColor = Color.fromARGB(136, 78, 78, 78);
 const Color fontGrey = Color(0xff76889A);
 const Color fontColor = Color(0xffFFFFFF);
 const Color navBarColor = Color(0xff484c52);
+const Color blueBottom = Color(0xff348AF4);
 
 const Color bottom = Color(0xffFAC503);
 

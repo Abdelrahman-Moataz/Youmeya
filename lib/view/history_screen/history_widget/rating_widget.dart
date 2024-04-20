@@ -1,4 +1,5 @@
 import 'package:youmeya/consent/consent.dart';
+import 'package:youmeya/widgets/customTextField.dart';
 
 Widget ratingWidget() {
   return Column(
@@ -49,7 +50,18 @@ Widget ratingWidget() {
                   ),
                   const Text("⭐⭐⭐⭐⭐"),
                   10.heightBox,
-                  TextFormField()
+                  customTextField(
+                    hint: "Write a review",
+                    mLine: 5,
+                    title: "Review",
+                    isPass: false,
+                  ),
+                  10.heightBox,
+                  ourButton(
+                      onPress: () {},
+                      color: mainColor,
+                      textColor: whiteColor,
+                      title: "Submit")
                 ],
               ),
             ),

@@ -2,16 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/controllers/profile_controller.dart';
-import 'package:youmeya/view/checkout_screen/checkout_screen.dart';
+import '../checkout_screen/checkout_screen.dart';
 
-class OrderConfirmation extends StatefulWidget {
-  const OrderConfirmation({super.key});
+
+
+class OldOrderConfirmation extends StatefulWidget {
+  const OldOrderConfirmation({super.key});
 
   @override
-  State<OrderConfirmation> createState() => _OrderConfirmationState();
+  State<OldOrderConfirmation> createState() => _OldOrderConfirmationState();
 }
 
-class _OrderConfirmationState extends State<OrderConfirmation> {
+class _OldOrderConfirmationState extends State<OldOrderConfirmation> {
   String? _selectedLocation; // Option 2
 
   @override

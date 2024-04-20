@@ -17,4 +17,6 @@ const onboarding3 = "assets/imges/Relaxing at home-rafiki(1) 1.png";
 const shirt = "assets/imges/shirt.png";
 const visa = "assets/imges/Visa.png";
 
+const confirmation = "assets/imges/image.png";
+
 List images = [ironOnly, dryClean, lundrey, carpets];
