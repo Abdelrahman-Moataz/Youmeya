@@ -3,6 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:youmeya/view/checkout_screen/widget/cashorvisa.dart';
 import 'package:youmeya/view/checkout_screen/widget/day-container.dart';
+import 'package:youmeya/view/checkout_screen/widget/list_of_items.dart';
+
+import '../../controllers/card_controller.dart';
+import '../../controllers/product_controller.dart';
+import '../../services/firestore_services.dart';
 
 class CheckOut extends StatefulWidget {
   const CheckOut({super.key});
@@ -70,6 +75,9 @@ class _CheckOutState extends State<CheckOut> {
       return tomorrowDate;
     }
 
+    var controller = Get.put(CartController());
+    var controllerQ = Get.put(ProductController());
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -100,25 +108,41 @@ class _CheckOutState extends State<CheckOut> {
                     children: [
                       const Text("Your Basket"),
                       10.heightBox,
-                      Row(
-                        children: [
-                          const Text("3X"),
-                          5.widthBox,
-                          Image.asset(shirt),
-                          15.widthBox,
-                          const Text("3X"),
-                          5.widthBox,
-                          Image.asset(shirt),
-                          15.widthBox,
-                          const Text("3X"),
-                          5.widthBox,
-                          Image.asset(shirt),
-                          15.widthBox,
-                          const Text("3X"),
-                          5.widthBox,
-                          Image.asset(shirt),
-                          15.widthBox,
-                        ],
+                      SizedBox(
+                        height: h * 0.05,
+                        width:  w,
+                        child: StreamBuilder(
+                            stream: FireStoreServices.getCart(currentUser!.uid),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation(mainColor),
+                                  ),
+                                );
+                              } else if (snapshot.data!.docs.isEmpty) {
+                                return Center(
+                                  child:
+                                      "Cart is Empty".text.color(bottom).make(),
+                                );
+                              } else {
+                                var data = snapshot.data!.docs;
+                                controller.calculate(data);
+                                controller.productSnapshot = data;
+                                return ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  //shrinkWrap: true,
+                                  children: List.generate(
+                                    data.length,
+                                    (index) => listOfItems(
+                                      qnt: data[index]['quantity'],
+                                      img: data[index]['img'],
+                                    ),
+                                  ),
+                                );
+                              }
+                            }),
                       ),
                       10.heightBox,
                       const Text("Select Pickup Date"),

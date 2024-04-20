@@ -50,6 +50,7 @@ class ProductController extends GetxController {
     required String price,
     required String pPrice,
     required String name,
+    required String img,
     required BuildContext context,
     required String category,
     required String subSubCategory,
@@ -89,6 +90,7 @@ class ProductController extends GetxController {
       'subSubCategory': subSubCategory,
       'price': price, // Assuming price is already a valid string representation of a double
       'p_price': pPrice,
+      'img': img,
       'name': name,
       'quantity': 1,
       'added_by': currentUser!.uid,

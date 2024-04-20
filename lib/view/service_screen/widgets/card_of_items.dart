@@ -3,6 +3,7 @@ import 'package:youmeya/consent/consent.dart';
 Widget cardOfItems({
   String? price,
   String? name,
+  String? img,
   context1,
   context2,
   void Function()? onTap,
@@ -21,7 +22,7 @@ Widget cardOfItems({
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(shirt),
+                Image.network(img!),
                 Text(name!),
                 Text(price!),
                 IconButton(

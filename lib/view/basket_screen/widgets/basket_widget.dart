@@ -3,6 +3,7 @@ import 'package:youmeya/consent/consent.dart';
 Widget basketCard(
     {String? price,
     String? name,
+      String? img,
     String? counted,
       String? total,
     context1,
@@ -23,7 +24,7 @@ Widget basketCard(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(shirt),
+                Image.network(img!),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

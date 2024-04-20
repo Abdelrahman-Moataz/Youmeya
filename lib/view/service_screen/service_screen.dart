@@ -124,15 +124,17 @@ class _ServiceScreenState extends State<ServiceScreen>
                                     children: List.generate(
                                       snapshot.data!.docs.length,
                                       (index) => cardOfItems(
+                                        img: snapshot.data!.docs[index]['img'],
                                         name: snapshot.data!.docs[index]
                                             ['name'],
                                         price:
                                             "${snapshot.data!.docs[index]['p_price']}  EGP",
                                         onTap: () {
                                           controller.addToCart(
+                                            img: snapshot.data!.docs[index]
+                                                ['img'],
                                             subSubCategory: snapshot.data!
                                                 .docs[index]['subSubCategory'],
-
                                             subCategory: snapshot.data!
                                                 .docs[index]['subCategory'],
                                             price: snapshot.data!.docs[index]
@@ -145,7 +147,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                                                 ['category'],
                                             context: context,
                                           );
-                                          VxToast.show(context, msg: 'Item added to the Basket');
+                                          VxToast.show(context,
+                                              msg: 'Item added to the Basket');
                                         },
                                         context1: context,
                                         context2: context,
@@ -181,26 +184,32 @@ class _ServiceScreenState extends State<ServiceScreen>
                                         (index) => cardOfItems(
                                           name: snapshot.data!.docs[index]
                                               ['name'],
+                                          img: snapshot.data!.docs[index]
+                                              ['img'],
                                           price:
                                               "${snapshot.data!.docs[index]['p_price']}  EGP",
                                           onTap: () {
                                             controller.addToCart(
-                                              subSubCategory: snapshot.data!
-                                                  .docs[index]['subSubCategory'],
-
+                                              img: snapshot.data!.docs[index]
+                                                  ['img'],
+                                              subSubCategory:
+                                                  snapshot.data!.docs[index]
+                                                      ['subSubCategory'],
                                               subCategory: snapshot.data!
                                                   .docs[index]['subCategory'],
                                               price: snapshot.data!.docs[index]
-                                              ['p_price'],
+                                                  ['p_price'],
                                               pPrice: snapshot.data!.docs[index]
-                                              ['p_price'],
+                                                  ['p_price'],
                                               name: snapshot.data!.docs[index]
-                                              ['name'],
-                                              category: snapshot.data!.docs[index]
-                                              ['category'],
+                                                  ['name'],
+                                              category: snapshot.data!
+                                                  .docs[index]['category'],
                                               context: context,
                                             );
-                                            VxToast.show(context, msg: 'Item added to the Basket');
+                                            VxToast.show(context,
+                                                msg:
+                                                    'Item added to the Basket');
                                           },
                                           context1: context,
                                           context2: context,
@@ -235,26 +244,32 @@ class _ServiceScreenState extends State<ServiceScreen>
                                         (index) => cardOfItems(
                                           name: snapshot.data!.docs[index]
                                               ['name'],
+                                          img: snapshot.data!.docs[index]
+                                              ['img'],
                                           price:
                                               "${snapshot.data!.docs[index]['p_price']}  EGP",
                                           onTap: () {
                                             controller.addToCart(
-                                              subSubCategory: snapshot.data!
-                                                  .docs[index]['subSubCategory'],
-
+                                              subSubCategory:
+                                                  snapshot.data!.docs[index]
+                                                      ['subSubCategory'],
                                               subCategory: snapshot.data!
                                                   .docs[index]['subCategory'],
                                               price: snapshot.data!.docs[index]
-                                              ['p_price'],
+                                                  ['p_price'],
                                               pPrice: snapshot.data!.docs[index]
-                                              ['p_price'],
+                                                  ['p_price'],
                                               name: snapshot.data!.docs[index]
-                                              ['name'],
-                                              category: snapshot.data!.docs[index]
-                                              ['category'],
+                                                  ['name'],
+                                              category: snapshot.data!
+                                                  .docs[index]['category'],
                                               context: context,
+                                              img: snapshot.data!.docs[index]
+                                                  ['img'],
                                             );
-                                            VxToast.show(context, msg: 'Item added to the Basket');
+                                            VxToast.show(context,
+                                                msg:
+                                                    'Item added to the Basket');
                                           },
                                           context1: context,
                                           context2: context,
