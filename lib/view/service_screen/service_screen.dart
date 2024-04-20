@@ -50,7 +50,12 @@ class _ServiceScreenState extends State<ServiceScreen>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(""),
+                  IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(Icons.arrow_back_ios),
+                  ),
                   Text(
                     widget.title,
                     style: const TextStyle(
@@ -62,7 +67,7 @@ class _ServiceScreenState extends State<ServiceScreen>
               ),
               20.heightBox,
               SizedBox(
-                height: h * 0.85,
+                height: h * 0.82,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
