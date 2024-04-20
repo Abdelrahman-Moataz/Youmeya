@@ -1,7 +1,4 @@
-import 'dart:ffi';
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/controllers/product_controller.dart';
 import 'package:youmeya/view/basket_screen/widgets/basket_widget.dart';
@@ -340,7 +337,7 @@ class _BasketScreenState extends State<BasketScreen>
                         builder: (value){
                       return ElevatedButton(
                         onPressed: () {
-                          Get.to(() => CheckOut());
+                          Get.to(() => const CheckOut());
                         },
                         style:
                         ElevatedButton.styleFrom(backgroundColor: mainColor),

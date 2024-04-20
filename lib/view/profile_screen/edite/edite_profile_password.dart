@@ -61,18 +61,12 @@ class EditeProfilePassword extends StatelessWidget {
                                 controller.isLoading(true);
 
                                 // if all password matched data base
-                                if (controller.newPassController.value != null) {
-                                  await controller.updateProfilePassword(
-                                    password: controller.newPassController.text,
-                                  );
-                                  VxToast.show(context, msg: "Updated");
-                                  Get.back();
-                                } else {
-                                  VxToast.show(context,
-                                      msg: "Something went wrong");
-                                  controller.isLoading(false);
-                                }
-                              },
+                                await controller.updateProfilePassword(
+                                  password: controller.newPassController.text,
+                                );
+                                VxToast.show(context, msg: "Updated");
+                                Get.back();
+                                                            },
                               color: mainColor,
                               textColor: whiteColor,
                               title: "save")),

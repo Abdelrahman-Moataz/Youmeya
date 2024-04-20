@@ -2,11 +2,10 @@ import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/controllers/home_controller.dart';
 import 'package:youmeya/view/history_screen/history_widget/notification.dart';
 import '../../services/firestore_services.dart';
-import '../order_confirmation_screen/order_confirmation_screen.dart';
 import '../service_screen/service_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

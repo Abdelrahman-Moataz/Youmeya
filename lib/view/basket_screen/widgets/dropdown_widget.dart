@@ -4,8 +4,7 @@ class MyDropdown extends StatelessWidget {
   final String selectedValue; // Initial selected value
   final Function(String) onSelected; // Callback for handling selection
 
-  const MyDropdown({Key? key, required this.selectedValue, required this.onSelected})
-      : super(key: key);
+  const MyDropdown({super.key, required this.selectedValue, required this.onSelected});
 
   @override
   Widget build(BuildContext context) {

@@ -64,18 +64,12 @@ class EditeProfileName extends StatelessWidget {
                             controller.isLoading(true);
               
                             // if all password matched data base
-                            if (controller.nameController.value != null ) {
-                              await controller.updateProfileName(
-                                name: controller.nameController.text,
-                              );
-                              VxToast.show(context, msg: "Updated");
-                              Get.back();
-                            } else {
-                              VxToast.show(context,
-                                  msg: "Something went wrong");
-                              controller.isLoading(false);
-                            }
-                          },
+                            await controller.updateProfileName(
+                              name: controller.nameController.text,
+                            );
+                            VxToast.show(context, msg: "Updated");
+                            Get.back();
+                                                    },
                           color: mainColor,
                           textColor: whiteColor,
                           title: "save")),

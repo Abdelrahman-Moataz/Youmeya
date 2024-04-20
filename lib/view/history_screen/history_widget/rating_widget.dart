@@ -47,7 +47,7 @@ Widget ratingWidget() {
                       ),
                     ],
                   ),
-                  Text("⭐⭐⭐⭐⭐"),
+                  const Text("⭐⭐⭐⭐⭐"),
                   10.heightBox,
                   TextFormField()
                 ],

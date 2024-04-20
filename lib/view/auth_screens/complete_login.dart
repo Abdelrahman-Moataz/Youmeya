@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/nav_bar/nav_bar.dart';
 
@@ -11,6 +9,7 @@ class CompleteLogin extends StatelessWidget {
   @override
   final _formKey = GlobalKey<FormState>(); // Add GlobalKey<FormState>
   var controller = Get.put(AuthController());
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -153,19 +152,24 @@ class CompleteLogin extends StatelessWidget {
                             _formKey.currentState!.save();
                             controller.isLoading(true);
                             try {
+
+                              controller.storeUserLocationData(
+                                address: controller.addressController.text,
+                                buildingName:
+                                controller.buildingNameController.text,
+                                buildingNumber: controller
+                                    .buildingNumberController.text,
+                                floorNumber:
+                                controller.floorNumberController.text,
+                                flatNumber:
+                                controller.flatNumberController.text,
+                                moreDetails:
+                                controller.moreDetailsController.text,
+                              );
+
                               controller
                                   .storeUserCompleteData(
-                                      address: controller.addressController.text,
-                                      buildingName:
-                                          controller.buildingNameController.text,
-                                      buildingNumber: controller
-                                          .buildingNumberController.text,
-                                      floorNumber:
-                                          controller.floorNumberController.text,
-                                      flatNumber:
-                                          controller.flatNumberController.text,
-                                      moreDetails:
-                                          controller.moreDetailsController.text,
+
                                       name: controller.nameController.text,
                                       phoneNumber:
                                           controller.phoneNumberController.text)

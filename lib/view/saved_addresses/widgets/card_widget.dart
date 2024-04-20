@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:youmeya/consent/consent.dart';
 
 Widget cardWidget({double? w, double? h, String? title, String? body}) {
   return Card(
-      color: fontGrey,
+      color: bottom,
       elevation: 0.3,
       child: Container(
         decoration: const BoxDecoration(),
@@ -20,7 +19,7 @@ Widget cardWidget({double? w, double? h, String? title, String? body}) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "$Title",
+                      "$title",
                       style: const TextStyle(color: whiteColor),
                     ),
                     Text(

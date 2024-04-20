@@ -1,12 +1,11 @@
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/auth_screens/complete_login.dart';
-import 'package:youmeya/view/nav_bar/nav_bar.dart';
 import '../../../controllers/auth_controller.dart';
 import 'login_screen.dart';
 
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();

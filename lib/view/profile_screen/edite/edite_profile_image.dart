@@ -5,7 +5,7 @@ import '../../../controllers/profile_controller.dart';
 class EditProfileImage extends StatelessWidget {
   final dynamic data;
 
-  const EditProfileImage({Key? key, this.data}) : super(key: key);
+  const EditProfileImage({super.key, this.data});
 
   @override
   Widget build(BuildContext context) {

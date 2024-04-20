@@ -71,17 +71,29 @@ class AuthController extends GetxController {
   storeUserCompleteData(
       {name,
       phoneNumber,
-      address,
-      buildingName,
-      buildingNumber,
-      floorNumber,
-      flatNumber,
-      moreDetails}) async {
+}) async {
     DocumentReference store =
         fireStore.collection(locationCollection).doc(currentUser!.uid);
     store.update({
       'name': name,
       'phone_number': phoneNumber,
+      'id': currentUser!.uid,
+    });
+  }
+
+  /// sstore the location data
+
+
+  storeUserLocationData(
+      {address,
+        buildingName,
+        buildingNumber,
+        floorNumber,
+        flatNumber,
+        moreDetails}) async {
+    DocumentReference store =
+    fireStore.collection(locationCollection).doc(currentUser!.uid);
+    store.set({
       'address': address,
       'buildingName': buildingName,
       'buildingNumber': buildingNumber,

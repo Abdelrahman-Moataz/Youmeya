@@ -1,5 +1,4 @@
 import 'package:youmeya/consent/consent.dart';
-import 'package:youmeya/view/auth_screens/login_screen.dart';
 import 'package:youmeya/view/splash_screen/onboarding_screen.dart';
 
 

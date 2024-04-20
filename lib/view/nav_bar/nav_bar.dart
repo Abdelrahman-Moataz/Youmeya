@@ -7,7 +7,7 @@ import '../home_secreen/home_screen.dart';
 import '../profile_screen/profile_screen.dart';
 
 class NavBar extends StatelessWidget {
-  const NavBar({Key? key}) : super(key: key);
+  const NavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,10 @@ class NavBar extends StatelessWidget {
     ];
 
     var navBody = [
-      HomeScreen(),
-      HistoryScreen(),
-      BasketScreen(),
-      ProfileScreen(),
+      const HomeScreen(),
+      const HistoryScreen(),
+      const BasketScreen(),
+      const ProfileScreen(),
 
 
     ];

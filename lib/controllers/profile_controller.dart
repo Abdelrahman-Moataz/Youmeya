@@ -35,7 +35,7 @@ class ProfileController extends GetxController {
         throw Exception("Current user is null. Cannot upload profile image.");
       }
 
-      if (profileImPath.value == null || profileImPath.value.isEmpty) {
+      if (profileImPath.value.isEmpty) {
         throw Exception("Profile image path is empty. Cannot upload profile image.");
       }
 

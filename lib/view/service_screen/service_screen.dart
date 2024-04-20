@@ -1,10 +1,7 @@
 import 'package:youmeya/consent/consent.dart';
-import 'package:youmeya/view/basket_screen/widgets/basket_widget.dart';
 import 'package:youmeya/view/service_screen/widgets/card_of_items.dart';
-import '../../controllers/card_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../services/firestore_services.dart';
-import '../checkout_screen/checkout_screen.dart';
 import '../history_screen/history_widget/notification.dart';
 
 class ServiceScreen extends StatefulWidget {

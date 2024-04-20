@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/auth_screens/sign_up_screen.dart';
 import 'package:youmeya/view/nav_bar/nav_bar.dart';

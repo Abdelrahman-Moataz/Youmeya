@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/saved_addresses/add_new_address.dart';
 import 'package:youmeya/view/saved_addresses/widgets/card_widget.dart';
 
+import '../../services/firestore_services.dart';
+import '../history_screen/history_widget/card_wdget.dart';
+
 class savedAddresses extends StatelessWidget {
-  const savedAddresses({Key? key}) : super(key: key);
+  const savedAddresses({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,44 +34,32 @@ class savedAddresses extends StatelessWidget {
               color: Colors.white,
               child: Column(children: [
                 10.heightBox,
-                Card(
-                    color: mainColor,
-                    elevation: 0.3,
-                    child: Container(
-                      decoration: const BoxDecoration(),
-                      padding: const EdgeInsets.all(5),
-                      width: w,
-                      height: h * 0.08,
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(Icons.location_on,
-                                  color: Colors.white),
-                              15.widthBox,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Home",
-                                    style: TextStyle(color: whiteColor),
-                                  ),
-                                  Text(
-                                    "Street 15 b16 Flat 40  qertyuiopppp",
-                                    style: TextStyle(color: whiteColor),
-                                  ),
-                                ],
-                              ),
-                            ],
+                StreamBuilder(
+                    stream: FireStoreServices.getLocation(currentUser!.uid),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(mainColor),
                           ),
-                        ],
-                      ),
-                    )),
-                cardWidget(
-                    w: w,
-                    h: h * 0.08,
-                    title: "Work",
-                    body: "Street 15 b16 Flat 40 "),
+                        );
+                      } else {
+                        var data = snapshot.data!.docs;
+                        return ListView(
+                          shrinkWrap: true,
+                          children: List.generate(
+                            data.length,
+                            (index) => cardWidget(
+                                w: w,
+                                h: h * 0.08,
+                                body:
+                                    "Street ${data[index]["buildingName"]}, ${data[index]["flatNumber"]}, flat ${data[index]["floorNumber"]} ",
+                                title: data[index]['address']),
+                          ),
+                        );
+                      }
+                    }),
                 SizedBox(
                   height: h * 0.4,
                 ),
