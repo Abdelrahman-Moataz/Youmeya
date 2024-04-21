@@ -151,35 +151,20 @@ class _CheckOutState extends State<CheckOut> {
                       10.heightBox,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          dayContainer(
-                              context1: context,
-                              context2: context,
-                              day: getTodayDayName(),
-                              date: getTodayDate(),
-                              colorr: bottom),
-                          5.widthBox,
-                          dayContainer(
-                              context1: context,
-                              context2: context,
-                              day: getTomorrowsDayName(1),
-                              date: getTomorrowsDate(1),
-                              colorr: mainColor),
-                          5.widthBox,
-                          dayContainer(
-                              context1: context,
-                              context2: context,
-                              day: getTomorrowsDayName(2),
-                              date: getTomorrowsDate(2),
-                              colorr: mainColor),
-                          5.widthBox,
-                          dayContainer(
-                              context1: context,
-                              context2: context,
-                              day: getTomorrowsDayName(3),
-                              date: getTomorrowsDate(3),
-                              colorr: mainColor),
-                        ],
+                        children: List.generate(4, (index) => dayContainer(
+                            context1: context,
+                            context2: context
+                            ,onTap: () {
+
+                        },
+                            day: getTomorrowsDayName(index),
+                            date: getTomorrowsDate(index),
+                            colorr: index== 0 ? mainColor : bottom,),
+                          )
+
+
+
+                        ,
                       ),
                       10.heightBox,
                       const Text("Select Pickup Time"),
