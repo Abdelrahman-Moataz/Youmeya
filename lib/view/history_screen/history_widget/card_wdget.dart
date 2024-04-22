@@ -3,8 +3,7 @@ import 'package:youmeya/view/history_screen/history_widget/rating_widget.dart';
 
 import '../../order_status_screen/order_status_screen.dart';
 
-
-Widget CardWidget({context1, context2}) {
+Widget CardWidget({context1, context2, Timestamp? date}) {
   final w = MediaQuery.of(context1).size.width;
   final h = MediaQuery.of(context2).size.height;
   return SizedBox(
@@ -131,12 +130,12 @@ Widget CardWidget({context1, context2}) {
               ],
             ),
             const Divider(),
-            const Padding(
-              padding: EdgeInsets.only(left: 16.0, right: 16.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Number Of Items: 2",
                     style: TextStyle(
                         fontSize: 10,
@@ -144,8 +143,8 @@ Widget CardWidget({context1, context2}) {
                         fontWeight: FontWeight.w400),
                   ),
                   Text(
-                    "31 March 2024",
-                    style: TextStyle(
+                    "${date!.toDate().day}/${date.toDate().month}/${date.toDate().year}  ${date.toDate().hour}:${date.toDate().minute} ${date.toDate().hour > 12 ? "PM" : "AM"}",
+                    style: const TextStyle(
                         fontSize: 10,
                         fontFamily: interThin,
                         fontWeight: FontWeight.w400),

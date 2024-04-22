@@ -54,9 +54,11 @@ class FireStoreServices {
   }
 
 
-  static getAllOrders(){
-    return fireStore.collection(serviceDetails).where('added_by', isEqualTo: currentUser!.uid).snapshots();
+  static getAllOrders(uid){
+    return fireStore.collection(ordersCollection).where('order_by', isEqualTo: uid).snapshots();
   }
+
+
 
 
   static getWishlists(){
