@@ -36,8 +36,8 @@ class FireStoreServices {
   }
 
 
-  static getCartBySub(subSubCategory)  {
-   return fireStore.collection(cartCollection).where('subSubCategory', isEqualTo: subSubCategory).snapshots();
+  static getCartBySub(subSubCategory,uid)  {
+   return fireStore.collection(cartCollection).where('subSubCategory', isEqualTo: subSubCategory).where('added_by', isEqualTo: uid).snapshots();
 
   }
 
