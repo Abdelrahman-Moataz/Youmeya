@@ -139,7 +139,7 @@ class ProductController extends GetxController {
   }
 
 
-  // decrease the items
+
   Future<void> decreaseTheItem({
     //required String subCategory,
     required String price,
@@ -150,9 +150,6 @@ class ProductController extends GetxController {
     final userCartRef = FirebaseFirestore.instance
         .collection(cartCollection)
         .where('added_by', isEqualTo: currentUser!.uid);
-
-
-
     // Check for existing cart item for the same user and product
     final matchingItems = await userCartRef.where('name', isEqualTo: name).get();
 
@@ -165,16 +162,59 @@ class ProductController extends GetxController {
       final int newTotalPrice = int.parse(price) ?? 0; // Handle potential parsing errors
       final updatedTotalPrice = (existingQuantity - 1) * newTotalPrice;
 
-      await existingItem.reference.update({
-        'quantity': existingQuantity - 1,
-        'price': updatedTotalPrice.toString(), // Convert back to string for Firestore
-      }).catchError((error) {
-        VxToast.show(context, msg: 'Error updating cart item: $error');
-      });
-      return; // No need to add a new document if item exists
+      if (existingQuantity == 1) {
+        // Remove the item if its quantity becomes zero
+        await existingItem.reference.delete().catchError((error) {
+          VxToast.show(context, msg: 'Error removing cart item: $error');
+        });
+      } else {
+        // Update quantity and total price
+        await existingItem.reference.update({
+          'quantity': existingQuantity - 1,
+          'price': updatedTotalPrice.toString(), // Convert back to string for Firestore
+        }).catchError((error) {
+          VxToast.show(context, msg: 'Error updating cart item: $error');
+        });
+      }
     }
-
   }
+
+
+
+
+  // decrease the items
+  // Future<void> decreaseTheItem({
+  //   //required String subCategory,
+  //   required String price,
+  //   required String name,
+  //   required BuildContext context,
+  //   //required String category,
+  // }) async {
+  //   final userCartRef = FirebaseFirestore.instance
+  //       .collection(cartCollection)
+  //       .where('added_by', isEqualTo: currentUser!.uid);
+  //   // Check for existing cart item for the same user and product
+  //   final matchingItems = await userCartRef.where('name', isEqualTo: name).get();
+  //
+  //   // Handle existing item: update quantity and total price
+  //   if (matchingItems.docs.isNotEmpty) {
+  //     final existingItem = matchingItems.docs.first;
+  //     final existingQuantity = existingItem.get('quantity')?.toInt() ?? 1;
+  //     final existingPrice = int.tryParse(existingItem.get('p_price')!.toString()) ?? 0.0; // Handle potential parsing errors
+  //
+  //     final int newTotalPrice = int.parse(price) ?? 0; // Handle potential parsing errors
+  //     final updatedTotalPrice = (existingQuantity - 1) * newTotalPrice;
+  //
+  //     await existingItem.reference.update({
+  //       'quantity': existingQuantity - 1,
+  //       'price': updatedTotalPrice.toString(), // Convert back to string for Firestore
+  //     }).catchError((error) {
+  //       VxToast.show(context, msg: 'Error updating cart item: $error');
+  //     });
+  //     return; // No need to add a new document if item exists
+  //   }
+  //
+  // }
 
 
 

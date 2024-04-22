@@ -67,7 +67,6 @@ class CartController extends GetxController {
       'order_on_delivery': false,
       'total_amount': totalAmount,
       'orders': FieldValue.arrayUnion(products),
-      'vendors': FieldValue.arrayUnion(vendors)
     });
     placingOrder(false);
   }
@@ -77,14 +76,17 @@ class CartController extends GetxController {
     vendors.clear();
     for (var i = 0; i < productSnapshot.length; i++) {
       products.add({
-        'color': productSnapshot[i]['color'],
+        //'color': productSnapshot[i]['color'],
         'img': productSnapshot[i]['img'],
-        'vendor_id': productSnapshot[i]['vendor_id'],
-        'tPrice': productSnapshot[i]['tPrice'],
-        'qty': productSnapshot[i]['qty'],
-        'title': productSnapshot[i]['title'],
+        'added_by': productSnapshot[i]['added_by'],
+        'name': productSnapshot[i]['name'],
+        'Price': productSnapshot[i]['price'],
+        'qty': productSnapshot[i]['quantity'],
+        'category': productSnapshot[i]['category'],
+        'sub_category': productSnapshot[i]['sub_category'],
+        'title': productSnapshot[i]['subSubCategory'],
       });
-      vendors.add(productSnapshot[i]['vendor_id']);
+
     }
   }
 

@@ -10,15 +10,9 @@ import '../../services/firestore_services.dart';
 import '../old_order_confirmation_screen/old_order_confirmation_screen.dart';
 import '../order_confirmation/order_confirmation.dart';
 
+class CheckOut extends StatelessWidget {
+   CheckOut({super.key});
 
-class CheckOut extends StatefulWidget {
-  const CheckOut({super.key});
-
-  @override
-  State<CheckOut> createState() => _CheckOutState();
-}
-
-class _CheckOutState extends State<CheckOut> {
   DateTime? _selectedTime;
 
   void _showTimePicker(BuildContext context) {
@@ -32,9 +26,7 @@ class _CheckOutState extends State<CheckOut> {
             mode: CupertinoDatePickerMode.time,
             initialDateTime: DateTime.now(),
             onDateTimeChanged: (DateTime newDateTime) {
-              setState(() {
-                _selectedTime = newDateTime;
-              });
+              _selectedTime = newDateTime;
             },
           ),
         );
@@ -80,6 +72,11 @@ class _CheckOutState extends State<CheckOut> {
     var controller = Get.put(CartController());
     var controllerQ = Get.put(ProductController());
 
+    int selectedIndex = 0;
+
+    List<String> pay = ["Cash", "Visa"];
+    List<String> payImg = [cash, visa];
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -112,7 +109,7 @@ class _CheckOutState extends State<CheckOut> {
                       10.heightBox,
                       SizedBox(
                         height: h * 0.05,
-                        width:  w,
+                        width: w,
                         child: StreamBuilder(
                             stream: FireStoreServices.getCart(currentUser!.uid),
                             builder: (BuildContext context,
@@ -120,7 +117,8 @@ class _CheckOutState extends State<CheckOut> {
                               if (!snapshot.hasData) {
                                 return const Center(
                                   child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation(mainColor),
+                                    valueColor:
+                                        AlwaysStoppedAnimation(mainColor),
                                   ),
                                 );
                               } else if (snapshot.data!.docs.isEmpty) {
@@ -151,20 +149,19 @@ class _CheckOutState extends State<CheckOut> {
                       10.heightBox,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(4, (index) => dayContainer(
+                        children: List.generate(
+                          4,
+                          (index) => dayContainer(
                             context1: context,
-                            context2: context
-                            ,onTap: () {
-
-                        },
+                            context2: context,
+                            onTap: () {
+                              index = selectedIndex;
+                            },
                             day: getTomorrowsDayName(index),
                             date: getTomorrowsDate(index),
-                            colorr: index== 0 ? mainColor : bottom,),
-                          )
-
-
-
-                        ,
+                            colorr: index == 1 ? mainColor : bottom,
+                          ),
+                        ),
                       ),
                       10.heightBox,
                       const Text("Select Pickup Time"),
@@ -204,19 +201,26 @@ class _CheckOutState extends State<CheckOut> {
                       10.heightBox,
                       const Text("Payment Method"),
                       10.heightBox,
-                      cashOrVisa(
-                          context1: context,
-                          context2: context,
-                          title: "Cash",
-                          colur: mainColor,
-                          img: cash),
-                      5.heightBox,
-                      cashOrVisa(
-                        context1: context,
-                        img: visa,
-                        context2: context,
-                        title: "Visa",
-                        colur: whiteColor,
+                      Column(
+                        children: List.generate(
+                            2,
+                            (index) => GestureDetector(
+                                  onTap: () {
+                                    selectedIndex =
+                                        index; // Update selectedIndex to the tapped index
+                                    print(index);
+                                  },
+                                  child: cashOrVisa(
+                                    context1: context,
+                                    context2: context,
+                                    title: pay[index],
+                                    colur: index ==0
+                                        ? mainColor
+                                        : Colors
+                                            .grey, // Change color based on the selected index
+                                    img: payImg[index],
+                                  ),
+                                )),
                       ),
                       10.heightBox,
                       const Text("Special Request"),
@@ -236,11 +240,11 @@ class _CheckOutState extends State<CheckOut> {
                       ),
                       15.heightBox,
                       Column(children: [
-                        const Row(
+                        Row(
                           children: [
-                            Text("Subtotal"),
-                            Spacer(),
-                            Text("100 EGP"),
+                            const Text("Subtotal"),
+                            const Spacer(),
+                            Text("${controller.totalP} EGP"),
                           ],
                         ),
                         const Row(
@@ -253,17 +257,21 @@ class _CheckOutState extends State<CheckOut> {
                         const Divider(
                           color: bottom,
                         ),
-                        const Row(
+                        Row(
                           children: [
-                            Text("Total"),
-                            Spacer(),
-                            Text("200 EGP"),
+                            const Text("Total"),
+                            const Spacer(),
+                            Text("${controller.totalP + 100} EGP"),
                           ],
                         ),
                         15.heightBox,
                         ourButton(
-                          onPress: () {
-                            Get.to(()=>const OrderConfirmation());
+                          onPress: () async{
+                            await controller.placeMyOrder(
+                                orderPaymentMethod: "cash",
+                                totalAmount: controller.totalP.value);
+                           await controller.clearCart();
+                            Get.to(() => const OrderConfirmation());
                           },
                           color: mainColor,
                           textColor: whiteColor,

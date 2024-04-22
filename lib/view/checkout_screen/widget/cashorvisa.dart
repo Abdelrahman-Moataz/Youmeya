@@ -1,38 +1,40 @@
 import 'package:youmeya/consent/consent.dart';
 
-Widget cashOrVisa({context1,context2,String? img,String? title, Color? colur,String? title1}) {
+Widget cashOrVisa({
+  context1,
+  context2,
+  String? img,
+  String? title,
+  Color? colur,
+}) {
   final w = MediaQuery.of(context1).size.width;
   final h = MediaQuery.of(context2).size.height;
-  return Container(
-    height: h * 0.05,
-    width: w * 0.3,
-    decoration: BoxDecoration(
-      color: colur,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Row(
-      children: [
-        Image.asset(img!),
-        Text(
-          title!,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 20,
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 10.0),
+    child: Container(
+      height: h * 0.06,
+      width: w,
+      decoration: BoxDecoration(
+        color: colur, // Use colur parameter for the background color
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(width: 2.0, color: colur!), // Use colur parameter for the border color
+      ),
+      child: Row(
+        children: [
+          Image.asset(img!),
+          SizedBox(width: 10),
+          Text(
+            title!,
+            style: const TextStyle(
+              color: whiteColor,
+              fontSize: 20,
+            ),
           ),
-        ),
-
-      ],
-    )
+        ],
+      ),
+    ),
   );
 }
-
-
-
-
-
-
-
-
 
 
 // Container(
