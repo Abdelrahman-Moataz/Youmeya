@@ -1,5 +1,7 @@
 import 'package:youmeya/consent/consent.dart';
 
+import '../order_status_screen/order_status_screen.dart';
+
 class OrderDetails extends StatelessWidget {
   const OrderDetails({super.key});
 
@@ -186,7 +188,7 @@ class OrderDetails extends StatelessWidget {
                                       Text("280 EGP"),
                                     ]),
                                 5.heightBox,
-                                const Divider(),
+                                const Divider(color: bottom,thickness: 1.5,),
                                 5.heightBox,
                                 const Row(
                                     mainAxisAlignment:
@@ -207,10 +209,12 @@ class OrderDetails extends StatelessWidget {
                           left: 30.0,
                         ),
                         child: ourButton(
-                            onPress: () {},
+                            onPress: () {
+                              Get.to(()=>const OrderStatus());
+                            },
                             color: mainColor,
                             textColor: whiteColor,
-                            title: "Track Your Order"),
+                            title: "Track Your Order",),
                       )
                     ],
                   ),
