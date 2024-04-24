@@ -3,7 +3,7 @@ import 'package:youmeya/view/history_screen/history_widget/rating_widget.dart';
 
 import '../../order_status_screen/order_status_screen.dart';
 
-Widget CardWidget({context1, context2, Timestamp? date}) {
+Widget CardWidget({context1, context2, Timestamp? date,Function()? onTap}) {
   final w = MediaQuery.of(context1).size.width;
   final h = MediaQuery.of(context2).size.height;
   return SizedBox(
@@ -72,9 +72,7 @@ Widget CardWidget({context1, context2, Timestamp? date}) {
                           width: w * 0.2,
                           height: h * 0.05,
                           child: InkWell(
-                            onTap: () {
-                              Get.dialog(const OrderStatus());
-                            },
+                            onTap: onTap,
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.blue),

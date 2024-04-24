@@ -17,28 +17,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final userController = Get.find<HomeController>();
 
-  @override
-  void initState() {
-    super.initState();
-    _initLocations();
-  }
-
-  void _initLocations() {
-    setState(() {
-      _locations = [
-        '${userController.userName} Work',
-        '${userController.userName} Home'
-      ];
-    });
-  }
-
   String? _selectedLocation;
 
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
-    var user = _homeController.userName;
+
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
@@ -121,25 +106,49 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         const SizedBox(height: 20),
-                                        Expanded(
-                                          child: ListView.builder(
-                                            itemCount: _locations.length,
-                                            itemBuilder: (context, index) {
-                                              final location =
-                                                  _locations[index];
-                                              return ListTile(
-                                                title: Text(location),
-                                                onTap: () {
-                                                  setState(() {
-                                                    _selectedLocation =
-                                                        location;
-                                                  });
-                                                  Navigator.pop(context);
-                                                },
-                                              );
-                                            },
-                                          ),
-                                        ),
+                                        StreamBuilder(
+                                            stream:
+                                                FireStoreServices.getLocation(
+                                                    currentUser!.uid),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<QuerySnapshot>
+                                                    snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return const Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation(
+                                                            mainColor),
+                                                  ),
+                                                );
+                                              } else {
+                                                var data = snapshot.data!.docs;
+
+                                                return Expanded(
+                                                  child: ListView.builder(
+                                                    itemCount:
+                                                    data.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      final location =
+                                                      data[index]['address'];
+                                                      return ListTile(
+                                                        title: Text(location),
+                                                        onTap: () {
+                                                          setState(() {
+                                                            _selectedLocation =
+                                                                location;
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              }
+                                            }),
                                       ],
                                     ),
                                   );
@@ -234,7 +243,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context, index) {
                               return homeWidget(
                                 onTap: () {
-                                  Get.to(() =>  ServiceScreen(title: homeTitle[index],));
+                                  Get.to(() => ServiceScreen(
+                                        title: homeTitle[index],
+                                      ));
                                 },
                                 h: h * 0.2,
                                 w: w * 0.2,

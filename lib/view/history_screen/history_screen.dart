@@ -1,6 +1,7 @@
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/history_screen/history_widget/card_wdget.dart';
 import 'package:youmeya/view/history_screen/history_widget/notification.dart';
+import 'package:youmeya/view/order_details/order_details.dart';
 
 import '../../services/firestore_services.dart';
 
@@ -54,8 +55,13 @@ class HistoryScreen extends StatelessWidget {
                       return ListView(
                           children: List.generate(
                         data.length,
-                        (index) =>
-                            CardWidget(date: data[index]['order_date'],context1: context, context2: context),
+                        (index) => CardWidget(
+                            date: data[index]['order_date'],
+                            context1: context,
+                            context2: context,
+                            onTap: () {
+                              Get.to(() => const OrderDetails());
+                            }),
                       ));
                     }
                   },
