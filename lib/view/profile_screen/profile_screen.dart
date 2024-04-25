@@ -52,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          10.heightBox,
+                          5.heightBox,
                           Container(
                             width: double.infinity,
                             height: h * 0.16,
@@ -71,7 +71,7 @@ class ProfileScreen extends StatelessWidget {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "${data['name']}",
+                                            "Name: ${data['name']}",
                                             style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 19,
@@ -79,8 +79,9 @@ class ProfileScreen extends StatelessWidget {
                                               fontWeight: FontWeight.w700,
                                             ),
                                           ),
+                                          5.heightBox,
                                           Text(
-                                            "+2 ${data['phone_number']}",
+                                            "Phone Number: +2 ${data['phone_number']}",
                                             style: const TextStyle(
                                               color: Color.fromARGB(
                                                   255, 102, 102, 102),
@@ -89,18 +90,7 @@ class ProfileScreen extends StatelessWidget {
                                               fontWeight: FontWeight.w700,
                                             ),
                                           ),
-                                          5.heightBox,
-                                          Text(
-                                            "${data['id']}",
-                                            style: const TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 102, 102, 102),
-                                              fontSize: 10,
-                                              fontFamily: medium,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          5.heightBox,
+
                                         ],
                                       )
                                     ],

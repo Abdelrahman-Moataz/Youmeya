@@ -3,7 +3,7 @@ import 'package:youmeya/view/history_screen/history_widget/rating_widget.dart';
 
 import '../../order_status_screen/order_status_screen.dart';
 
-Widget CardWidget({context1, context2, Timestamp? date,Function()? onTap}) {
+Widget CardWidget({String? OrderNumber,String? number,context1, context2, Timestamp? date,Function()? onTap}) {
   final w = MediaQuery.of(context1).size.width;
   final h = MediaQuery.of(context2).size.height;
   return SizedBox(
@@ -53,9 +53,9 @@ Widget CardWidget({context1, context2, Timestamp? date,Function()? onTap}) {
                               fontWeight: FontWeight.normal,
                             )),
                         (h * 0.005).heightBox,
-                        const Text(
-                          "Order num: #123456",
-                          style: TextStyle(
+                         Text(
+                          "Order num: #$OrderNumber",
+                          style: const TextStyle(
                             fontSize: 10,
                             fontFamily: interThin,
                             fontWeight: FontWeight.w400,
@@ -133,9 +133,9 @@ Widget CardWidget({context1, context2, Timestamp? date,Function()? onTap}) {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Number Of Items: 2",
-                    style: TextStyle(
+                   Text(
+                    "Number Of Items: $number",
+                    style:const  TextStyle(
                         fontSize: 10,
                         fontFamily: interThin,
                         fontWeight: FontWeight.w400),

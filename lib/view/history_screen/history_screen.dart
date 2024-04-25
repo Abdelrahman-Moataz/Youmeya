@@ -57,7 +57,9 @@ class HistoryScreen extends StatelessWidget {
                         data.length,
                         (index) => CardWidget(
                             date: data[index]['order_date'],
+                            OrderNumber: data[index]['order_code'],
                             context1: context,
+                            number: data[index]['orders'].length.toString(),
                             context2: context,
                             onTap: () {
                               Get.to(() => const OrderDetails());
