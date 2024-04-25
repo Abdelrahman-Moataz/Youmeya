@@ -110,7 +110,7 @@ class _BasketScreenState extends State<BasketScreen>
                               } else if (snapshot.data!.docs.isEmpty) {
                                 return Center(
                                   child:
-                                      "Cart is Empty".text.color(bottom).make(),
+                                      "Tops Basket is Empty".text.color(bottom).make(),
                                 );
                               } else {
                                 var data = snapshot.data!.docs;
@@ -161,7 +161,7 @@ class _BasketScreenState extends State<BasketScreen>
                               } else if (snapshot.data!.docs.isEmpty) {
                                 return Center(
                                   child:
-                                      "Cart is Empty".text.color(bottom).make(),
+                                      "Bottoms Basket is Empty".text.color(bottom).make(),
                                 );
                               } else {
                                 var data = snapshot.data!.docs;
