@@ -29,13 +29,6 @@ class _BasketScreenState extends State<BasketScreen>
     super.dispose();
   }
 
-  int count0 = 1;
-  int count1 = 1;
-  int count2 = 1;
-  int count3 = 1;
-  int count4 = 1;
-  int count5 = 1;
-
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
@@ -109,8 +102,10 @@ class _BasketScreenState extends State<BasketScreen>
                                 );
                               } else if (snapshot.data!.docs.isEmpty) {
                                 return Center(
-                                  child:
-                                      "Tops Basket is Empty".text.color(bottom).make(),
+                                  child: "Tops Basket is Empty"
+                                      .text
+                                      .color(bottom)
+                                      .make(),
                                 );
                               } else {
                                 var data = snapshot.data!.docs;
@@ -160,8 +155,10 @@ class _BasketScreenState extends State<BasketScreen>
                                 );
                               } else if (snapshot.data!.docs.isEmpty) {
                                 return Center(
-                                  child:
-                                      "Bottoms Basket is Empty".text.color(bottom).make(),
+                                  child: "Bottoms Basket is Empty"
+                                      .text
+                                      .color(bottom)
+                                      .make(),
                                 );
                               } else {
                                 var data = snapshot.data!.docs;
@@ -253,38 +250,61 @@ class _BasketScreenState extends State<BasketScreen>
                         ],
                       ),
                     ),
-                    GetBuilder(
-                        init: controller,
-                        builder: (value) {
-                          return ElevatedButton(
-                            onPressed: () {
-                              Get.to(() => CheckOut());
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: mainColor),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Go to Check out",
-                                  style: TextStyle(color: whiteColor),
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      "${value.totalP} EGP",
-                                      style: const TextStyle(color: whiteColor),
-                                    ),
-                                    const Text(
-                                      "Delivery Fees",
-                                      style: TextStyle(
-                                          fontSize: 9, color: whiteColor),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          );
+                    StreamBuilder(
+                        stream: FireStoreServices.getCart(
+                            currentUser!.uid),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(mainColor),
+                              ),
+                            );
+                          } else if (snapshot.data!.docs.isEmpty) {
+                            return Center(
+                              child: "Formal Basket is Empty"
+                                  .text
+                                  .color(bottom)
+                                  .make(),
+                            );
+                          } else {
+                            var data = snapshot.data!.docs;
+                            controller.calculate(data);
+                            controller.productSnapshot = data;
+
+                            return ElevatedButton(
+                              onPressed: () {
+                                Get.to(() => CheckOut());
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: mainColor),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Go to Check out",
+                                    style: TextStyle(color: whiteColor),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "${controller.totalP} EGP",
+                                        style:
+                                            const TextStyle(color: whiteColor),
+                                      ),
+                                      const Text(
+                                        "Delivery Fees",
+                                        style: TextStyle(
+                                            fontSize: 9, color: whiteColor),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                          }
                         }),
                   ],
                 ),

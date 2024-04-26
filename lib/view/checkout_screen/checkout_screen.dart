@@ -159,7 +159,7 @@ class CheckOut extends StatelessWidget {
                             },
                             day: getTomorrowsDayName(index),
                             date: getTomorrowsDate(index),
-                            colorr: index == 1 ? mainColor : bottom,
+                            colorr: index == 0 ? mainColor : bottom,
                           ),
                         ),
                       ),
@@ -251,7 +251,7 @@ class CheckOut extends StatelessWidget {
                           children: [
                             Text("Delivery"),
                             Spacer(),
-                            Text("100 EGP"),
+                            Text("25 EGP"),
                           ],
                         ),
                         const Divider(
@@ -261,7 +261,7 @@ class CheckOut extends StatelessWidget {
                           children: [
                             const Text("Total"),
                             const Spacer(),
-                            Text("${controller.totalP + 100} EGP"),
+                            Text("${controller.totalP + 25} EGP"),
                           ],
                         ),
                         15.heightBox,

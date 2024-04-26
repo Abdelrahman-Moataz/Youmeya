@@ -33,12 +33,12 @@ class CartController extends GetxController {
     }
   }
 
-  calculateItem(data, index) {
-    totalP.value = 0;
-    for (var i = 0; i < data[index]['price']; i++) {
-      totalP.value = totalP.value + int.parse(data[i]['price'].toString());
-    }
-  }
+  // calculateItem(data, index) {
+  //   totalP.value = 0;
+  //   for (var i = 0; i < data[index]['price']; i++) {
+  //     totalP.value = totalP.value + int.parse(data[i]['price'].toString());
+  //   }
+  // }
 
   changePaymentIndex(index) {
     paymentIndex.value = index;
