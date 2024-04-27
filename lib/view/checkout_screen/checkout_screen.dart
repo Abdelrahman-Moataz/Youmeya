@@ -10,9 +10,14 @@ import '../../services/firestore_services.dart';
 import '../old_order_confirmation_screen/old_order_confirmation_screen.dart';
 import '../order_confirmation/order_confirmation.dart';
 
-class CheckOut extends StatelessWidget {
-   CheckOut({super.key});
+class CheckOut extends StatefulWidget {
+  CheckOut({super.key});
 
+  @override
+  State<CheckOut> createState() => _CheckOutState();
+}
+
+class _CheckOutState extends State<CheckOut> {
   DateTime? _selectedTime;
 
   void _showTimePicker(BuildContext context) {
@@ -26,7 +31,10 @@ class CheckOut extends StatelessWidget {
             mode: CupertinoDatePickerMode.time,
             initialDateTime: DateTime.now(),
             onDateTimeChanged: (DateTime newDateTime) {
-              _selectedTime = newDateTime;
+              setState(() {
+                _selectedTime = newDateTime;
+                print(_selectedTime);
+              });
             },
           ),
         );
@@ -69,6 +77,17 @@ class CheckOut extends StatelessWidget {
       return tomorrowDate;
     }
 
+
+
+    String getTomorrowInfo(int daysToAdd, String format) {
+      final now = DateTime.now();
+      final tomorrow = now.add(Duration(days: daysToAdd)); // Add specified number of days
+      final formatter = DateFormat(format); // Use specified format
+      final tomorrowInfo = formatter.format(tomorrow);
+      return tomorrowInfo;
+    }
+
+
     var controller = Get.put(CartController());
     var controllerQ = Get.put(ProductController());
 
@@ -98,188 +117,192 @@ class CheckOut extends StatelessWidget {
                 ],
               ),
               10.heightBox,
-              SingleChildScrollView(
-                reverse: true,
-                child: SizedBox(
-                  height: h * 0.84,
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      const Text("Your Basket"),
-                      10.heightBox,
-                      SizedBox(
-                        height: h * 0.05,
-                        width: w,
-                        child: StreamBuilder(
-                            stream: FireStoreServices.getCart(currentUser!.uid),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                  child: CircularProgressIndicator(
-                                    valueColor:
-                                        AlwaysStoppedAnimation(mainColor),
+              SizedBox(
+                height: h * 0.84,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    const Text("Your Basket"),
+                    10.heightBox,
+                    SizedBox(
+                      height: h * 0.05,
+                      width: w,
+                      child: StreamBuilder(
+                          stream: FireStoreServices.getCart(currentUser!.uid),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  valueColor:
+                                      AlwaysStoppedAnimation(mainColor),
+                                ),
+                              );
+                            } else if (snapshot.data!.docs.isEmpty) {
+                              return Center(
+                                child:
+                                    "Cart is Empty".text.color(bottom).make(),
+                              );
+                            } else {
+                              var data = snapshot.data!.docs;
+                              controller.calculate(data);
+                              controller.productSnapshot = data;
+                              return ListView(
+                                scrollDirection: Axis.horizontal,
+                                //shrinkWrap: true,
+                                children: List.generate(
+                                  data.length,
+                                  (index) => listOfItems(
+                                    qnt: data[index]['quantity'],
+                                    img: data[index]['img'],
                                   ),
-                                );
-                              } else if (snapshot.data!.docs.isEmpty) {
-                                return Center(
-                                  child:
-                                      "Cart is Empty".text.color(bottom).make(),
-                                );
-                              } else {
-                                var data = snapshot.data!.docs;
-                                controller.calculate(data);
-                                controller.productSnapshot = data;
-                                return ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  //shrinkWrap: true,
-                                  children: List.generate(
-                                    data.length,
-                                    (index) => listOfItems(
-                                      qnt: data[index]['quantity'],
-                                      img: data[index]['img'],
-                                    ),
-                                  ),
-                                );
-                              }
-                            }),
-                      ),
-                      10.heightBox,
-                      const Text("Select Pickup Date"),
-                      10.heightBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          4,
-                          (index) => dayContainer(
+                                ),
+                              );
+                            }
+                          }),
+                    ),
+                    10.heightBox,
+                    const Text("Select Pickup Date"),
+                    10.heightBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        4,
+                        (index) => GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              selectedIndex = index; // Update selectedIndex when item is pressed
+                              print(getTomorrowsDate(index));
+                              print(getTomorrowsDayName(index));
+                            });
+                          },
+                          child: dayContainer(
                             context1: context,
                             context2: context,
-                            onTap: () {
-                              index = selectedIndex;
-                            },
                             day: getTomorrowsDayName(index),
                             date: getTomorrowsDate(index),
-                            colorr: index == 0 ? mainColor : bottom,
+                            color: index == selectedIndex ? bottom : mainColor,
                           ),
                         ),
                       ),
-                      10.heightBox,
-                      const Text("Select Pickup Time"),
-                      10.heightBox,
-                      InkWell(
-                        onTap: () {
-                          _showTimePicker(context);
-                        },
-                        child: Container(
-                          height: h * 0.06,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: mainColor,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: Text(
-                                  _selectedTime != null
-                                      ? DateFormat.jm().format(_selectedTime!)
-                                      : 'Select Time',
-                                  style: const TextStyle(color: whiteColor),
-                                ),
+                    ),
+                    10.heightBox,
+                    const Text("Select Pickup Time"),
+                    10.heightBox,
+                    InkWell(
+                      onTap: () {
+                        _showTimePicker(context);
+                      },
+                      child: Container(
+                        height: h * 0.06,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: mainColor,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0),
+                              child: Text(
+                                _selectedTime != null
+                                    ? DateFormat.jm().format(_selectedTime!)
+                                    : 'Select Time',
+                                style: const TextStyle(color: whiteColor),
                               ),
-                              const Icon(Icons.keyboard_arrow_down,
-                                  color: whiteColor),
-                            ],
-                          ),
+                            ),
+                            const Icon(Icons.keyboard_arrow_down,
+                                color: whiteColor),
+                          ],
                         ),
                       ),
-                      10.heightBox,
-                      const Text("Select Address"),
-                      10.heightBox,
-                      const Text("Payment Method"),
-                      10.heightBox,
-                      Column(
-                        children: List.generate(
-                            2,
-                            (index) => GestureDetector(
-                                  onTap: () {
-                                    selectedIndex =
-                                        index; // Update selectedIndex to the tapped index
-                                    print(index);
-                                  },
-                                  child: cashOrVisa(
-                                    context1: context,
-                                    context2: context,
-                                    title: pay[index],
-                                    colur: index ==0
-                                        ? mainColor
-                                        : Colors
-                                            .grey, // Change color based on the selected index
-                                    img: payImg[index],
-                                  ),
-                                )),
+                    ),
+                    10.heightBox,
+                    const Text("Select Address"),
+                    10.heightBox,
+                    const Text("Payment Method"),
+                    10.heightBox,
+                    Column(
+                      children: List.generate(
+                          2,
+                          (index) => GestureDetector(
+                                onTap: () {
+                                  selectedIndex =
+                                      index; // Update selectedIndex to the tapped index
+                                  print(index);
+                                  print(pay[index]);
+                                },
+                                child: cashOrVisa(
+                                  context1: context,
+                                  context2: context,
+                                  title: pay[index],
+                                  colur: index == 0
+                                      ? mainColor
+                                      : Colors
+                                          .grey, // Change color based on the selected index
+                                  img: payImg[index],
+                                ),
+                              )),
+                    ),
+                    10.heightBox,
+                    const Text("Special Request"),
+                    10.heightBox,
+                    customTextField(
+                      mLine: 5,
+                      title: "",
+                      hint: "Enter your special request",
+                      controller: null,
+                      isPass: false,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter your special request";
+                        }
+                        return null;
+                      },
+                    ),
+                    15.heightBox,
+                    Column(children: [
+                      Row(
+                        children: [
+                          const Text("Subtotal"),
+                          const Spacer(),
+                          Text("${controller.totalP} EGP"),
+                        ],
                       ),
-                      10.heightBox,
-                      const Text("Special Request"),
-                      10.heightBox,
-                      customTextField(
-                        mLine: 5,
-                        title: "",
-                        hint: "Enter your special request",
-                        controller: null,
-                        isPass: false,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Please enter your special request";
-                          }
-                          return null;
-                        },
+                      const Row(
+                        children: [
+                          Text("Delivery"),
+                          Spacer(),
+                          Text("25 EGP"),
+                        ],
+                      ),
+                      const Divider(
+                        color: bottom,
+                      ),
+                      Row(
+                        children: [
+                          const Text("Total"),
+                          const Spacer(),
+                          Text("${controller.totalP + 25} EGP"),
+                        ],
                       ),
                       15.heightBox,
-                      Column(children: [
-                        Row(
-                          children: [
-                            const Text("Subtotal"),
-                            const Spacer(),
-                            Text("${controller.totalP} EGP"),
-                          ],
-                        ),
-                        const Row(
-                          children: [
-                            Text("Delivery"),
-                            Spacer(),
-                            Text("25 EGP"),
-                          ],
-                        ),
-                        const Divider(
-                          color: bottom,
-                        ),
-                        Row(
-                          children: [
-                            const Text("Total"),
-                            const Spacer(),
-                            Text("${controller.totalP + 25} EGP"),
-                          ],
-                        ),
-                        15.heightBox,
-                        ourButton(
-                          onPress: () async{
-                            await controller.placeMyOrder(
-                                orderPaymentMethod: "cash",
-                                totalAmount: controller.totalP.value);
-                           await controller.clearCart();
-                            Get.to(() => const OrderConfirmation());
-                          },
-                          color: mainColor,
-                          textColor: whiteColor,
-                          title: 'PLACE ORDER',
-                        ),
-                      ]),
-                    ],
-                  ),
+                      ourButton(
+                        onPress: () async {
+                          await controller.placeMyOrder(
+                              orderPaymentMethod: "cash",
+                              totalAmount: controller.totalP.value);
+                          await controller.clearCart();
+                          Get.to(() => const OrderConfirmation());
+                        },
+                        color: mainColor,
+                        textColor: whiteColor,
+                        title: 'PLACE ORDER',
+                      ),
+                    ]),
+                  ],
                 ),
               ),
             ],
