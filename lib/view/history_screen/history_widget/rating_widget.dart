@@ -1,7 +1,8 @@
 import 'package:youmeya/consent/consent.dart';
+import 'package:youmeya/controllers/card_controller.dart';
 import 'package:youmeya/widgets/customTextField.dart';
 
-Widget ratingWidget() {
+Widget ratingWidget({double? rating,String? orderNum, required Function() onTap}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,24 +42,41 @@ Widget ratingWidget() {
                           Text(
                             homeTitle[1],
                           ),
-                          const Text(
-                            "Order #92287157",
+                          Text(
+                            "Order #$orderNum",
                           ),
                         ],
                       ),
                     ],
                   ),
-                  const Text("⭐⭐⭐⭐⭐"),
+
+                  RatingBar.builder(
+                    initialRating: 5,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: false,
+                    itemCount: 5,
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => const Icon(
+                       Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                      Get.put(CartController()).ratingReviewController.text = rating.toString()  ;
+                    },
+                  ),
                   10.heightBox,
                   customTextField(
+                    controller: Get.put(CartController()).reviewController,
                     hint: "Write a review",
-                    mLine: 5,
+                    mLine: 3,
                     title: "Review",
                     isPass: false,
                   ),
                   10.heightBox,
                   ourButton(
-                      onPress: () {},
+                      onPress: onTap,
                       color: mainColor,
                       textColor: whiteColor,
                       title: "Submit")

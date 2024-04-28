@@ -1,4 +1,5 @@
 import 'package:youmeya/consent/consent.dart';
+import 'package:youmeya/controllers/card_controller.dart';
 import 'package:youmeya/view/history_screen/history_widget/card_wdget.dart';
 import 'package:youmeya/view/history_screen/history_widget/notification.dart';
 import 'package:youmeya/view/order_details/order_details.dart';
@@ -13,8 +14,11 @@ class HistoryScreen extends StatelessWidget {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
+   var controller = Get.put(CartController());
+
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -53,9 +57,18 @@ class HistoryScreen extends StatelessWidget {
                       var data = snapshot.data!.docs;
 
                       return ListView(
+                          shrinkWrap: true,
+
                           children: List.generate(
                         data.length,
                         (index) => CardWidget(
+                            onpress: ()async {
+                              await controller.updateOrderStatus(
+                                review: controller.reviewController.text,
+                                rating: controller.ratingReviewController.text,
+                                  orderId: data[index].id,);
+
+                            },
                             date: data[index]['order_date'],
                             OrderNumber: data[index]['order_code'],
                             context1: context,

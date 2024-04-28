@@ -13,6 +13,10 @@ class CartController extends GetxController {
   var stateController = TextEditingController();
   var postalCodeController = TextEditingController();
   var phoneController = TextEditingController();
+  var reviewController = TextEditingController();
+  var ratingReviewController = TextEditingController();
+
+
 
   var paymentIndex = 0.obs;
 
@@ -95,6 +99,15 @@ class CartController extends GetxController {
       fireStore.collection(cartCollection).doc(productSnapshot[i].id).delete();
     }
   }
+
+  updateOrderStatus({orderId, review, rating})async {
+    await fireStore.collection(ordersCollection).doc(orderId).update({
+      'order_review': review,
+      'oder_rating': rating,
+    });
+    Get.back();
+  }
+
 
   ///Course
 

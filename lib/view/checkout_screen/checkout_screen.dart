@@ -164,6 +164,7 @@ class _CheckOutState extends State<CheckOut> {
                     10.heightBox,
                     const Text("Select Pickup Date"),
                     10.heightBox,
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(

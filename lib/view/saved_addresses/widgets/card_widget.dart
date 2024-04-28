@@ -1,6 +1,12 @@
 import 'package:youmeya/consent/consent.dart';
 
-Widget cardWidget({bool? value,Function(bool?)? onChanged,double? w, double? h, String? title, String? body}) {
+Widget cardWidget(
+    {bool? value,
+    Function(bool?)? onChanged,
+    double? w,
+    double? h,
+    String? title,
+    String? body}) {
   return Card(
       color: bottom,
       elevation: 0.3,
@@ -11,10 +17,13 @@ Widget cardWidget({bool? value,Function(bool?)? onChanged,double? w, double? h, 
         height: h,
         child: Column(
           children: [
-
             Row(
               children: [
-                Checkbox(value: value,  onChanged: onChanged, activeColor: mainColor,),
+                Checkbox(
+                  value: value,
+                  onChanged: onChanged,
+                  activeColor: mainColor,
+                ),
                 const Icon(Icons.location_on, color: Colors.white),
                 15.widthBox,
                 Column(

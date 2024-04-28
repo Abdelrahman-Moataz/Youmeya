@@ -52,15 +52,16 @@ class savedAddresses extends StatelessWidget {
                           children: List.generate(
                             data.length,
                             (index) => cardWidget(
-                              value: valuenum,
+                                value: valuenum,
                                 onChanged: (value) {
                                   valuenum = value;
-                                  print(value);
+                                  print(valuenum);
                                 },
                                 w: w,
                                 h: h * 0.09,
-                                body:
-                                    "Street ${data[index]["buildingName"]}, ${data[index]["flatNumber"]}, flat ${data[index]["floorNumber"]} ",
+                                body: "Street ${data[index]["buildingName"]}, "
+                                    "${data[index]["flatNumber"]}, "
+                                    "flat ${data[index]["floorNumber"]} ",
                                 title: data[index]['address']),
                           ),
                         );

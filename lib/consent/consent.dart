@@ -15,3 +15,4 @@ export '../../widgets/customTextField.dart';
 export 'package:youmeya/consent/images.dart';
 export 'package:social_auth_buttons/social_auth_buttons.dart';
 export 'package:youmeya/view/home_secreen/widget/home_widget.dart';
+export 'package:flutter_rating_bar/flutter_rating_bar.dart';
