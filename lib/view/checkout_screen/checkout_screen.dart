@@ -5,6 +5,7 @@ import 'package:youmeya/view/checkout_screen/widget/cashorvisa.dart';
 import 'package:youmeya/view/checkout_screen/widget/day-container.dart';
 import 'package:youmeya/view/checkout_screen/widget/list_of_items.dart';
 import '../../controllers/card_controller.dart';
+import '../../controllers/home_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../services/firestore_services.dart';
 import '../old_order_confirmation_screen/old_order_confirmation_screen.dart';
@@ -19,12 +20,17 @@ class CheckOut extends StatefulWidget {
 
 class _CheckOutState extends State<CheckOut> {
 
-  String? _selectedLocation;
 
   Future<int> getMaxOrderNum() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('orders').get();
-    List<int> orderNumbers = snapshot.docs.map((doc) => doc.data()??['orderNumber']).cast<int>().toList();
-    int maxOrderNum = orderNumbers.isNotEmpty ? orderNumbers.reduce((a, b) => a > b ? a : b) : 0;
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('orders').get();
+    List<int> orderNumbers = snapshot.docs
+        .map((doc) => doc.data() ?? ['orderNumber'])
+        .cast<int>()
+        .toList();
+    int maxOrderNum = orderNumbers.isNotEmpty
+        ? orderNumbers.reduce((a, b) => a > b ? a : b)
+        : 0;
     return maxOrderNum;
   }
 
@@ -37,6 +43,8 @@ class _CheckOutState extends State<CheckOut> {
   List<String> pay = ["Cash", "Visa"];
   List<String> payImg = [cash, visa];
   int selectedValue = 0;
+
+  String? _selectedLocation;
 
   void _showTimePicker(BuildContext context) {
     showCupertinoModalPopup(
@@ -79,6 +87,9 @@ class _CheckOutState extends State<CheckOut> {
       return todayDate;
     }
 
+    String? TomorrowsDate;
+    String? TomorrowsDayName;
+
     String getTomorrowsDate(int daysToAdd) {
       final now = DateTime.now();
       final tomorrow = now.add(Duration(days: daysToAdd)); // Add selected day
@@ -95,24 +106,18 @@ class _CheckOutState extends State<CheckOut> {
       return tomorrowDate;
     }
 
-
-
-
-
     String getTomorrowInfo(int daysToAdd, String format) {
       final now = DateTime.now();
-      final tomorrow = now.add(Duration(days: daysToAdd)); // Add specified number of days
+      final tomorrow =
+          now.add(Duration(days: daysToAdd)); // Add specified number of days
       final formatter = DateFormat(format); // Use specified format
       final tomorrowInfo = formatter.format(tomorrow);
       return tomorrowInfo;
     }
 
-
-
-
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -148,8 +153,7 @@ class _CheckOutState extends State<CheckOut> {
                             if (!snapshot.hasData) {
                               return const Center(
                                 child: CircularProgressIndicator(
-                                  valueColor:
-                                      AlwaysStoppedAnimation(mainColor),
+                                  valueColor: AlwaysStoppedAnimation(mainColor),
                                 ),
                               );
                             } else if (snapshot.data!.docs.isEmpty) {
@@ -178,38 +182,40 @@ class _CheckOutState extends State<CheckOut> {
                     10.heightBox,
                     const Text("Select Pickup Date"),
                     10.heightBox,
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    4,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        4,
                         (index) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index; // Update selectedIndex when item is pressed
-                          print(getTomorrowsDate(index));
-                          print(getTomorrowsDayName(index));
-                        });
-                      },
-                      child: dayContainer(
-                        color: index == selectedIndex ? bottom : mainColor,
-                        width: w * 0.2,
-                        height: h * 0.07,
-                        day: getTomorrowsDayName(index),
-                        date: getTomorrowsDate(index),
+                          onTap: () {
+                            setState(() {
+                              selectedIndex =
+                                  index; // Update selectedIndex when item is pressed
+                              print(getTomorrowsDate(index));
+                              print(getTomorrowsDayName(index));
+
+                            });
+                          },
+                          child: dayContainer(
+                            color: index == selectedIndex ? bottom : mainColor,
+                            width: w * 0.2,
+                            height: h * 0.07,
+                            day: TomorrowsDayName = getTomorrowsDayName(index),
+                            date: TomorrowsDate = getTomorrowsDate(index),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-
-
                     10.heightBox,
-
                     const Text("Select Pickup Time"),
                     10.heightBox,
                     InkWell(
                       onTap: () {
-                        _showTimePicker(context);
+                        setState(() {
+
+                          _showTimePicker(context);
+                        });
+
                       },
                       child: Container(
                         height: h * 0.06,
@@ -222,8 +228,8 @@ class _CheckOutState extends State<CheckOut> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Text(
                                 _selectedTime != null
                                     ? DateFormat.jm().format(_selectedTime!)
@@ -261,19 +267,17 @@ class _CheckOutState extends State<CheckOut> {
                                   ),
                                   const SizedBox(height: 20),
                                   StreamBuilder(
-                                      stream:
-                                      FireStoreServices.getLocation(
+                                      stream: FireStoreServices.getLocation(
                                           currentUser!.uid),
                                       builder: (BuildContext context,
                                           AsyncSnapshot<QuerySnapshot>
-                                          snapshot) {
+                                              snapshot) {
                                         if (!snapshot.hasData) {
                                           return const Center(
-                                            child:
-                                            CircularProgressIndicator(
+                                            child: CircularProgressIndicator(
                                               valueColor:
-                                              AlwaysStoppedAnimation(
-                                                  mainColor),
+                                                  AlwaysStoppedAnimation(
+                                                      mainColor),
                                             ),
                                           );
                                         } else {
@@ -281,21 +285,21 @@ class _CheckOutState extends State<CheckOut> {
 
                                           return Expanded(
                                             child: ListView.builder(
-                                              itemCount:
-                                              data.length,
-                                              itemBuilder:
-                                                  (context, index) {
+                                              itemCount: data.length,
+                                              itemBuilder: (context, index) {
                                                 final location =
-                                                data[index]['address'];
+                                                    data[index]['address'];
                                                 return ListTile(
                                                   title: Text(location),
                                                   onTap: () {
                                                     setState(() {
                                                       _selectedLocation =
                                                           location;
+
                                                     });
-                                                    Navigator.pop(
-                                                        context);
+
+                                                    Navigator.pop(context);
+
                                                   },
                                                 );
                                               },
@@ -320,8 +324,7 @@ class _CheckOutState extends State<CheckOut> {
                           padding: const EdgeInsets.all(9.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
                                 "Delivering to",
@@ -355,9 +358,12 @@ class _CheckOutState extends State<CheckOut> {
                           (index) => GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    selectedValue = index; // Update selectedIndex to the tapped index
+                                    selectedValue =
+                                        index; // Update selectedIndex to the tapped index
                                     print(index);
                                     print(pay[index]);
+                                    controller.orderPaymentMethodController
+                                        .text = pay[index];
                                   });
                                 },
                                 child: cashOrVisa(
@@ -379,7 +385,7 @@ class _CheckOutState extends State<CheckOut> {
                       mLine: 5,
                       title: "",
                       hint: "Enter your special request",
-                      controller: null,
+                      controller: controller.moreDetailsController,
                       isPass: false,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -418,9 +424,14 @@ class _CheckOutState extends State<CheckOut> {
                       ourButton(
                         onPress: () async {
                           await controller.placeMyOrder(
-                            address: controller.addressController.text,
-                              orderPaymentMethod: "cash",
-                              totalAmount: controller.totalP.value);
+                            time: _selectedTime,
+                            date: "$TomorrowsDayName , $TomorrowsDate",
+                            address: _selectedLocation.toString(),
+                            orderPaymentMethod:
+                                controller.orderPaymentMethodController.text,
+                            totalAmount: controller.totalP.value + 25,
+                            more: controller.moreDetailsController.text,
+                          );
                           await controller.clearCart();
                           Get.to(() => const OrderConfirmation());
                         },
@@ -428,6 +439,7 @@ class _CheckOutState extends State<CheckOut> {
                         textColor: whiteColor,
                         title: 'PLACE ORDER',
                       ),
+                      30.heightBox,
                     ]),
                   ],
                 ),

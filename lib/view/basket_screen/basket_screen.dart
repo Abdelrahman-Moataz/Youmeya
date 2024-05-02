@@ -262,11 +262,36 @@ class _BasketScreenState extends State<BasketScreen>
                               ),
                             );
                           } else if (snapshot.data!.docs.isEmpty) {
-                            return Center(
-                              child: "Formal Basket is Empty"
-                                  .text
-                                  .color(bottom)
-                                  .make(),
+                            return ElevatedButton(
+                              onPressed: () {
+
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: mainColor),
+                              child: const Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "No Order Yet",
+                                    style: TextStyle(color: whiteColor),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "0 EGP",
+                                        style:
+                                        TextStyle(color: whiteColor),
+                                      ),
+                                      Text(
+                                        "Delivery Fees",
+                                        style: TextStyle(
+                                            fontSize: 9, color: whiteColor),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             );
                           } else {
                             var data = snapshot.data!.docs;

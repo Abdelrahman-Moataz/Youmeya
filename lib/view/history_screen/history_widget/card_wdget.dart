@@ -3,7 +3,7 @@ import 'package:youmeya/view/history_screen/history_widget/rating_widget.dart';
 
 import '../../order_status_screen/order_status_screen.dart';
 
-Widget CardWidget({double? rating,required Function() onpress,String? OrderNumber,String? number,context1, context2, Timestamp? date,Function()? onTap}) {
+Widget CardWidget({String? orderStatus,double? rating,required Function() onpress,String? OrderNumber,String? number,context1, context2, Timestamp? date,Function()? onTap}) {
   final w = MediaQuery.of(context1).size.width;
   final h = MediaQuery.of(context2).size.height;
   return SizedBox(
@@ -46,8 +46,8 @@ Widget CardWidget({double? rating,required Function() onpress,String? OrderNumbe
                               color: Colors.black),
                         ),
                         (h * 0.009).heightBox,
-                        const Text("Completed",
-                            style: TextStyle(
+                         Text(orderStatus!,
+                            style: const TextStyle(
                               color: Colors.black,
                               fontFamily: interThin,
                               fontWeight: FontWeight.normal,

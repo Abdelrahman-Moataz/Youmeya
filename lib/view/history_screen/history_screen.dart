@@ -70,6 +70,29 @@ class HistoryScreen extends StatelessWidget {
 
                             },
                             date: data[index]['order_date'],
+
+                            orderStatus: data[index]['order_placed']==true &&
+                                data[index]['order_confirmed']==false &&
+                                data[index]['order_on_delivery']==false &&
+                                data[index]['order_delivered']==false
+
+                                ? "order Placed":
+                            data[index]['order_placed']==true &&
+                                data[index]['order_confirmed']==true &&
+                                data[index]['order_on_delivery']==false &&
+                                data[index]['order_delivered']==false  ?
+                                "Confirmed" :
+                            data[index]['order_placed']==true &&
+                                data[index]['order_confirmed']==true &&
+                                data[index]['order_on_delivery']==true &&
+                                data[index]['order_delivered']==false  ?
+                                "order on delivery" :
+                            data[index]['order_placed']==true &&
+                                data[index]['order_confirmed']==true &&
+                                data[index]['order_on_delivery']==true &&
+                                data[index]['order_delivered']==true ?
+                                "Order delivered" : "Done"
+                            ,
                             OrderNumber: data[index]['order_code'],
                             context1: context,
                             number: data[index]['orders'].length.toString(),

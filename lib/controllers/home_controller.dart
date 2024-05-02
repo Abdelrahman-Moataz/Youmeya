@@ -4,13 +4,13 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getUserName();
-    getUserLocation();
     super.onInit();
   }
 
   var currentNavIndex = 0.obs;
 
   var userName = '';
+  var phoneNumber = '';
   var location = [];
 
   var searchController = TextEditingController();
@@ -25,15 +25,28 @@ class HomeController extends GetxController {
         return value.docs.single['name'];
       }
     });
+    var f = await fireStore
+        .collection(userCollection)
+        .where('id', isEqualTo: currentUser!.uid)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        return value.docs.single['phone_number'];
+      }
+    });
 
     userName = n;
+    phoneNumber = f;
   }
 
-  Future<void> getUserLocation() async {
+
+
+
+  Future<void> getUserLocation({String? address}) async {
     var snapshot = await fireStore
         .collection(locationCollection)
         .where('id', isEqualTo: currentUser!.uid)
-    .where('address',isEqualTo: 'address')
+    .where('address',isEqualTo: address)
         .get();
 
     if (snapshot.docs.isNotEmpty) {

@@ -54,13 +54,6 @@ class OrderConfirmation extends StatelessWidget {
                     ),
                     const Center(
                       child: Text(
-                        "#12345678",
-                        style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.w300),
-                      ),
-                    ),
-                    const Center(
-                      child: Text(
                         "You can track your order from the \nhistory screen or click the below button",
                         style:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
