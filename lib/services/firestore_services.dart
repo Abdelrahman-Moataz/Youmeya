@@ -58,6 +58,11 @@ class FireStoreServices {
     return fireStore.collection(ordersCollection).where('order_by', isEqualTo: uid).snapshots();
   }
 
+  static getOrderNum(){
+    return fireStore.collection(ordersCollection).snapshots();
+
+  }
+
 
 
 

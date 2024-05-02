@@ -1,6 +1,7 @@
 import 'package:youmeya/consent/consent.dart';
 
 import '../models/categories_model.dart';
+import '../services/firestore_services.dart';
 import 'home_controller.dart';
 
 class CartController extends GetxController {
@@ -48,17 +49,18 @@ class CartController extends GetxController {
     paymentIndex.value = index;
   }
 
-  placeMyOrder({required orderPaymentMethod, required totalAmount}) async {
+  placeMyOrder({required orderPaymentMethod, required totalAmount, required address}) async {
     placingOrder(true);
     await getProductDetails();
 
     await fireStore.collection(ordersCollection).doc().set({
-      'order_code': "233981237",
+      'order_code': FireStoreServices.getOrderNum()+1,
+      //'order_code': "233981237",
       'order_date': FieldValue.serverTimestamp(),
       'order_by': currentUser!.uid,
       'order_by_name': Get.find<HomeController>().userName,
       'order_by_email': currentUser!.email,
-      'order_by_address': addressController.text,
+      'order_by_address': address,
       'order_by_state': stateController.text,
       'order_by_city': cityController.text,
       'order_by_phone': phoneController.text,

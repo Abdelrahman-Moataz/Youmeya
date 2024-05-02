@@ -5,14 +5,23 @@ import 'package:youmeya/view/saved_addresses/widgets/card_widget.dart';
 import '../../services/firestore_services.dart';
 import '../history_screen/history_widget/card_wdget.dart';
 
-class savedAddresses extends StatelessWidget {
+class savedAddresses extends StatefulWidget {
   const savedAddresses({super.key});
 
   @override
+  State<savedAddresses> createState() => _savedAddressesState();
+}
+bool? valuenum = false;
+int? selectedIdx;
+
+class _savedAddressesState extends State<savedAddresses> {
+  @override
+
   Widget build(BuildContext context) {
+
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
-    bool? valuenum = false;
+
     //const addresses = {
     //"Home": "Maadi",
     //};
@@ -51,18 +60,20 @@ class savedAddresses extends StatelessWidget {
                           shrinkWrap: true,
                           children: List.generate(
                             data.length,
-                            (index) => cardWidget(
-                                value: valuenum,
+                                (index) => cardWidget(
+                                value: selectedIdx == index, // Set the checkbox value based on whether the index matches the selected index
                                 onChanged: (value) {
-                                  valuenum = value;
-                                  print(valuenum);
+                                  setState(() {
+                                    selectedIdx = index; // Update the selected index when the checkbox is changed
+                                  });
                                 },
                                 w: w,
                                 h: h * 0.09,
                                 body: "Street ${data[index]["buildingName"]}, "
                                     "${data[index]["flatNumber"]}, "
                                     "flat ${data[index]["floorNumber"]} ",
-                                title: data[index]['address']),
+                                title: data[index]['address']
+                            ),
                           ),
                         );
                       }
