@@ -79,6 +79,7 @@ class CartController extends GetxController {
       'total_amount': totalAmount,
       'orders': FieldValue.arrayUnion(products),
     });
+
     placingOrder(false);
   }
 

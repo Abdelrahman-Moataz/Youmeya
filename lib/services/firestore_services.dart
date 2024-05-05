@@ -1,4 +1,5 @@
 import 'package:youmeya/consent/consent.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -53,14 +54,26 @@ class FireStoreServices {
     return fireStore.collection(chatsCollection).doc(docId).collection(messagesCollection).orderBy('created_on', descending: false).snapshots();
   }
 
-
-  static getAllOrders(uid){
-    return fireStore.collection(ordersCollection).where('order_by', isEqualTo: uid).snapshots();
+  static getAllOrders(uid) {
+    return fireStore
+        .collection(ordersCollection)
+        .where('order_by', isEqualTo: uid)
+        .orderBy(
+      'order_date',
+      descending: true,
+    )
+        .snapshots();
   }
+
 
   static getOrderNum(){
     return fireStore.collection(ordersCollection).snapshots();
 
+  }
+  
+  static getOrderCollectionId(title){
+    return fireStore.collection(ordersCollection)
+        .where('collection_id', isEqualTo: title).snapshots();
   }
 
 

@@ -6,6 +6,8 @@ import 'package:youmeya/view/order_details/order_details.dart';
 
 import '../../services/firestore_services.dart';
 
+
+
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
@@ -18,7 +20,7 @@ class HistoryScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+
         body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -98,7 +100,9 @@ class HistoryScreen extends StatelessWidget {
                             number: data[index]['orders'].length.toString(),
                             context2: context,
                             onTap: () {
-                              Get.to(() => const OrderDetails());
+                              Get.to(() =>  OrderDetails(
+                                title: data[index]['collection_id'],
+                              ));
                             }),
                       ));
                     }

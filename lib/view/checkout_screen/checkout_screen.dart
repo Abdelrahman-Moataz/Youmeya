@@ -407,7 +407,7 @@ class _CheckOutState extends State<CheckOut> {
                         children: [
                           Text("Delivery"),
                           Spacer(),
-                          Text("25 EGP"),
+                          Text("$deliveryFees EGP"),
                         ],
                       ),
                       const Divider(
@@ -417,7 +417,7 @@ class _CheckOutState extends State<CheckOut> {
                         children: [
                           const Text("Total"),
                           const Spacer(),
-                          Text("${controller.totalP + 25} EGP"),
+                          Text("${controller.totalP + deliveryFees} EGP"),
                         ],
                       ),
                       15.heightBox,
@@ -429,7 +429,7 @@ class _CheckOutState extends State<CheckOut> {
                             address: _selectedLocation.toString(),
                             orderPaymentMethod:
                                 controller.orderPaymentMethodController.text,
-                            totalAmount: controller.totalP.value + 25,
+                            totalAmount: controller.totalP.value + deliveryFees,
                             more: controller.moreDetailsController.text,
                           );
                           await controller.clearCart();

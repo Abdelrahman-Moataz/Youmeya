@@ -3,13 +3,15 @@ import 'package:youmeya/view/saved_addresses/saved_addresses_screen.dart';
 
 import '../../controllers/auth_controller.dart';
 
+final _formKey = GlobalKey<FormState>(); // Add GlobalKey<FormState>
+var controller = Get.put(AuthController());
+
 class AddNewAdress extends StatelessWidget {
   const AddNewAdress({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>(); // Add GlobalKey<FormState>
-    var controller = Get.put(AuthController());
+
 
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
@@ -141,7 +143,7 @@ class AddNewAdress extends StatelessWidget {
                           )
                               .then((value) {
                             VxToast.show(context, msg: "Saved successfully");
-                            Get.to(() => const savedAddresses());
+                            Get.offAll(() => const savedAddresses());
                           });
                         } catch (e) {
                           VxToast.show(context, msg: e.toString());

@@ -47,6 +47,8 @@ const mask = "Mask";
 const makeup = "MakeUp";
 const nail = "nail";
 
+const deliveryFees = 25;
+
 const cooking = "Cooking";
 const fan = "Fan";
 const capboard = "capboard";

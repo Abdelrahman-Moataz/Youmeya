@@ -28,6 +28,7 @@ class _savedAddressesState extends State<savedAddresses> {
     //var entries = ["1"];
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: Colors.white,
             title: const Text(
@@ -40,7 +41,7 @@ class _savedAddressesState extends State<savedAddresses> {
           body: Container(
               padding: const EdgeInsets.all(30),
               width: w,
-              height: h * 0.9,
+              height: h * 0.96,
               color: Colors.white,
               child: Column(children: [
                 10.heightBox,
@@ -56,44 +57,49 @@ class _savedAddressesState extends State<savedAddresses> {
                         );
                       } else {
                         var data = snapshot.data!.docs;
-                        return ListView(
-                          shrinkWrap: true,
-                          children: List.generate(
-                            data.length,
-                                (index) => cardWidget(
-                                value: selectedIdx == index, // Set the checkbox value based on whether the index matches the selected index
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedIdx = index; // Update the selected index when the checkbox is changed
-                                  });
-                                },
-                                w: w,
-                                h: h * 0.09,
-                                body: "Street ${data[index]["buildingName"]}, "
-                                    "${data[index]["flatNumber"]}, "
-                                    "flat ${data[index]["floorNumber"]} ",
-                                title: data[index]['address']
+                        return SizedBox(
+                          height: h * 0.55,
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: List.generate(
+                              data.length,
+                                  (index) => cardWidget(
+                                  value: selectedIdx == index, // Set the checkbox value based on whether the index matches the selected index
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedIdx = index; // Update the selected index when the checkbox is changed
+                                    });
+                                  },
+                                  w: w,
+                                  h: h * 0.09,
+                                  body: "Street ${data[index]["buildingName"]}, "
+                                      "${data[index]["flatNumber"]}, "
+                                      "flat ${data[index]["floorNumber"]} ",
+                                  title: data[index]['address']
+                              ),
                             ),
                           ),
                         );
                       }
                     }),
-                SizedBox(
-                  height: h * 0.4,
-                ),
-                ourButton(
-                    onPress: () {
-                      Get.to(() => const AddNewAdress());
-                    },
-                    color: mainColor,
-                    textColor: whiteColor,
-                    title: "Add new Address"),
                 20.heightBox,
-                ourButton(
-                    onPress: () {},
-                    color: mainColor,
-                    textColor: whiteColor,
-                    title: "Save"),
+                Column(
+                  children: [
+                    ourButton(
+                        onPress: () {
+                          Get.to(() => const AddNewAdress());
+                        },
+                        color: mainColor,
+                        textColor: whiteColor,
+                        title: "Add new Address"),
+                    20.heightBox,
+                    ourButton(
+                        onPress: () {},
+                        color: mainColor,
+                        textColor: whiteColor,
+                        title: "Save"),
+                  ],
+                ),
               ]))),
     );
   }

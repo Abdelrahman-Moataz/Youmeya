@@ -3,7 +3,9 @@ import 'package:youmeya/view/history_screen/history_widget/rating_widget.dart';
 
 import '../../order_status_screen/order_status_screen.dart';
 
-Widget CardWidget({String? orderStatus,double? rating,required Function() onpress,String? OrderNumber,String? number,context1, context2, Timestamp? date,Function()? onTap}) {
+Widget CardWidget({String? orderStatus,double?
+rating,required Function() onpress,String?
+OrderNumber,String? number,context1, context2, Timestamp? date,Function()? onTap}) {
   final w = MediaQuery.of(context1).size.width;
   final h = MediaQuery.of(context2).size.height;
   return SizedBox(
@@ -146,7 +148,9 @@ Widget CardWidget({String? orderStatus,double? rating,required Function() onpres
                         fontWeight: FontWeight.w400),
                   ),
                   Text(
-                    "${date!.toDate().day}/${date.toDate().month}/${date.toDate().year}  ${date.toDate().hour}:${date.toDate().minute} ${date.toDate().hour > 12 ? "PM" : "AM"}",
+                      "${date!.toDate().day}/${date.toDate().month}/${date.toDate().year}" "  "
+                          "${(date.toDate().hour > 12 ? date.toDate().hour - 12 : date.toDate().hour)}:${date.toDate().minute.toString().padLeft(2, '0')}"
+                         " " "${date.toDate().hour >= 12 ? "PM" : "AM"}",
                     style: const TextStyle(
                         fontSize: 10,
                         fontFamily: interThin,
