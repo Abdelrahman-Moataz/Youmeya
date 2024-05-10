@@ -48,6 +48,7 @@ dependencies:
   google_sign_in: ^5.2.1
   flutter_rating_bar: ^4.0.1
   progress_tracker: ^0.0.3
+  gsheets: ^0.5.0
   path: any
   intl: any
 dev_dependencies:

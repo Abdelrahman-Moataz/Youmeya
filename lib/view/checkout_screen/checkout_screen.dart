@@ -288,18 +288,19 @@ class _CheckOutState extends State<CheckOut> {
                                               itemCount: data.length,
                                               itemBuilder: (context, index) {
                                                 final location =
-                                                    data[index]['address'];
+                                                    "${data[index]['address']} ,"
+                                                    " Street ${data[index]["buildingName"]}, "
+                                                    "${data[index]["flatNumber"]}, "
+                                                    "flat ${data[index]["floorNumber"]} ";
+
                                                 return ListTile(
                                                   title: Text(location),
                                                   onTap: () {
                                                     setState(() {
                                                       _selectedLocation =
                                                           location;
-
                                                     });
-
                                                     Navigator.pop(context);
-
                                                   },
                                                 );
                                               },
@@ -371,9 +372,8 @@ class _CheckOutState extends State<CheckOut> {
                                   context2: context,
                                   title: pay[index],
                                   colur: index == selectedValue
-                                      ? mainColor
-                                      : Colors
-                                          .grey, // Change color based on the selected index
+                                      ? bottom
+                                      : mainColor, // Change color based on the selected index
                                   img: payImg[index],
                                 ),
                               )),
@@ -423,6 +423,7 @@ class _CheckOutState extends State<CheckOut> {
                       15.heightBox,
                       ourButton(
                         onPress: () async {
+                          controller.placingOrder(true);
                           await controller.placeMyOrder(
                             time: _selectedTime,
                             date: "$TomorrowsDayName , $TomorrowsDate",
@@ -433,7 +434,9 @@ class _CheckOutState extends State<CheckOut> {
                             more: controller.moreDetailsController.text,
                           );
                           await controller.clearCart();
+                          controller.placingOrder(false);
                           Get.to(() => const OrderConfirmation());
+
                         },
                         color: mainColor,
                         textColor: whiteColor,

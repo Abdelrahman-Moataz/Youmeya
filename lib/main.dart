@@ -5,6 +5,7 @@ import 'package:youmeya/view/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await sheetsFlutter.init();
 
   // Initialize Firebase
   if (Platform.isAndroid) {
