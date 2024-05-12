@@ -179,8 +179,8 @@ class OrderDetails extends StatelessWidget {
                                                               children: List.generate(
                                                                 data.length,
                                                                     (index) => listOfItems(
-                                                                  qnt: data[index]['orders'][2]['qty'],
-                                                                  img: data[index]['orders'][2]['img'],
+                                                                  qnt: data[index]['orders'][index]['qty'],
+                                                                  img: data[index]['orders'][index]['img'],
                                                                 ),
                                                               ),
                                                             ),
@@ -221,15 +221,15 @@ class OrderDetails extends StatelessWidget {
                                                             BorderRadius.circular(
                                                                 10),
                                                           ),
-                                                          child: const Padding(
-                                                            padding: EdgeInsets.only(
+                                                          child:  Padding(
+                                                            padding: const EdgeInsets.only(
                                                                 left: 8.0,
                                                                 right: 8.0,
                                                                 top: 4.0,
                                                                 bottom: 4.0),
                                                             child: Text(
-                                                              "Home",
-                                                              style: TextStyle(
+                                                              "${data[index]['order_by_address']}",
+                                                              style: const TextStyle(
                                                                   color: whiteColor,
                                                                   fontSize: 15),
                                                             ),
@@ -285,7 +285,7 @@ class OrderDetails extends StatelessWidget {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                       children: [
-                                                        Text("Total"),
+                                                        const Text("Total"),
                                                         Text("${data[index]['total_amount']} EGP"),
                                                       ]),
                                                 ],
@@ -301,7 +301,9 @@ class OrderDetails extends StatelessWidget {
                                           ),
                                           child: ourButton(
                                             onPress: () {
-                                              Get.to(() => const OrderStatus());
+                                              Get.to(() =>  OrderStatus(
+                                                id: data[index]['collection_id']
+                                              ));
                                             },
                                             color: mainColor,
                                             textColor: whiteColor,

@@ -26,18 +26,23 @@ class sheetsFlutter {
   static Worksheet? _userSheet;
   static final _gsheets = GSheets(_sheetCredentials);
 
-  static Future init() async {
+  static Future init({time, date}) async {
     try {
       final spreadSheet = await _gsheets.spreadsheet(_sheetId);
       _userSheet = await _getWorksheet(spreadSheet, title: "title");
 
       // Get data from Firestore collection and insert into the Google Sheet
       final ordersSnapshot =
-      await FirebaseFirestore.instance.collection('orderCollection').get();
+      await FirebaseFirestore.instance.collection(cartCollection).get();
       final rows = ordersSnapshot.docs.map((doc) {
         final orderId = doc.id;
         final orderData = doc.data() as Map<String, dynamic>;
-        return {'orderId': orderId, ...orderData};
+        return {
+          'orderId': orderId,
+          'time': "time",
+          'date': "date",
+          ...orderData
+        };
       }).toList();
 
       await insert(rows);

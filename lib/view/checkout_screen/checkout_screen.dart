@@ -424,6 +424,8 @@ class _CheckOutState extends State<CheckOut> {
                       ourButton(
                         onPress: () async {
                           controller.placingOrder(true);
+
+
                           await controller.placeMyOrder(
                             time: _selectedTime,
                             date: "$TomorrowsDayName , $TomorrowsDate",
@@ -433,6 +435,7 @@ class _CheckOutState extends State<CheckOut> {
                             totalAmount: controller.totalP.value + deliveryFees,
                             more: controller.moreDetailsController.text,
                           );
+
                           await controller.clearCart();
                           controller.placingOrder(false);
                           Get.to(() => const OrderConfirmation());

@@ -52,23 +52,39 @@ class CartController extends GetxController {
     paymentIndex.value = index;
   }
 
-  placeMyOrder({required date,required time,required more,
+  placeMyOrder({required date, required time, required more,
     required orderPaymentMethod, required totalAmount, required address}) async {
     placingOrder(true);
     await getProductDetails();
 
-    await fireStore.collection(ordersCollection).doc().set({
+    // Get a reference to the orders collection
+    CollectionReference ordersRef = fireStore.collection(ordersCollection);
 
-      'order_code': "2234567",
+    // Query to get the maximum order code
+    QuerySnapshot querySnapshot = await ordersRef.orderBy('order_code', descending: true).limit(1).get();
+
+    // Initialize order code with a default value
+    int newOrderCode = 1;
+
+    // If there are any documents, get the maximum order code, parse it to integer, and add 1
+    if (querySnapshot.docs.isNotEmpty) {
+      int maxOrderCode = int.parse(querySnapshot.docs.first.get('order_code'));
+      newOrderCode = maxOrderCode + 1;
+    }
+
+    await ordersRef.doc().set({
+      'order_code': newOrderCode.toString(), // Convert back to string after incrementing
       'order_date': FieldValue.serverTimestamp(),
       'order_by': currentUser!.uid,
       'order_by_name': Get.find<HomeController>().userName,
       'order_by_email': currentUser!.email,
-      'collection_id': fireStore.collection(ordersCollection).doc().id,
+      'collection_id': ordersRef.doc().id,
       'order_by_address': address,
       'pickUp_time': time,
       'pickUp_date': date,
       'more_details': more,
+      'order_review': "",
+      'oder_rating': "",
       'order_by_phone': Get.find<HomeController>().phoneNumber,
       'shipping_method': "Home Delivery",
       'payment_method': orderPaymentMethod,
@@ -82,6 +98,8 @@ class CartController extends GetxController {
 
     placingOrder(false);
   }
+
+
 
   getProductDetails() {
     products.clear();
