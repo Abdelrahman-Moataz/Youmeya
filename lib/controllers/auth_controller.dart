@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youmeya/consent/consent.dart';
 
 class AuthController extends GetxController {
@@ -55,7 +56,7 @@ class AuthController extends GetxController {
   ///storing data method
   storeUserData({password, email}) async {
     DocumentReference store =
-        fireStore.collection(userCollection).doc(currentUser!.uid);
+    fireStore.collection(userCollection).doc(currentUser!.uid);
     store.set({
       'name': "name",
       'password': password,
@@ -68,12 +69,11 @@ class AuthController extends GetxController {
 
   ///storing complete reg method
 
-  storeUserCompleteData(
-      {name,
-      phoneNumber,
-}) async {
+  storeUserCompleteData({name,
+    phoneNumber,
+  }) async {
     DocumentReference store =
-        fireStore.collection(locationCollection).doc(currentUser!.uid);
+    fireStore.collection(locationCollection).doc(currentUser!.uid);
     store.update({
       'name': name,
       'phone_number': phoneNumber,
@@ -84,13 +84,12 @@ class AuthController extends GetxController {
   /// sstore the location data
 
 
-  storeUserLocationData(
-      {address,
-        buildingName,
-        buildingNumber,
-        floorNumber,
-        flatNumber,
-        moreDetails}) async {
+  storeUserLocationData({address,
+    buildingName,
+    buildingNumber,
+    floorNumber,
+    flatNumber,
+    moreDetails}) async {
     DocumentReference store =
     fireStore.collection(locationCollection).doc(currentUser!.uid);
     store.set({
@@ -112,7 +111,7 @@ class AuthController extends GetxController {
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -124,8 +123,8 @@ class AuthController extends GetxController {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<void> storeUserDataToFirestore(
-      UserCredential userCredential, File image) async {
+  Future<void> storeUserDataToFirestore(UserCredential userCredential,
+      File image) async {
     User user = userCredential.user!;
 
     // Upload image to Firebase Storage
@@ -159,9 +158,27 @@ class AuthController extends GetxController {
 
   ///signOut method
 
-  signOutMethod(context) async {
+  signOutMethod(BuildContext context) async {
     try {
+      // Sign out from the authentication service
       await auth.signOut();
+
+      // Clear SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+
+      // Clear cache directory
+      var cacheDir = await getTemporaryDirectory();
+      if (cacheDir.existsSync()) {
+        cacheDir.deleteSync(recursive: true);
+      }
+
+      // Optionally clear application directory (if needed)
+      var appDir = await getApplicationSupportDirectory();
+      if (appDir.existsSync()) {
+        appDir.deleteSync(recursive: true);
+      }
+
     } catch (e) {
       VxToast.show(context, msg: e.toString());
     }

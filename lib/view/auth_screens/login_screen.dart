@@ -14,13 +14,14 @@ class LogInScreen extends StatelessWidget {
     Color facebookBtnColor = Colors.white;
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(
             children: [
               Obx(
                 () => SizedBox(
-                  height: h * 0.89,
+                  height: h * 0.90,
                   child: ListView(
                     shrinkWrap: true,
                     children: [
@@ -47,7 +48,7 @@ class LogInScreen extends StatelessWidget {
                       customTextField(
                           hint: passwordHint,
                           title: password,
-                          isPass: false,
+                          isPass: true,
                           controller: controller.passwordController),
 
                       // Align(
@@ -127,6 +128,7 @@ class LogInScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+
                       // ourButton(
                       //   colour: borderColor,
                       //   onPress: () {
@@ -136,10 +138,13 @@ class LogInScreen extends StatelessWidget {
                       //   textColor: borderColor,
                       //   title: "Google",
                       // ),
+
                     ],
                   ),
                 ),
               ),
+
+
             ],
           ),
         ),
