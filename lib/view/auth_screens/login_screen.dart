@@ -1,11 +1,23 @@
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/auth_screens/sign_up_screen.dart';
 import 'package:youmeya/view/nav_bar/nav_bar.dart';
+import 'package:youmeya/view/saved_addresses/add_new_address.dart';
 import '../../../controllers/auth_controller.dart';
 
-class LogInScreen extends StatelessWidget {
+class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
 
+  @override
+  State<LogInScreen> createState() => _LogInScreenState();
+}
+
+class _LogInScreenState extends State<LogInScreen> {
+  // @override
+  // void dispose() {
+  //   controller.passwordController.clear();
+  //   controller.emailController.clear();
+  //   super.dispose();
+  // }
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(AuthController());
@@ -61,19 +73,27 @@ class LogInScreen extends StatelessWidget {
                       // ),
 
                       15.heightBox,
-                      controller.isLoading.value
-                          ? const CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(mainColor),
-                            )
+                      controller.isLoading(false)
+                          ? const Padding(
+                            padding: EdgeInsets.only(left: 100,right: 100),
+                            child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(mainColor),
+                              ),
+                          )
                           : ourButton(
                               onPress: () async {
                                 controller.isLoading(true);
                                 await controller
-                                    .loginMethod(context: context)
+                                    .loginMethod(context: context,
+                                    emailController: controller.emailController,
+                                    passwordController: controller.passwordController)
                                     .then((value) {
                                   if (value != null) {
                                     VxToast.show(context, msg: loggedIn);
-                                    Get.offAll(() => const NavBar());
+                                    controller.passwordController.clear();
+                                    controller.emailController.clear();
+                                    controller.isLoading(false);
+                                    Get.offAll(() =>  NavBar(currentIndex: 0.obs,),transition: Transition.fade);
                                   } else {
                                     controller.isLoading(false);
                                   }
@@ -96,38 +116,38 @@ class LogInScreen extends StatelessWidget {
                         ),
                       ),
                       20.heightBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Divider(
-                            thickness: 2,
-                            color: Colors.blue,
-                          ),
-                          orSignInWith.text.size(10.0).color(fontGrey).make(),
-                          const Divider(
-                            thickness: 2,
-                          ),
-                        ],
-                      ),
-                      30.heightBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GoogleAuthButton(
-                            onPressed: () {
-                              Get.to(() => const NavBar());
-                            },
-                            width: w * 0.4,
-                            text: "Google",
-                          ),
-                          FacebookAuthButton(
-                            onPressed: () {},
-                            buttonColor: facebookBtnColor,
-                            width: w * 0.4,
-                            text: "Facebook",
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     const Divider(
+                      //       thickness: 2,
+                      //       color: Colors.blue,
+                      //     ),
+                      //     orSignInWith.text.size(10.0).color(fontGrey).make(),
+                      //     const Divider(
+                      //       thickness: 2,
+                      //     ),
+                      //   ],
+                      // ),
+                      // 30.heightBox,
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //   children: [
+                      //     GoogleAuthButton(
+                      //       onPressed: () {
+                      //         Get.to(() => const NavBar());
+                      //       },
+                      //       width: w * 0.4,
+                      //       text: "Google",
+                      //     ),
+                      //     FacebookAuthButton(
+                      //       onPressed: () {},
+                      //       buttonColor: facebookBtnColor,
+                      //       width: w * 0.4,
+                      //       text: "Facebook",
+                      //     ),
+                      //   ],
+                      // ),
 
                       // ourButton(
                       //   colour: borderColor,

@@ -22,7 +22,7 @@ Widget cashOrVisa({
       child: Row(
         children: [
           Image.asset(img!),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Text(
             title!,
             style: const TextStyle(

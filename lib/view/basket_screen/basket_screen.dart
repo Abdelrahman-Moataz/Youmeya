@@ -300,7 +300,7 @@ class _BasketScreenState extends State<BasketScreen>
 
                             return ElevatedButton(
                               onPressed: () {
-                                Get.to(() => CheckOut());
+                                Get.to(() => const CheckOut());
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: mainColor),

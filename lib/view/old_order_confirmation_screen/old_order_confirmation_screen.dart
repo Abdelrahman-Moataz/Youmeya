@@ -262,7 +262,7 @@ class _OldOrderConfirmationState extends State<OldOrderConfirmation> {
                     15.heightBox,
                     ourButton(
                         onPress: () {
-                          Get.to(() =>  CheckOut());
+                          Get.to(() =>  const CheckOut());
                         },
                         color: mainColor,
                         textColor: whiteColor,

@@ -15,6 +15,7 @@ Widget customTextField({int mLine = 1 ,String? title, String? hint, controller, 
         obscureText: isPass,
         controller: controller,
         decoration:  InputDecoration(
+
             hintStyle: const TextStyle(
               fontFamily: medium,
               color: textfieldGrey,

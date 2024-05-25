@@ -262,7 +262,7 @@ class OrderDetails extends StatelessWidget {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                       children: [
-                                                        Text("Subtotal"),
+                                                        const Text("Subtotal"),
                                                         Text("${data[index]['total_amount']-deliveryFees}  EGP"),
                                                       ]),
                                                   10.heightBox,

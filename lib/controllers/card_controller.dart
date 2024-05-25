@@ -1,7 +1,6 @@
 import 'package:youmeya/consent/consent.dart';
 
 import '../models/categories_model.dart';
-import '../services/firestore_services.dart';
 import 'home_controller.dart';
 
 class CartController extends GetxController {

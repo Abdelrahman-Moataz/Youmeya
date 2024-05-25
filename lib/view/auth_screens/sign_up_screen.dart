@@ -12,6 +12,13 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // @override
+  // void dispose() {
+  //   controller.passwordController.clear();
+  //   controller.emailController.clear();
+  //   controller.passwordRetypeController.clear();
+  //   super.dispose();
+  // }
   final _formKey = GlobalKey<FormState>(); // Add GlobalKey<FormState>
   var controller = Get.put(AuthController());
 
@@ -23,6 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final h = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(
@@ -84,29 +92,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                       ),
                       15.heightBox,
+                      controller.isLoading(false)
+                          ? const Padding(
+                        padding: EdgeInsets.only(left: 150,right: 150),
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(mainColor),
+                        ),
+                      )
+                          :
                       ourButton(
                         title: createAccount,
                         textColor: fontColor,
                         color: mainColor,
-                        onPress: () {
+                        onPress: () async{
+                          controller.isLoading(true);
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            controller.isLoading(true);
                             try {
-                              controller
+                             await controller
                                   .signupMethod(
                                 context: context,
                                 email: controller.emailController.text,
                                 password: controller.passwordController.text,
                               )
-                                  .then((value) {
-                                return controller.storeUserData(
+                                  .then((value) async{
+                                return await controller.storeUserData(
                                   email: controller.emailController.text,
                                   password: controller.passwordController.text,
                                 );
                               }).then((value) {
                                 VxToast.show(context, msg: loggedIn);
-                                Get.offAll(() =>  CompleteLogin());
+                                controller.isLoading(false);
+                                controller.passwordController.clear();
+                                controller.emailController.clear();
+                                controller.passwordRetypeController.clear();
+                                Get.offAll(() =>  const CompleteLogin(),transition: Transition.fade);
                               });
                             } catch (e) {
                               auth.signOut();
@@ -121,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         alignment: Alignment.centerLeft,
                         child: TextButton(
                           onPressed: () {
-                            Get.to(() => const LogInScreen());
+                            Get.to(() => const LogInScreen(),transition: Transition.fade);
                           },
                           child: alreadyHaveAnAccount.text
                               .size(14.0)
@@ -130,36 +150,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       20.heightBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Divider(
-                            thickness: 2,
-                            color: Colors.blue,
-                          ),
-                          orSignInWith.text.size(10.0).color(fontGrey).make(),
-                          const Divider(
-                            thickness: 2,
-                          ),
-                        ],
-                      ),
-                      30.heightBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GoogleAuthButton(
-                            onPressed: () {},
-                            width: w * 0.4,
-                            text: "Google",
-                          ),
-                          FacebookAuthButton(
-                            onPressed: () {},
-                            buttonColor: facebookBtnColor,
-                            width: w * 0.4,
-                            text: "Facebook",
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     const Divider(
+                      //       thickness: 2,
+                      //       color: Colors.blue,
+                      //     ),
+                      //     orSignInWith.text.size(10.0).color(fontGrey).make(),
+                      //     const Divider(
+                      //       thickness: 2,
+                      //     ),
+                      //   ],
+                      // ),
+                      // 30.heightBox,
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //   children: [
+                      //     GoogleAuthButton(
+                      //       onPressed: () {},
+                      //       width: w * 0.4,
+                      //       text: "Google",
+                      //     ),
+                      //     FacebookAuthButton(
+                      //       onPressed: () {},
+                      //       buttonColor: facebookBtnColor,
+                      //       width: w * 0.4,
+                      //       text: "Facebook",
+                      //     ),
+                      //   ],
+                      // ),
                       // ourButton(
                       //   colour: borderColor,
                       //     onPress: () {},

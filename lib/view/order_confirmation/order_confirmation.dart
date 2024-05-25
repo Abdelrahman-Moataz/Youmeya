@@ -65,7 +65,7 @@ class OrderConfirmation extends StatelessWidget {
                       child: ourButton(
                         width: w * 0.1,
                           onPress: (){
-                            Get.to(()=>const NavBar());
+                            Get.to(()=> NavBar(currentIndex: 2.obs,));
                           } ,
                           color: blueBottom,
                           textColor: whiteColor,

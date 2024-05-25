@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:youmeya/consent/consent.dart';
 
 import '../../services/firestore_services.dart';

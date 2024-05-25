@@ -5,14 +5,12 @@ import 'package:youmeya/view/checkout_screen/widget/cashorvisa.dart';
 import 'package:youmeya/view/checkout_screen/widget/day-container.dart';
 import 'package:youmeya/view/checkout_screen/widget/list_of_items.dart';
 import '../../controllers/card_controller.dart';
-import '../../controllers/home_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../services/firestore_services.dart';
-import '../old_order_confirmation_screen/old_order_confirmation_screen.dart';
 import '../order_confirmation/order_confirmation.dart';
 
 class CheckOut extends StatefulWidget {
-  CheckOut({super.key});
+  const CheckOut({super.key});
 
   @override
   State<CheckOut> createState() => _CheckOutState();

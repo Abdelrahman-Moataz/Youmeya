@@ -1,7 +1,6 @@
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/view/history_screen/history_widget/rating_widget.dart';
 
-import '../../order_status_screen/order_status_screen.dart';
 
 Widget CardWidget({String? orderStatus,double?
 rating,required Function() onpress,String?

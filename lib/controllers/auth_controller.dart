@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youmeya/consent/consent.dart';
 
 class AuthController extends GetxController {
@@ -27,17 +26,53 @@ class AuthController extends GetxController {
 
   ///login method
 
-  Future<UserCredential?> loginMethod({context}) async {
+  Future<UserCredential?> loginMethod(
+      {required BuildContext context,
+      required TextEditingController emailController,
+      required TextEditingController passwordController}) async {
     UserCredential? userCredential;
 
     try {
-      userCredential = await auth.signInWithEmailAndPassword(
+      userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
+      print(currentUser);
+      print(userCredential);
     } on FirebaseAuthException catch (e) {
-      VxToast.show(context, msg: e.toString());
+      String errorMessage;
+      print(e.toString());
+      switch (e.code) {
+        case ' 3583':
+          errorMessage = 'No user found for that email.';
+          break;
+        case 'wrong-password':
+          errorMessage = 'Wrong password provided for that user.';
+          break;
+        default:
+          errorMessage = e.code;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
+
     return userCredential;
   }
+
+  // Future<UserCredential?> loginMethod({context}) async {
+  //   UserCredential? userCredential;
+  //
+  //   try {
+  //     userCredential = await auth.signInWithEmailAndPassword(
+  //         email: emailController.text, password: passwordController.text);
+  //   } on FirebaseAuthException catch (e) {
+  //     VxToast.show(context, msg: e.toString());
+  //   }
+  //   return userCredential;
+  // }
 
   ///signup method
 
@@ -49,6 +84,9 @@ class AuthController extends GetxController {
           email: email, password: password);
     } on FirebaseAuthException catch (e) {
       VxToast.show(context, msg: e.toString());
+      print(currentUser);
+      print(userCredential);
+
     }
     return userCredential;
   }
@@ -56,7 +94,7 @@ class AuthController extends GetxController {
   ///storing data method
   storeUserData({password, email}) async {
     DocumentReference store =
-    fireStore.collection(userCollection).doc(currentUser!.uid);
+        fireStore.collection(userCollection).doc(currentUser!.uid);
     store.set({
       'name': "name",
       'password': password,
@@ -69,11 +107,12 @@ class AuthController extends GetxController {
 
   ///storing complete reg method
 
-  storeUserCompleteData({name,
+  storeUserCompleteData({
+    name,
     phoneNumber,
   }) async {
     DocumentReference store =
-    fireStore.collection(locationCollection).doc(currentUser!.uid);
+        fireStore.collection(userCollection).doc(currentUser!.uid);
     store.update({
       'name': name,
       'phone_number': phoneNumber,
@@ -83,15 +122,14 @@ class AuthController extends GetxController {
 
   /// sstore the location data
 
-
-  storeUserLocationData({address,
-    buildingName,
-    buildingNumber,
-    floorNumber,
-    flatNumber,
-    moreDetails}) async {
-    DocumentReference store =
-    fireStore.collection(locationCollection).doc(currentUser!.uid);
+  storeUserLocationData(
+      {address,
+      buildingName,
+      buildingNumber,
+      floorNumber,
+      flatNumber,
+      moreDetails}) async {
+    DocumentReference store = fireStore.collection(locationCollection).doc();
     store.set({
       'address': address,
       'buildingName': buildingName,
@@ -111,7 +149,7 @@ class AuthController extends GetxController {
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
-    await googleUser?.authentication;
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -123,8 +161,8 @@ class AuthController extends GetxController {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<void> storeUserDataToFirestore(UserCredential userCredential,
-      File image) async {
+  Future<void> storeUserDataToFirestore(
+      UserCredential userCredential, File image) async {
     User user = userCredential.user!;
 
     // Upload image to Firebase Storage
@@ -162,25 +200,24 @@ class AuthController extends GetxController {
     try {
       // Sign out from the authentication service
       await auth.signOut();
-
-      // Clear SharedPreferences
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.clear();
-
-      // Clear cache directory
-      var cacheDir = await getTemporaryDirectory();
-      if (cacheDir.existsSync()) {
-        cacheDir.deleteSync(recursive: true);
-      }
-
-      // Optionally clear application directory (if needed)
-      var appDir = await getApplicationSupportDirectory();
-      if (appDir.existsSync()) {
-        appDir.deleteSync(recursive: true);
-      }
-
+      await currentUser!.delete();
+      VxToast.show(context, msg: "Signed out successfully.");
     } catch (e) {
       VxToast.show(context, msg: e.toString());
+    }
+  }
+
+  Future<void> clearAppData() async {
+    // Clear files stored in the app's directory
+    final appDir = await getApplicationDocumentsDirectory();
+    if (appDir.existsSync()) {
+      appDir.deleteSync(recursive: true);
+    }
+
+    // Clear temporary directory
+    final tempDir = await getTemporaryDirectory();
+    if (tempDir.existsSync()) {
+      tempDir.deleteSync(recursive: true);
     }
   }
 }

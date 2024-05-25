@@ -142,6 +142,13 @@ class AddNewAdress extends StatelessWidget {
                             controller.moreDetailsController.text,
                           )
                               .then((value) {
+                            controller.addressController.clear();
+                            controller.buildingNumberController.clear();
+                            controller.buildingNameController.clear();
+                            controller.floorNumberController.clear();
+                            controller.flatNumberController.clear();
+                            controller.moreDetailsController.clear();
+
                             VxToast.show(context, msg: "Saved successfully");
                             Get.offAll(() => const savedAddresses());
                           });

@@ -1,6 +1,5 @@
 import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/controllers/card_controller.dart';
-import 'package:youmeya/widgets/customTextField.dart';
 
 Widget ratingWidget({double? rating,String? orderNum, required Function() onTap}) {
   return Column(

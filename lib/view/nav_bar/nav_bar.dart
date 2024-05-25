@@ -10,7 +10,9 @@ import '../home_secreen/home_screen.dart';
 import '../profile_screen/profile_screen.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+   NavBar({super.key, required this.currentIndex});
+
+  RxInt currentIndex = Get.put(HomeController()).currentNavIndex.value.obs;
 
   @override
   State<NavBar> createState() => _NavBarState();
@@ -22,8 +24,10 @@ class _NavBarState extends State<NavBar> {
   bool isDeviceConnected = false;
   bool isAlertSet = false;
 
+
   @override
   void initState() {
+
     getConnectivity();
     super.initState();
   }
@@ -53,6 +57,7 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(HomeController());
+    print(controller.currentNavIndex.value);
 
     var navBarItem = const [
       BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: home),

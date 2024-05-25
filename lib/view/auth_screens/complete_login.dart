@@ -3,12 +3,22 @@ import 'package:youmeya/view/nav_bar/nav_bar.dart';
 
 import '../../controllers/auth_controller.dart';
 
-class CompleteLogin extends StatelessWidget {
-  CompleteLogin({super.key});
+class CompleteLogin extends StatefulWidget {
+  const CompleteLogin({super.key});
 
   @override
-  final _formKey = GlobalKey<FormState>(); // Add GlobalKey<FormState>
+  State<CompleteLogin> createState() => _CompleteLoginState();
+}
+
+class _CompleteLoginState extends State<CompleteLogin> {
+
+
+
+  @override
+  final _formKey = GlobalKey<FormState>();
+ // Add GlobalKey<FormState>
   var controller = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -146,14 +156,23 @@ class CompleteLogin extends StatelessWidget {
                       },
                     ),
                     15.heightBox,
+                    controller.isLoading(false)
+                        ? const Padding(
+                      padding: EdgeInsets.only(left: 150,right: 150),
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(mainColor),
+                      ),
+                    )
+                        :
                     ourButton(
-                        onPress: () {
+                        onPress: () async{
+                          controller.isLoading(true);
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            controller.isLoading(true);
+
                             try {
 
-                              controller.storeUserLocationData(
+                              await controller.storeUserLocationData(
                                 address: controller.addressController.text,
                                 buildingName:
                                 controller.buildingNameController.text,
@@ -167,15 +186,23 @@ class CompleteLogin extends StatelessWidget {
                                 controller.moreDetailsController.text,
                               );
 
-                              controller
+                             await controller
                                   .storeUserCompleteData(
 
                                       name: controller.nameController.text,
                                       phoneNumber:
                                           controller.phoneNumberController.text)
                                   .then((value) {
-                                VxToast.show(context, msg: loggedIn);
-                                Get.offAll(() => const NavBar());
+                                VxToast.show(context, msg: loggedIn,showTime: 6000);
+                                controller.addressController.clear();
+                                controller.buildingNameController.clear();
+                                controller.buildingNumberController.clear();
+                                controller.floorNumberController.clear();
+                                controller.flatNumberController.clear();
+                                controller.moreDetailsController.clear();
+
+                                controller.isLoading(false);
+                                Get.offAll(() =>  NavBar(currentIndex: 0.obs,),transition: Transition.fade);
                               });
                             } catch (e) {
                               VxToast.show(context, msg: e.toString());

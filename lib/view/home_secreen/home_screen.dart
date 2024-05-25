@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController _homeController = HomeController();
-  List<String> _locations = [];
+  final List<String> _locations = [];
 
   final userController = Get.find<HomeController>();
 
@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

@@ -1,9 +1,11 @@
 import 'package:youmeya/consent/consent.dart';
+import 'package:youmeya/view/nav_bar/nav_bar.dart';
+import 'package:youmeya/view/profile_screen/profile_screen.dart';
 import 'package:youmeya/view/saved_addresses/add_new_address.dart';
 import 'package:youmeya/view/saved_addresses/widgets/card_widget.dart';
 
+import '../../controllers/home_controller.dart';
 import '../../services/firestore_services.dart';
-import '../history_screen/history_widget/card_wdget.dart';
 
 class savedAddresses extends StatefulWidget {
   const savedAddresses({super.key});
@@ -94,7 +96,11 @@ class _savedAddressesState extends State<savedAddresses> {
                         title: "Add new Address"),
                     20.heightBox,
                     ourButton(
-                        onPress: () {},
+                        onPress: () async{
+                            
+                         await Get.offAll( NavBar(currentIndex: 3.obs,) );
+                         
+                        },
                         color: mainColor,
                         textColor: whiteColor,
                         title: "Save"),

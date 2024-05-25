@@ -4,11 +4,9 @@ import 'package:youmeya/view/auth_screens/login_screen.dart';
 import 'package:youmeya/view/profile_screen/view_profile_data.dart';
 import 'package:youmeya/view/profile_screen/widgets/profile_btn.dart';
 import 'package:youmeya/view/saved_addresses/saved_addresses_screen.dart';
-import 'package:youmeya/view/sth_went_wrong/sth_went_wrong.dart';
 
 import '../../controllers/profile_controller.dart';
 import '../../services/firestore_services.dart';
-import '../auth_screens/complete_login.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -140,26 +138,39 @@ class ProfileScreen extends StatelessWidget {
                                 profileBtn(
                                     onTap: () {
                                       //Get.to(()=>const BookingScreen());
-                                      Get.to(() => const SthWentWrongScreen());
+                                      //Get.to(() => const SthWentWrongScreen());
                                     },
                                     title: "FAQ",
                                     icon: Icons.question_mark_sharp),
                                 20.heightBox,
                                 profileBtn(
                                     onTap: () {
-                                      Get.to(()=>CompleteLogin());
+                                      //Get.to(()=>CompleteLogin());
                                     },
                                     title: "About",
                                     icon: Icons.info),
                                 20.heightBox,
                                 profileBtn(
-                                    onTap: () async {
-                                      await Get.put(AuthController())
-                                          .signOutMethod(context);
-                                      Get.offAll(() => const LogInScreen());
-                                    },
-                                    title: "Signout",
-                                    icon: Icons.output),
+                                  onTap: () async {
+                                    // Get the AuthController
+                                    final authController = Get.put(AuthController());
+
+                                    // Sign out the user
+                                    await authController.signOutMethod(context);
+
+                                    // Clear app data
+                                    await authController.clearAppData();
+
+
+
+                                    // Navigate to the login screen
+                                    Get.offAll(() => const LogInScreen());
+
+                                     currentUser!.delete();
+                                  },
+                                  title: "Signout",
+                                  icon: Icons.output,
+                                ),
                               ],
                             ),
                           ),

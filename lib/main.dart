@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           } else {
             // If user is logged in, navigate to home screen
             if (snapshot.hasData && snapshot.data != null) {
-              return const NavBar();
+              return  NavBar(currentIndex: 0.obs,);
             } else {
               // If user is not logged in, navigate to splash screen
               return const SplashScreen();

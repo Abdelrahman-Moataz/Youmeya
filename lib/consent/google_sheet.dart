@@ -1,11 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gsheets/gsheets.dart';
-import '../controllers/home_controller.dart';
 import 'consent.dart';
-import 'google_sheet_column.dart';
 
 class sheetsFlutter {
-  static String _sheetId = "12VvDE6_FIjxq2T8x4P3w_u7JjRUQVWXbFKNoHcp-hX8";
+  static const String _sheetId = "12VvDE6_FIjxq2T8x4P3w_u7JjRUQVWXbFKNoHcp-hX8";
 
   static const _sheetCredentials = r'''
 {
@@ -36,7 +32,7 @@ class sheetsFlutter {
       await FirebaseFirestore.instance.collection(cartCollection).get();
       final rows = ordersSnapshot.docs.map((doc) {
         final orderId = doc.id;
-        final orderData = doc.data() as Map<String, dynamic>;
+        final orderData = doc.data();
         return {
           'orderId': orderId,
           'time': "time",
