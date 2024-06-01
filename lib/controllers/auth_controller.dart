@@ -26,30 +26,31 @@ class AuthController extends GetxController {
 
   ///login method
 
-  Future<UserCredential?> loginMethod(
-      {required BuildContext context,
-      required TextEditingController emailController,
-      required TextEditingController passwordController}) async {
+
+  Future<UserCredential?> loginMethod({
+    required BuildContext context,
+    required TextEditingController emailController,
+    required TextEditingController passwordController,
+  }) async {
     UserCredential? userCredential;
 
     try {
-      userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      print(currentUser);
-      print(userCredential);
+      userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      print(userCredential.user);
     } on FirebaseAuthException catch (e) {
       String errorMessage;
-      print(e.toString());
       switch (e.code) {
-        case ' 3583':
+        case 'user-not-found':
           errorMessage = 'No user found for that email.';
           break;
         case 'wrong-password':
           errorMessage = 'Wrong password provided for that user.';
           break;
         default:
-          errorMessage = e.code;
+          errorMessage = e.message ?? 'An error occurred';
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -61,6 +62,45 @@ class AuthController extends GetxController {
 
     return userCredential;
   }
+
+
+
+  //
+  // Future<UserCredential?> loginMethod(
+  //     {required BuildContext context,
+  //     required TextEditingController emailController,
+  //     required TextEditingController passwordController}) async {
+  //   UserCredential? userCredential;
+  //
+  //   try {
+  //     userCredential = await FirebaseAuth.instance
+  //         .signInWithEmailAndPassword(
+  //         email: emailController.text, password: passwordController.text);
+  //     print(currentUser);
+  //     print(userCredential);
+  //   } on FirebaseAuthException catch (e) {
+  //     String errorMessage;
+  //     print(e.toString());
+  //     switch (e.code) {
+  //       case ' 3583':
+  //         errorMessage = 'No user found for that email.';
+  //         break;
+  //       case 'wrong-password':
+  //         errorMessage = 'Wrong password provided for that user.';
+  //         break;
+  //       default:
+  //         errorMessage = e.code;
+  //     }
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text(errorMessage),
+  //         backgroundColor: Colors.red,
+  //       ),
+  //     );
+  //   }
+  //
+  //   return userCredential;
+  // }
 
   // Future<UserCredential?> loginMethod({context}) async {
   //   UserCredential? userCredential;
@@ -76,70 +116,104 @@ class AuthController extends GetxController {
 
   ///signup method
 
-  Future<UserCredential?> signupMethod({email, password, context}) async {
+  Future<UserCredential?> signupMethod({
+    required BuildContext context,
+    required String email,
+    required String password,
+  }) async {
     UserCredential? userCredential;
 
     try {
-      userCredential = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print(userCredential.user);
     } on FirebaseAuthException catch (e) {
-      VxToast.show(context, msg: e.toString());
-      print(currentUser);
-      print(userCredential);
-
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message ?? 'An error occurred'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
+
     return userCredential;
   }
 
+
+  // Future<UserCredential?> signupMethod({email, password, context}) async {
+  //   UserCredential? userCredential;
+  //
+  //   try {
+  //     userCredential = await auth.createUserWithEmailAndPassword(
+  //         email: email, password: password);
+  //   } on FirebaseAuthException catch (e) {
+  //     VxToast.show(context, msg: e.toString());
+  //     print(currentUser);
+  //     print(userCredential);
+  //
+  //   }
+  //   return userCredential;
+  // }
+
   ///storing data method
-  storeUserData({password, email}) async {
-    DocumentReference store =
-        fireStore.collection(userCollection).doc(currentUser!.uid);
-    store.set({
-      'name': "name",
-      'password': password,
-      'email': email,
-      'imageUrl': '',
-      'phone_number': "",
-      'id': currentUser!.uid,
-    });
+  Future<void> storeUserData({required String email, required String password}) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      DocumentReference store = FirebaseFirestore.instance.collection('users').doc(currentUser.uid);
+      await store.set({
+        'name': "name",
+        'password': password,
+        'email': email,
+        'imageUrl': '',
+        'phone_number': "",
+        'id': currentUser.uid,
+      });
+    }
   }
+
 
   ///storing complete reg method
 
-  storeUserCompleteData({
-    name,
-    phoneNumber,
-  }) async {
-    DocumentReference store =
-        fireStore.collection(userCollection).doc(currentUser!.uid);
-    store.update({
-      'name': name,
-      'phone_number': phoneNumber,
-      'id': currentUser!.uid,
-    });
+  Future<void> storeUserCompleteData({required String name, required String phoneNumber}) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      DocumentReference store = FirebaseFirestore.instance.collection('users').doc(currentUser.uid);
+      await store.update({
+        'name': name,
+        'phone_number': phoneNumber,
+        'id': currentUser.uid,
+      });
+    }
   }
+
 
   /// sstore the location data
 
-  storeUserLocationData(
-      {address,
-      buildingName,
-      buildingNumber,
-      floorNumber,
-      flatNumber,
-      moreDetails}) async {
-    DocumentReference store = fireStore.collection(locationCollection).doc();
-    store.set({
-      'address': address,
-      'buildingName': buildingName,
-      'buildingNumber': buildingNumber,
-      'floorNumber': floorNumber,
-      'flatNumber': flatNumber,
-      'moreDetails': moreDetails,
-      'id': currentUser!.uid,
-    });
+  Future<void> storeUserLocationData({
+    required String address,
+    required String buildingName,
+    required String buildingNumber,
+    required String floorNumber,
+    required String flatNumber,
+    required String moreDetails,
+  }) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      DocumentReference store = FirebaseFirestore.instance.collection('location').doc();
+      await store.set({
+        'address': address,
+        'buildingName': buildingName,
+        'buildingNumber': buildingNumber,
+        'floorNumber': floorNumber,
+        'flatNumber': flatNumber,
+        'moreDetails': moreDetails,
+        'id': currentUser.uid,
+      });
+    }
   }
+
 
   /// google signup method
 
@@ -196,28 +270,70 @@ class AuthController extends GetxController {
 
   ///signOut method
 
-  signOutMethod(BuildContext context) async {
+  Future<void> signOutMethod(BuildContext context) async {
     try {
-      // Sign out from the authentication service
-      await auth.signOut();
-      await currentUser!.delete();
-      VxToast.show(context, msg: "Signed out successfully.");
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        await FirebaseAuth.instance.signOut();
+        await clearAppData();
+         ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Signed out successfully."),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("No user is currently signed in."),
+          ),
+        );
+      }
     } catch (e) {
-      VxToast.show(context, msg: e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
   Future<void> clearAppData() async {
-    // Clear files stored in the app's directory
     final appDir = await getApplicationDocumentsDirectory();
     if (appDir.existsSync()) {
       appDir.deleteSync(recursive: true);
     }
 
-    // Clear temporary directory
     final tempDir = await getTemporaryDirectory();
     if (tempDir.existsSync()) {
       tempDir.deleteSync(recursive: true);
     }
   }
+
+
+
+  // signOutMethod(BuildContext context) async {
+  //   try {
+  //     // Sign out from the authentication service
+  //     await auth.signOut();
+  //     await currentUser!.delete();
+  //     VxToast.show(context, msg: "Signed out successfully.");
+  //   } catch (e) {
+  //     VxToast.show(context, msg: e.toString());
+  //   }
+  // }
+  //
+  // Future<void> clearAppData() async {
+  //   // Clear files stored in the app's directory
+  //   final appDir = await getApplicationDocumentsDirectory();
+  //   if (appDir.existsSync()) {
+  //     appDir.deleteSync(recursive: true);
+  //   }
+  //
+  //   // Clear temporary directory
+  //   final tempDir = await getTemporaryDirectory();
+  //   if (tempDir.existsSync()) {
+  //     tempDir.deleteSync(recursive: true);
+  //   }
+  // }
 }

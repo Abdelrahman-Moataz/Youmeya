@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:youmeya/consent/consent.dart';
+import 'package:youmeya/consent/consent.dart'; // Ensure this is a valid import
 import 'package:youmeya/view/nav_bar/nav_bar.dart';
 import 'package:youmeya/view/splash_screen/splash_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,8 +27,30 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('User is signed in!');
+        // You can perform additional actions like fetching user data here
+        print(user);
+      }
+    });
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +62,7 @@ class MyApp extends StatelessWidget {
       ),
       home: FutureBuilder(
         // Check the authentication state
-        future: FirebaseAuth.instance.authStateChanges().first,
+        future: FirebaseAuth.instance.authStateChanges().single,
         builder: (context, AsyncSnapshot<User?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // If authentication state is still loading, show splash screen
@@ -47,7 +70,9 @@ class MyApp extends StatelessWidget {
           } else {
             // If user is logged in, navigate to home screen
             if (snapshot.hasData && snapshot.data != null) {
-              return  NavBar(currentIndex: 0.obs,);
+              return NavBar(
+                currentIndex: 0.obs,
+              );
             } else {
               // If user is not logged in, navigate to splash screen
               return const SplashScreen();

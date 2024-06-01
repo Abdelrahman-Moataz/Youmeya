@@ -152,21 +152,11 @@ class ProfileScreen extends StatelessWidget {
                                 20.heightBox,
                                 profileBtn(
                                   onTap: () async {
-                                    // Get the AuthController
-                                    final authController = Get.put(AuthController());
-
-                                    // Sign out the user
-                                    await authController.signOutMethod(context);
-
-                                    // Clear app data
-                                    await authController.clearAppData();
-
-
-
+                                    // Signout the user
+                                    await Get.put(AuthController()).signOutMethod(context);
                                     // Navigate to the login screen
                                     Get.offAll(() => const LogInScreen());
 
-                                     currentUser!.delete();
                                   },
                                   title: "Signout",
                                   icon: Icons.output,
