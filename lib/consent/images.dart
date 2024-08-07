@@ -10,6 +10,8 @@ const splashBg = 'assets/imges/SplashBg.png';
 const sthWentWrongImg = "assets/imges/No connection-bro 1.png";
 const cash = "assets/imges/image 3.png";
 
+const comingSoon = "assets/Yellow Modern Coming Soon (Poster).png";
+
 const onboarding1 = "assets/imges/Select-pana 1.png";
 const onboarding2 = "assets/imges/Location tracking-bro 1.png";
 const onboarding3 = "assets/imges/Relaxing at home-rafiki(1) 1.png";

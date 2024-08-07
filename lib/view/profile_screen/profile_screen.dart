@@ -7,6 +7,7 @@ import 'package:youmeya/view/saved_addresses/saved_addresses_screen.dart';
 
 import '../../controllers/profile_controller.dart';
 import '../../services/firestore_services.dart';
+import 'anout_page_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -145,7 +146,7 @@ class ProfileScreen extends StatelessWidget {
                                 20.heightBox,
                                 profileBtn(
                                     onTap: () {
-                                      //Get.to(()=>CompleteLogin());
+                                      Get.to(()=>const AboutPage());
                                     },
                                     title: "About",
                                     icon: Icons.info),

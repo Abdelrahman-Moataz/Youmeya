@@ -20,7 +20,18 @@ void main() async {
         storageBucket: "youmeya-478a9.appspot.com",
       ),
     );
-  } else {
+  } else if(Platform.isIOS){
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyCDHTla8kgFpCoSan3XCj0i5IK-Kixjs3w",
+        appId: "1:158409675408:ios:3acfc6e2d48eae20f67e15",
+        messagingSenderId: "158409675408",
+        projectId: "youmeya-478a9",
+        storageBucket: "youmeya-478a9.appspot.com",
+      ),
+    );
+  }
+  else {
     await Firebase.initializeApp();
   }
 
