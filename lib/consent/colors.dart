@@ -20,4 +20,4 @@ const Color frame3 = Color(0xffFF7C7C);
 
 const Color cBG = Color(0xff022A4E);
 
-const col = [frame0, frame1, frame2, frame3];
+const col = [frame0, frame1, frame2, frame3,frame3,frame3];

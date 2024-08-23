@@ -13,7 +13,7 @@ Widget homeWidget(
       height: h,
       width: w,
       decoration: BoxDecoration(
-          color: color!,
+          //color: color!,
           borderRadius: BorderRadius.circular(20),
           border: const Border(
             top: BorderSide(color: borderColor),
@@ -21,14 +21,14 @@ Widget homeWidget(
             left: BorderSide(color: borderColor),
             right: BorderSide(color: borderColor),
           )),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
+
         children: [
           Text(
             title!,
             style: const TextStyle(color: Colors.black, fontFamily: interThin),
           ),
-          Image.asset(img!),
+          Image.asset(img!,fit: BoxFit.fill,width: w! * 2.0,),
         ],
       ),
     ),

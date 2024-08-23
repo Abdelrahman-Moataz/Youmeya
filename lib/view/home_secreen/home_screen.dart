@@ -3,6 +3,7 @@ import 'package:youmeya/controllers/home_controller.dart';
 import 'package:youmeya/view/history_screen/history_widget/notification.dart';
 import '../../services/firestore_services.dart';
 import '../service_screen/service_screen.dart';
+import '../service_screen/services_screen2.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -56,144 +57,34 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(
-                                    logo,
-                                    height: h * 0.05,
-                                  ),
-                                  const SizedBox(width: 10),
+
+                                 // const SizedBox(width: 10),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        "Hello,",
-                                        style: TextStyle(
-                                          fontFamily: interThin,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${data['name']}",
+                                       Text(
+                                        "👋 Hello, ${data['name']}",
                                         style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
                                           fontFamily: interThin,
+                                          fontSize: 23.0
                                         ),
                                       ),
+
                                       const SizedBox(height: 10)
                                     ],
                                   ),
                                 ],
                               ),
-                              notificationWidget(h: h * 0.05),
+                              Image.asset(
+                                logo,
+                                height: h * 0.08,
+                                color: mainColor,
+                              ),
                             ],
                           ),
                           const SizedBox(height: 10),
-                          InkWell(
-                            onTap: () {
-                              // Display dropdown menu
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: 200,
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(height: 20),
-                                        const Text(
-                                          'Select Location',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: interThin,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        StreamBuilder(
-                                            stream:
-                                                FireStoreServices.getLocation(
-                                                    currentUser!.uid),
-                                            builder: (BuildContext context,
-                                                AsyncSnapshot<QuerySnapshot>
-                                                    snapshot) {
-                                              if (!snapshot.hasData) {
-                                                return const Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    valueColor:
-                                                        AlwaysStoppedAnimation(
-                                                            mainColor),
-                                                  ),
-                                                );
-                                              } else {
-                                                var data = snapshot.data!.docs;
 
-                                                return Expanded(
-                                                  child: ListView.builder(
-                                                    itemCount:
-                                                    data.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final location =
-                                                      data[index]['address'];
-                                                      return ListTile(
-                                                        title: Text(location),
-                                                        onTap: () {
-                                                          setState(() {
-                                                            _selectedLocation =
-                                                                location;
-                                                          });
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      );
-                                                    },
-                                                  ),
-                                                );
-                                              }
-                                            }),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: Container(
-                              height: h * 0.06,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: mainColor,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(9.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Delivering to",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: medium,
-                                        color: whiteColor,
-                                      ),
-                                    ),
-                                    Text(
-                                      _selectedLocation ?? 'Select Location',
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: medium,
-                                        color: whiteColor,
-                                      ),
-                                    ),
-                                    const Icon(Icons.location_pin,
-                                        color: whiteColor, size: 18),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
                           Container(
                             height: h * 0.28,
                             width: w,
@@ -205,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 10),
                           const Row(
                             children: [
                               Text(
@@ -230,29 +121,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(height: 10),
                           GridView.builder(
                             shrinkWrap: true,
-                            itemCount: 4,
+                            itemCount: 6,
                             // scrollDirection: Axis.vertical,
                             physics: const NeverScrollableScrollPhysics(),
 
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
+                              crossAxisCount: 3,
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10,
-                              mainAxisExtent: 130,
+                              mainAxisExtent: 120,
                             ),
                             itemBuilder: (context, index) {
                               return homeWidget(
                                 onTap: () {
-                                  Get.to(() => ServiceScreen(
+                                  Get.to(() => ServicesScreen2(
                                         title: homeTitle[index],
                                       ));
                                 },
-                                h: h * 0.2,
-                                w: w * 0.2,
+                                h: h * 0.4,
+                                w: w * 0.4,
                                 title: homeTitle[index],
-                                color: col[index],
-                                img: images[index],
+                                //color: col[index],
+                                img: servicess[index],
                               );
                             },
                           ),

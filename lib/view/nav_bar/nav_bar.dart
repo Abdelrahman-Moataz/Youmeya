@@ -63,8 +63,9 @@ class _NavBarState extends State<NavBar> {
       BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: home),
       BottomNavigationBarItem(
           icon: Icon(Icons.access_time_outlined), label: history),
-      BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_basket_outlined), label: "basket"),
+      // BottomNavigationBarItem(
+      //     icon: Icon(Icons.shopping_basket_outlined), label: "basket"),
+      //
       BottomNavigationBarItem(
           icon: Icon(Icons.person_2_outlined), label: profile),
     ];
@@ -72,7 +73,7 @@ class _NavBarState extends State<NavBar> {
     var navBody = [
       const HomeScreen(),
       const HistoryScreen(),
-      const BasketScreen(),
+     // const BasketScreen(),
       const ProfileScreen(),
 
 

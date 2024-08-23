@@ -5,9 +5,19 @@ const medium = "Outfit-Medium";
 const splashScreen1Text = "Home, Home Services & More...";
 const pressHereText = "Start";
 const getStarted = "Get started";
-const onboardingText1 = "Choose The Service";
-const onboardingText2 = "Select Date & Time";
-const onboardingText3 = "Relax & Wait";
+const onboardingText1 = "Welcome to Youmeya ";
+const onboardingText2 = "Choose from a range of services";
+const onboardingText3 = "Book in 3 easy steps";
+
+const onboText1 = " Your trusted partner for spotless spaces. "
+    "Let’s make your home and workplace shine effortlessly";
+const onboText2 = "Normal Cleaning, Deep Cleaning, "
+    "Laundry, Ironing, and Commercial Cleaning. "
+    "We’ve got all your cleaning needs covered";
+const onboText3 = "Select a service, schedule a time, "
+    "and enjoy a spotless space. It’s that simple!";
+
+
 const buttonText = "Next";
 const emailHint = "abdc@example.com";
 const email = "Email Address";
@@ -23,7 +33,7 @@ const signup = "Create Account";
 const alreadyHaveAnAccount = "Already A User? Login";
 const orSignInWith = "Or Sign in with";
 const home = "Home";
-const history = "History";
+const history = "Booking";
 const explore = "Explore Our Services";
 const mark = "| ";
 const services = "Services";
@@ -83,11 +93,11 @@ const categoriesList = [
   cleaning,
 ];
 
+
+
 const homeTitle = [
-  "Iron Only",
-  "Dry Clean & Iron",
-  "Wash & Fold",
-  "Carpets & Curtains"
+  "normal Cleaning","deep Cleaning","dry Cleaning","dry Cleaning And Iron",
+  "packages And Moves", "furniture Cleaning"
 ];
 
 const subCategory = [

@@ -12,7 +12,7 @@ export 'package:youmeya/widgets/our_button.dart';
 export 'package:youmeya/consent/colors.dart';
 export 'package:youmeya/consent/firebase_consts.dart';
 export '../../widgets/customTextField.dart';
-export 'package:youmeya/consent/images.dart';
+export 'package:youmeya/consent/imagess.dart';
 export 'package:social_auth_buttons/social_auth_buttons.dart';
 export 'package:youmeya/view/home_secreen/widget/home_widget.dart';
 export 'package:flutter_rating_bar/flutter_rating_bar.dart';

@@ -1,5 +1,6 @@
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:youmeya/consent/consent.dart';
+import 'package:youmeya/consent/strings.dart';
 import 'package:youmeya/view/auth_screens/login_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -54,7 +55,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   ),
                                 ),
                               ),
-                              onboardingText1.text.size(25).color(fontGrey).make(),
+                              onboardingText1.text.size(25).bold.color(fontGrey).make(),
+                              5.heightBox,
+                              onboText1.text.size(19).color(fontGrey).make(),
                               20.heightBox,
                             ],
                           ),
@@ -69,7 +72,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   ),
                                 ),
                               ),
-                              onboardingText2.text.size(25).color(fontGrey).make(),
+                              onboardingText2.text.size(25).bold.color(fontGrey).make(),
+                              5.heightBox,
+                              onboText2.text.size(19).color(fontGrey).make(),
                               20.heightBox,
                             ],
                           ),
@@ -84,7 +89,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   ),
                                 ),
                               ),
-                              onboardingText3.text.size(25).color(fontGrey).make(),
+                              onboardingText3.text.size(25).bold.color(fontGrey).make(),
+                              5.heightBox,
+                              onboText3.text.size(19).color(fontGrey).make(),
                               20.heightBox,
                             ],
                           ),
