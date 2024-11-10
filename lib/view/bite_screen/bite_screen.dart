@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:velocity_x/velocity_x.dart';
 import 'dart:convert';
+
+import 'package:youmeya/consent/firebase_consts.dart';
+import 'package:youmeya/view/bite_screen/push-data.dart';
+
+import '../../consent/strings.dart';
 
 class BiteScreen extends StatefulWidget {
   @override
@@ -24,7 +30,7 @@ class _BiteScreenState extends State<BiteScreen> {
       headers: {
         'Authorization': 'Basic ' +
             base64Encode(utf8.encode(
-                'ck_151d324e1d67bb8edb282464dcac44d64159bc96:cs_353042a0647cc89360319b332fab2a0d07930daa')),
+                keySecret)),
       },
     );
 
@@ -54,20 +60,20 @@ class _BiteScreenState extends State<BiteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Orders'),
+          title: const Text('Orders'),
         ),
         body: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : RefreshIndicator(
                 onRefresh: fetchOrderData, // Triggers data refresh on pull-down
                 child: orders.isEmpty
-                    ? Center(child: Text('No orders found'))
+                    ? const Center(child: Text('No orders found'))
                     : ListView.builder(
                         itemCount: orders.length,
                         itemBuilder: (context, index) {
                           final order = orders[index];
                           return Card(
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             child: ListTile(
                               title: Text('Order ID: ${order['id']}'),
                               subtitle: Column(
@@ -81,7 +87,14 @@ class _BiteScreenState extends State<BiteScreen> {
                                 ],
                               ),
                             ),
-                          );
+                          ).onTap((){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SubmitDataPage()),
+                            );
+
+
+                          });
                         },
                       ),
               ));

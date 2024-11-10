@@ -95,6 +95,8 @@ const categoriesList = [
   cleaning,
 ];
 
+const keySecret = 'ck_151d324e1d67bb8edb282464dcac44d64159bc96:cs_353042a0647cc89360319b332fab2a0d07930daa';
+
 
 
 const homeTitle = [
