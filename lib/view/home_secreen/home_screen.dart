@@ -2,6 +2,7 @@ import 'package:youmeya/consent/consent.dart';
 import 'package:youmeya/controllers/home_controller.dart';
 import 'package:youmeya/view/history_screen/history_widget/notification.dart';
 import '../../services/firestore_services.dart';
+import '../des_screen/desc_screen.dart';
 import '../service_screen/service_screen.dart';
 import '../service_screen/services_screen2.dart';
 
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
           height: h * 0.99,
           width: double.infinity,
           child: Padding(
-            padding: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 20),
             child: StreamBuilder(
               stream: FireStoreServices.getUser(currentUser!.uid),
               builder: (BuildContext context,
@@ -135,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context, index) {
                               return homeWidget(
                                 onTap: () {
-                                  Get.to(() => ServicesScreen2(
+                                  Get.to(() => DescriptionScreen(
                                         title: homeTitle[index],
                                       ));
                                 },

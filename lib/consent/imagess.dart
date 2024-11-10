@@ -16,6 +16,8 @@ const onboarding1 = "assets/images/onbo 1.png";
 const onboarding2 = "assets/images/onbo 2.png";
 const onboarding3 = "assets/images/onbo 3.png";
 
+const serviesImage = "assets/House-Cleaning-In-Petaling-Jaya 1.png";
+
 const shirt = "assets/images/shirt.png";
 const visa = "assets/images/Visa.png";
 

@@ -17,6 +17,8 @@ const onboText2 = "Normal Cleaning, Deep Cleaning, "
 const onboText3 = "Select a service, schedule a time, "
     "and enjoy a spotless space. It’s that simple!";
 
+const normalCleaningBoo = "assets/House-Cleaning-In-Petaling-Jaya 1.png";
+
 
 const buttonText = "Next";
 const emailHint = "abdc@example.com";
@@ -96,8 +98,8 @@ const categoriesList = [
 
 
 const homeTitle = [
-  "normal Cleaning","deep Cleaning","dry Cleaning","dry Cleaning And Iron",
-  "packages And Moves", "furniture Cleaning"
+  "Normal Cleaning","Deep Cleaning","Dry Cleaning","Dry Cleaning And Iron",
+  "Packages And Moves", "Furniture Cleaning"
 ];
 
 const subCategory = [
@@ -106,3 +108,11 @@ const subCategory = [
   "AC Installation",
   "AC Uninstallation"
 ];
+
+const description = "Experience a spotless home with our professional "
+"cleaning services. Our skilled team provides thorough cleaning for "
+"every room, ensuring a fresh and inviting space. From dusting and "
+"mopping to wiping down surfaces, we handle all your cleaning needs "
+"with precision and care. Whether it's a one-time deep clean or regular "
+"maintenance, we tailor our services to meet your specific requirements."
+" Enjoy a cleaner, healthier home without the hassle.";
