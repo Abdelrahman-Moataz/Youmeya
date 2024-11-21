@@ -3,6 +3,7 @@ import 'package:youmeya/consent/strings.dart';
 import 'package:youmeya/view/bite_screen/bite_screen.dart';
 
 import '../bite_screen/system_bit/system-bit.dart';
+import '../place_order/place_order.dart';
 
 class DescriptionScreen extends StatelessWidget {
   const DescriptionScreen({super.key, this.title});
@@ -69,7 +70,9 @@ class DescriptionScreen extends StatelessWidget {
 
                   ourButton(
                       onPress: () {
-                        Get.to(SystmeBit());
+                        Get.to(PlacingOrder(
+                          title: title,
+                        ));
                       },
                       color: mainColor,
                       textColor: fontColor,

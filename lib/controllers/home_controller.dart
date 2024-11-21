@@ -11,9 +11,11 @@ class HomeController extends GetxController {
 
   var userName = '';
   var phoneNumber = '';
-  var location = [];
+  var location = {}.obs; // Change from List to Map
 
   var searchController = TextEditingController();
+
+
 
   getUserName() async {
     var n = await fireStore
@@ -42,11 +44,12 @@ class HomeController extends GetxController {
 
 
 
+  // Other methods remain the same...
   Future<void> getUserLocation({String? address}) async {
     var snapshot = await fireStore
         .collection(locationCollection)
         .where('id', isEqualTo: currentUser!.uid)
-    .where('address',isEqualTo: address)
+        .where('address', isEqualTo: address)
         .get();
 
     if (snapshot.docs.isNotEmpty) {
@@ -56,21 +59,18 @@ class HomeController extends GetxController {
       var buildingName = data['buildingName'];
       var floorNumber = data['floorNumber'];
 
-      // Storing the location data in a variable
-      location = <String, dynamic>{
+      // Storing the location data as a Map
+      location.value = {
         'address': address,
         'buildingNumber': buildingNumber,
         'buildingName': buildingName,
         'floorNumber': floorNumber,
-      } as List ;
+      };
 
-      // Optionally, print the extracted data
-      print('Location: $location');
+      print('Location: ${location.value}');
     } else {
-      // Handle the case where no data is found for the user
       print('No location data found for the user');
-      // You might want to return null or throw an exception here
-      location = ['No location data found for the user'];
+      location.value = {}; // Clear the location if not found
     }
   }
 
