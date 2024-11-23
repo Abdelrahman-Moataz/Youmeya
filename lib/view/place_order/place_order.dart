@@ -187,10 +187,7 @@ class _PlacingOrderState extends State<PlacingOrder> {
 
                   // Convert location map into a readable string
                   final locationString = controller.location.isNotEmpty
-                     ?'${controller.location['address']},'
-                      '${controller.location['buildingName']}, Building '
-                      '${controller.location['buildingNumber']}, Floor '
-                      '${controller.location['floorNumber']}'
+                     ?'${controller.location},'
                       : 'No location data found';
 
                   // Save the order to Firestore
@@ -226,7 +223,7 @@ class _PlacingOrderState extends State<PlacingOrder> {
                   // Handle Firestore error
                   print("Error adding document: $e");
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Failed to place order. Try again.$e")),
+                    SnackBar(content: Text("Failed to place order. Try again.")),
                   );
                 }
               } else {
